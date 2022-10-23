@@ -1,0 +1,110 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "websocket/1.0.0": {
+        "dependencies": {
+          "NeatInput.Windows": "2.0.1",
+          "WootingAnalogSDK.NET": "0.5.0"
+        },
+        "runtime": {
+          "websocket.dll": {}
+        }
+      },
+      "Microsoft.Bcl.HashCode/1.1.0": {
+        "runtime": {
+          "lib/netcoreapp2.1/Microsoft.Bcl.HashCode.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.56404"
+          }
+        }
+      },
+      "NeatInput.Windows/2.0.1": {
+        "dependencies": {
+          "Microsoft.Bcl.HashCode": "1.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/NeatInput.Windows.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.2.23222"
+          }
+        }
+      },
+      "WootingAnalogSDK.NET/0.5.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/WootingAnalogSDK.NET.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libwooting_analog_wrapper.so": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libwooting_analog_wrapper.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/wooting_analog_wrapper.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "websocket/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Bcl.HashCode/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J2G1k+u5unBV+aYcwxo94ip16Rkp65pgWFb0R6zwJipzWNMgvqlWeuI7/+R+e8bob66LnSG+llLJ+z8wI94cHg==",
+      "path": "microsoft.bcl.hashcode/1.1.0",
+      "hashPath": "microsoft.bcl.hashcode.1.1.0.nupkg.sha512"
+    },
+    "NeatInput.Windows/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5VqK4VWQ6eLbTiHckaGb29r3g2nDpo6nJv9qNCO7JCunsdV+oq4AN0ZWHoctYXomC/lReFInh96xw9BJTwILKw==",
+      "path": "neatinput.windows/2.0.1",
+      "hashPath": "neatinput.windows.2.0.1.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+      "path": "newtonsoft.json/12.0.2",
+      "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "WootingAnalogSDK.NET/0.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yoEZ2dJekN59pvwDCX4wxzKKhHJRZVcnUsx60LqBlHC96HOwHW5ZX7SlOZVlbkUQ6mkSFdmhOiCKJSKiLXvimw==",
+      "path": "wootinganalogsdk.net/0.5.0",
+      "hashPath": "wootinganalogsdk.net.0.5.0.nupkg.sha512"
+    }
+  }
+}

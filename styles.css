@@ -1,0 +1,57 @@
+:root{
+	--key-size: 60px;
+    --prim-color: #fff;
+    --active: #55927b;
+    --overlay-color: #925555;
+}
+
+body{
+    background-color: #202124;
+    color:white;
+    overflow-y: hidden;
+}
+
+/* Logging information */
+.optionalInfo{
+    /* display: none; */
+}
+
+/* Key container */
+#keyboard{
+    width: 600px;
+    height: 300px;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+/* Keys */
+.key{
+    width: var(--key-size);
+    height: var(--key-size);
+    border: 4px solid var(--prim-color);
+    background-color: #ffffff22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc( var(--key-size) /3 );
+    font-weight: bold;
+    color: var(--prim-color);
+
+    border-radius: 4px;
+    margin: 5px;
+
+    position: absolute;
+}
+
+/* Key labels */
+.label{ z-index: 1; }
+
+/* Pressure progress on keys */
+.progress{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--overlay-color);
+    transition: background-color 0.25s, height 0.05s;
+}
