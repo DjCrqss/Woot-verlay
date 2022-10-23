@@ -4,20 +4,24 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using WootingAnalogSDKNET;
-using System.Threading;
-using System.IO;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
 
+using System.Runtime.InteropServices;
+using System.Drawing;
+
 namespace Socket{
     class Server {
+        
+
         internal class MyKeyboardEventReceiver : IKeyboardEventReceiver
         {
             // convert key events to wooting key numbers
             enum keyMaps{
-                Space=44,
-                W=26, A=4, S=22, D=7,
-                LShiftKey=225, LControlKey=224
+                A=4, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, // Z = 29
+                D1, D2, D3, D4, D5, D6, D7, D8, D9, D0, // 0 key is 39
+                Escape = 41, Back, Tab, Space, OemMinus, OemPlus, OemOpenBrackets, OemCloseBrackets, Oem5, //   \ = 49 
+                 LControlKey=224, LShiftKey, LMenu, LWin // LWin = 227
             }
 
             // store active keys
@@ -29,12 +33,14 @@ namespace Socket{
             public void Receive(KeyboardEvent @event)
             {
                 var keyCode= keyMaps.Space;
+                // Console.WriteLine(@event.Key.ToString());
                 keyMaps.TryParse(@event.Key.ToString(), out keyCode);
                 if((int)keyCode > 0){
                     if(@event.State == NeatInput.Windows.Processing.Keyboard.Enums.KeyStates.Up && activeKeys.Contains((int)keyCode)){
                         activeKeys.Remove((int)keyCode);
                     } else if (!activeKeys.Contains((int)keyCode)) {
                          activeKeys.Add((int)keyCode);
+                         
                     }
                 }
             }
@@ -132,15 +138,15 @@ namespace Socket{
             inputSource.Listen();
 
             // Load WootingAnalogSDK
-            Console.WriteLine("SDK loaded");
+            Console.WriteLine("Woot-verlay launched!\n");
 
             // Initialise the SDK
             var (noDevices, error) = WootingAnalogSDK.Initialise();
             // If the number of devices is at least 0 it indicates the initialisation was successful
             if (noDevices >= 0) {
-                Console.WriteLine($"Analog SDK Successfully initialised with {noDevices} devices!");
+                Console.WriteLine($"\nAnalog SDK Successfully initialised with {noDevices} devices!");
             } else {
-                Console.WriteLine($"Analog SDK failed to initialise: {error}");
+                Console.WriteLine($"\nAnalog SDK failed to initialise: {error}");
                 System.Environment.Exit(1);
             }
 
@@ -182,7 +188,7 @@ namespace Socket{
                             activeConnections.ForEach(curClient => SendEcho(curClient.GetStream(), ""));
                             shownEmpty = true;
                         }
-                    } catch(Exception e){
+                    } catch(Exception){
                         Console.WriteLine("Client unavailable - removing next loop.");
                     }
                 }

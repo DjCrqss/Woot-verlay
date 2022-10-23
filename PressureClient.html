@@ -46,6 +46,9 @@
 
       websocket.onclose = (e) => {
         console.log("Socket is closed. Reconnect will be attempted in 5 seconds.");
+        // reset key input values
+        var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
+        for( i=0; i< childKeys.length; i++ ) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
         setTimeout(function() {
           connect();
         }, 5000);
@@ -136,6 +139,7 @@
     }
 
     function getState(){
+      // localStorage.removeItem("keys");
       if(localStorage.getItem("keys") != null){
         var storedKeys = JSON.parse(localStorage.getItem("keys", storedKeys));
         storedKeys.forEach(element => keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6])));
@@ -150,9 +154,9 @@
 
           new Key(20, "Q", 240, 70, 1, 1, false), // Q
 
-          new Key(225, "Shift", 0, 0, 1.65, 1, true), // Left Shift
+          new Key(225, "🡅", 0, 0, 1.65, 1, true), // Left Shift
           new Key(224, "Ctrl", 0, 70, 1.35, 1, true), // Left Ctrl
-          new Key(44, "Space", 320, 70, 1.85, 1, true), // Space
+          new Key(44, "__", 320, 70, 1.85, 1, true), // Space
         ];
       }
     }

@@ -23,6 +23,11 @@ body{
     box-sizing: border-box;
     position: relative;
 
+
+    /* Disable text selection */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 /* Keys */
