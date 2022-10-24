@@ -1,7 +1,7 @@
 # Woot-verlay
 Pressure sensitive display for the analog values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 
-## Running the site
+## Running the app
 ### Website view
 This application uses a localTCP server that must be kept running while using the website to display your values.
 - Download/clone the repository locally.
@@ -16,15 +16,25 @@ This uses a browser source.
 - Set the URL to the address of the PressureClient loaded in your webpage (it should look something like file:///C:/Users....../Woot-verlay/PressureClient.html)
 - I recommend setting width to 800 and height to 200, and leave the next two options unticked
 - In Custom CSS, add the line `.optionalInfo{ display: none;}` below the first pre-added line
+- Once you have added all the keys, then add the line `#keyPool{display: none;}` which hides the sidebar
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
+
+## Configuring your settings
+Using the sidebar, you can add extra keys to the view. 
+Click and drag on the keys to shift them around, and hover then drag over the green or orange handles on the edges of a key to resize it.
+Right click on any key to remove it.
+
+
 
 ---
 
 ## Planned features
-- UI to allow showing/hiding any key.
 - Theming with custom shapes and colours
 - Preset configurations
 - Showing actuation points
+- Buttons to show/hide sidebar and log elements
+- Support for non-wooting keyboards as a regular overlay
+- Mouse support with keys and velocity
 
 
 
