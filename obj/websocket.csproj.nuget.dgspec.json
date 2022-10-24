@@ -42,6 +42,10 @@
               "target": "Package",
               "version": "[2.0.1, )"
             },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "WootingAnalogSDK.NET": {
               "target": "Package",
               "version": "[0.5.0, )"

@@ -7,13 +7,46 @@ using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
 
-using System.Runtime.InteropServices;
-using System.Drawing;
+//using System.Runtime.InteropServices;
+//using System.Drawing;
+
+
 
 namespace Socket{
     class Server {
-        
+        /* For use with rendering an overlay
+        [DllImport("User32.dll")]
+        public static extern IntPtr GetDC(IntPtr hwnd);
+        [DllImport("User32.dll")]
+        public static extern void ReleaseDC(IntPtr hwnd, IntPtr dc);
 
+        public static void renderOverlay(){
+                
+                string screenWidth =System.Windows.SystemParameters.PrimaryScreenWidth.ToString();
+                string screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight.ToString();
+
+                Console.WriteLine("RESOLUTION : "+screenWidth + " X " + screenHeight);
+
+                IntPtr desktopPtr = GetDC(IntPtr.Zero);
+                Graphics g = Graphics.FromHdc(desktopPtr);
+                
+
+                SolidBrush b = new SolidBrush(Color.White);
+                Rectangle rect = new Rectangle(0, 0, 255, 255);
+                while(true){
+                     g.FillRectangle(b, rect);
+                }
+               
+
+                g.Dispose();
+                ReleaseDC(IntPtr.Zero, desktopPtr);
+        }
+        */
+
+        // global variables
+        public static List<TcpClient> activeConnections = new List<TcpClient>();
+
+        // Listens to keyboard events
         internal class MyKeyboardEventReceiver : IKeyboardEventReceiver
         {
             // convert key events to wooting key numbers
@@ -90,6 +123,7 @@ namespace Socket{
             stream.Write(responseArray.ToArray(), 0, responseArray.Count);
         }
 
+        // Listens for new clients and forms connections
         public static void handleClients(TcpListener server){
             while(true){
                 TcpClient client = server.AcceptTcpClient();
@@ -127,9 +161,8 @@ namespace Socket{
                 
             }
         }
-
-
-        public static List<TcpClient> activeConnections = new List<TcpClient>();
+        
+        // Main function
         public static void Main() {
             var keyboardReceiver = new MyKeyboardEventReceiver();
             var inputSource = new InputSource(keyboardReceiver);
@@ -158,6 +191,7 @@ namespace Socket{
             Console.WriteLine("\nServer has started on {0}:{1}, Waiting for a connection…\n", ip, port);
 
             ThreadPool.QueueUserWorkItem(o => handleClients(server));
+            // ThreadPool.QueueUserWorkItem(o => renderOverlay());
             
             // run SDK loop
             bool shownEmpty = false;
