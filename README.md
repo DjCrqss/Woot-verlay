@@ -31,10 +31,14 @@ Right click on any key to remove it.
 ## Planned features
 - Theming with custom shapes and colours
 - Preset configurations
+- Export and import profiles to send to others
 - Showing actuation points
 - Buttons to show/hide sidebar and log elements
 - Support for non-wooting keyboards as a regular overlay
 - Mouse support with keys and velocity
+- Custom key names
+
+- Possibly add screen overlay that gets rendered on top of your games and apps
 
 
 
