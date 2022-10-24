@@ -16,8 +16,12 @@ namespace Socket{
             enum keyMaps{
                 A=4, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, // Z = 29
                 D1, D2, D3, D4, D5, D6, D7, D8, D9, D0, // 0 key is 39
-                Escape = 41, Back, Tab, Space, OemMinus, OemPlus, OemOpenBrackets, OemCloseBrackets, Oem5, //   \ = 49 
-                 LControlKey=224, LShiftKey, LMenu, LWin // LWin = 227
+                Return, Escape, Back, Tab, Space, OemMinus, OemPlus, OemOpenBrackets, OemCloseBrackets, Oem5, // 50 = non-US-1
+                Oem1 = 51, Oem7, Oemtilde, Oemcomma, OemPeriod, OemQuestion, Capital,
+                F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
+                PrintScreen, Scroll, MediaPlayPause, Insert, Home, PageUp, Delete, End, PageDown,
+                Right, Left, Down, Up, NumLock, Apps=101,
+                 LControlKey=224, LShiftKey, LMenu, LWin, RControlKey, RShiftKey, RMenu, RWin
             }
 
             // store active keys

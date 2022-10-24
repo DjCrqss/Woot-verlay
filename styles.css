@@ -8,7 +8,7 @@
 body{
     background-color: #202124;
     color:white;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 
 /* Logging information */
@@ -18,8 +18,8 @@ body{
 
 /* Key container */
 #keyboard{
-    width: 600px;
-    height: 300px;
+    width: 90vw;
+    height: 100vh;
     box-sizing: border-box;
     position: relative;
 
@@ -28,6 +28,33 @@ body{
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+}
+
+
+#keyPool{
+    width:20vw;
+    height:90vh;
+    position: fixed;
+    top: 5vh; right: 5vh;
+    background-color: #ffffff20;
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.keyOption{
+    width: 3em;
+    height: 1.25em;
+    text-align: center;
+    background-color: #ffffff10;
+    font-size: 1.5em;
+    margin: 0.2em;
+    display: inline-block;
+    border-radius: 3em;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 /* Keys */
@@ -45,17 +72,17 @@ body{
 
     border-radius: 4px;
     position: absolute;
+    transition: opacity 1s, background-color 1s, border-color 0.35s;
 }
 
 .key:hover{
     border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
-    border-style: solid dashed  dashed  solid    ;
-    /* border-right: 4px dashed #71d970; border-bottom: 4px dashed #ea9367; */
-    /* box-shadow: inset  -5px -5px 0px -1px #0f0; */
+    border-style: solid dashed  dashed  solid;
+    background-color: #3e3f41;
 }
 
 /* Key labels */
-.label{ z-index: 1; }
+.label{ z-index: 0; }
 
 /* Pressure progress on keys */
 .progress{
