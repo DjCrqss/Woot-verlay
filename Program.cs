@@ -7,13 +7,9 @@ using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
 
-using System.Runtime.InteropServices;
-using System.Drawing;
-
 namespace Socket{
     class Server {
-        
-
+    
         internal class MyKeyboardEventReceiver : IKeyboardEventReceiver
         {
             // convert key events to wooting key numbers

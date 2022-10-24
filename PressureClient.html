@@ -147,26 +147,26 @@
       }
       else{ // default keys
         keys = [
-          new Key(26, "W", 160, 0, 1, 1, true), // W
-          new Key(4, "A", 100, 70, 1, 1, true), // A
-          new Key(22, "S", 170, 70, 1, 1, true), // S
-          new Key(7, "D", 240, 70, 1, 1, true), // D
+          new Key(26, "W", 156, 0, 1, 1, true), // W
+          new Key(4, "A", 96, 72, 1, 1, true), // A
+          new Key(22, "S", 168, 72, 1, 1, true), // S
+          new Key(7, "D", 240, 72, 1, 1, true), // D
 
-          new Key(20, "Q", 240, 70, 1, 1, false), // Q
+          new Key(20, "Q", 240, 72, 1, 1, false), // Q
 
-          new Key(225, "🡅", 0, 0, 1.65, 1, true), // Left Shift
-          new Key(224, "Ctrl", 0, 70, 1.35, 1, true), // Left Ctrl
-          new Key(44, "__", 320, 70, 1.85, 1, true), // Space
+          new Key(225, "🡅", 0, 0, 1.6, 1, true), // Left Shift
+          new Key(224, "Ctrl", 0, 72, 1.2, 1, true), // Left Ctrl
+          new Key(44, "__", 324, 72, 1.8, 1, true), // Space
         ];
       }
     }
-
+    var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-size'));
     // saves the state of all keys in local storage
     function saveState(){
       // store key array, key elements, and key size information
       var storedKeys = [];
       var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
-      var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-size'));
+      
       // turn key elements into arrays for storage
       for( i=0; i< childKeys.length; i++ )
       {
@@ -201,6 +201,11 @@
         // current position
         var x = parseInt(elmnt.style.left); 
         var y = parseInt(elmnt.style.top);
+
+        // curent size
+        var width = elmnt.clientWidth;
+        var height = elmnt.clientHeight;
+
         // previous mouse position
         var oldPosX = 0;
         var oldPosY = 0;
@@ -217,8 +222,46 @@
         oldPosY = e.clientY;
         document.onmouseup = closeDragElement;
         // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
+       
+        if((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth)){
+          oldPosX = e.clientX;
+          document.onmousemove = elementResizeWidth;
 
+          console.clear();
+
+        } else if(e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight){
+          document.onmousemove = elementResizeHeight;
+        }else{
+          document.onmousemove = elementDrag;
+        }
+        
+
+      }
+
+      function elementResizeWidth(e){
+        e = e || window.event;
+        e.preventDefault();
+
+        // calculate the new cursor position to add to width
+        width += (e.clientX - oldPosX);
+        
+        // set the element's new position:
+        elmnt.style.width = snapGrid(width) + "px";
+        // set old values
+        oldPosX = e.clientX;
+      }
+
+      function elementResizeHeight(e){
+        e = e || window.event;
+        e.preventDefault();
+
+        // calculate the new cursor position to add to height
+        height += (e.clientY - oldPosY);
+        
+        // set the element's new position:
+        elmnt.style.height = snapGrid(height) + "px";
+        // set old values
+        oldPosY = e.clientY;
       }
 
       function elementDrag(e) {
@@ -228,8 +271,8 @@
         x += (e.clientX - oldPosX);
         y += (e.clientY - oldPosY);
         // set the element's new position:
-        elmnt.style.top = roundUpNearest10(y) + "px";
-        elmnt.style.left = roundUpNearest10(x) + "px";
+        elmnt.style.top = snapGrid(y) + "px";
+        elmnt.style.left = snapGrid(x) + "px";
         // set old values
         oldPosX = e.clientX;
         oldPosY = e.clientY;
@@ -243,8 +286,8 @@
         saveState();
       }
 
-      function roundUpNearest10(num) {
-         return Math.ceil(num / 10) * 10;
+      function snapGrid(num) {
+         return Math.ceil(num / 12) * 12;
       }
     }
   </script>

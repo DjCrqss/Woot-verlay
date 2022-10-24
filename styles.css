@@ -44,9 +44,14 @@ body{
     color: var(--prim-color);
 
     border-radius: 4px;
-    margin: 5px;
-
     position: absolute;
+}
+
+.key:hover{
+    border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
+    border-style: solid dashed  dashed  solid    ;
+    /* border-right: 4px dashed #71d970; border-bottom: 4px dashed #ea9367; */
+    /* box-shadow: inset  -5px -5px 0px -1px #0f0; */
 }
 
 /* Key labels */
