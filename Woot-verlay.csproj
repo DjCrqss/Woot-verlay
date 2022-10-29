@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Woot_verlay</RootNamespace>
+	  
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>woootcon.ico</ApplicationIcon>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	  <PublishSingleFile>true</PublishSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="woootcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NeatInput.Windows" Version="2.0.1" />
+    <PackageReference Include="WootingAnalogSDK.NET" Version="0.4.0" />
+  </ItemGroup>
+
+</Project>

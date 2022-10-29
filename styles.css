@@ -87,8 +87,20 @@ body{
 /* Pressure progress on keys */
 .progress{
     position: absolute;
-    bottom: 0;
-    width: 100%;
+    
     background-color: var(--overlay-color);
-    transition: background-color 0.25s, height 0.05s;
+    transition: background-color 0.15s, height 0.05s, width 0.05s, border-radius 0.05s;
+   
+
+    /* bottom: 0; */
+    /* left: 0; */
+    /* top: 0; */
+    /* top: 0; */
+
+
+    /*  Unique bindings */
+    /* border-radius: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important; */
 }

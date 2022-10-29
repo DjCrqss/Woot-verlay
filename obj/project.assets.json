@@ -38,7 +38,7 @@
           }
         }
       },
-      "WootingAnalogSDK.NET/0.5.0": {
+      "WootingAnalogSDK.NET/0.4.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "12.0.2"
@@ -54,9 +54,9 @@
             "assetType": "native",
             "rid": "linux-x64"
           },
-          "runtimes/osx-x64/native/libwooting_analog_wrapper.dylib": {
+          "runtimes/mac-x64/native/libwooting_analog_wrapper.dylib": {
             "assetType": "native",
-            "rid": "osx-x64"
+            "rid": "mac-x64"
           },
           "runtimes/win-x64/native/wooting_analog_wrapper.dll": {
             "assetType": "native",
@@ -138,10 +138,10 @@
         "newtonsoft.json.nuspec"
       ]
     },
-    "WootingAnalogSDK.NET/0.5.0": {
-      "sha512": "yoEZ2dJekN59pvwDCX4wxzKKhHJRZVcnUsx60LqBlHC96HOwHW5ZX7SlOZVlbkUQ6mkSFdmhOiCKJSKiLXvimw==",
+    "WootingAnalogSDK.NET/0.4.0": {
+      "sha512": "y6bxcToRh4ZfZ+vUKjBbLYMCfiHJeifzIsMSiugLGqdudZbtlDfwgdtVZBsf5cPCyQmA7+/1qNnJ3gV4CjRKyQ==",
       "type": "package",
-      "path": "wootinganalogsdk.net/0.5.0",
+      "path": "wootinganalogsdk.net/0.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -149,9 +149,9 @@
         "contentFiles/any/net461/wooting_analog_wrapper.dll",
         "lib/netstandard2.0/WootingAnalogSDK.NET.dll",
         "runtimes/linux-x64/native/libwooting_analog_wrapper.so",
-        "runtimes/osx-x64/native/libwooting_analog_wrapper.dylib",
+        "runtimes/mac-x64/native/libwooting_analog_wrapper.dylib",
         "runtimes/win-x64/native/wooting_analog_wrapper.dll",
-        "wootinganalogsdk.net.0.5.0.nupkg.sha512",
+        "wootinganalogsdk.net.0.4.0.nupkg.sha512",
         "wootinganalogsdk.net.nuspec"
       ]
     }
@@ -159,28 +159,35 @@
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
       "NeatInput.Windows >= 2.0.1",
-      "WootingAnalogSDK.NET >= 0.5.0"
+      "WootingAnalogSDK.NET >= 0.4.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DJ\\.nuget\\packages\\": {}
+    "C:\\Users\\DJ\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DJ\\Documents\\Projects\\Wooting Analogue\\Woot-verlay\\websocket.csproj",
-      "projectName": "websocket",
-      "projectPath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting Analogue\\Woot-verlay\\websocket.csproj",
+      "projectUniqueName": "C:\\Users\\DJ\\Documents\\Projects\\Wooting projects\\Woot-verlay\\Woot-verlay.csproj",
+      "projectName": "Woot-verlay",
+      "projectPath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting projects\\Woot-verlay\\Woot-verlay.csproj",
       "packagesPath": "C:\\Users\\DJ\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting Analogue\\Woot-verlay\\obj\\",
+      "outputPath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting projects\\Woot-verlay\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\DJ\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\DJ\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0-windows"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -205,7 +212,7 @@
           },
           "WootingAnalogSDK.NET": {
             "target": "Package",
-            "version": "[0.5.0, )"
+            "version": "[0.4.0, )"
           }
         },
         "imports": [
@@ -223,7 +230,7 @@
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           },
-          "Microsoft.WindowsDesktop.App.WPF": {
+          "Microsoft.WindowsDesktop.App.WindowsForms": {
             "privateAssets": "none"
           }
         },

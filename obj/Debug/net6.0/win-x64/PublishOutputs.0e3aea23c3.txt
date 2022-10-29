@@ -1,3 +1,0 @@
-C:\Users\DJ\Documents\Projects\Wooting Analogue\websocket\bin\Debug\net6.0\win-x64\publish\websocket.pdb
-C:\Users\DJ\Documents\Projects\Wooting Analogue\websocket\bin\Debug\net6.0\win-x64\publish\wooting_analog_wrapper.dll
-C:\Users\DJ\Documents\Projects\Wooting Analogue\websocket\bin\Debug\net6.0\win-x64\publish\websocket.exe

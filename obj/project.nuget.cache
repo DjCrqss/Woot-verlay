@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "zuSvDJNIw3QlEn73aRA0OzY+OP14AzDQ5Y7jl9bo/b/cM5Mkd73jRTNDKoNr7tzR/fmDAex54ncosSTgJXcTqw==",
+  "dgSpecHash": "INwLf6P7HaTpFT/h/dlfNapd1b4lMjmsrDaCDYQ9M37jgVyBMMNocctGRJTBhpfKpxjGP78/hyL0hzP9fenwdQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting Analogue\\Woot-verlay\\websocket.csproj",
+  "projectFilePath": "C:\\Users\\DJ\\Documents\\Projects\\Wooting projects\\Woot-verlay\\Woot-verlay.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DJ\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
     "C:\\Users\\DJ\\.nuget\\packages\\neatinput.windows\\2.0.1\\neatinput.windows.2.0.1.nupkg.sha512",
     "C:\\Users\\DJ\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
-    "C:\\Users\\DJ\\.nuget\\packages\\wootinganalogsdk.net\\0.5.0\\wootinganalogsdk.net.0.5.0.nupkg.sha512"
+    "C:\\Users\\DJ\\.nuget\\packages\\wootinganalogsdk.net\\0.4.0\\wootinganalogsdk.net.0.4.0.nupkg.sha512"
   ],
   "logs": []
 }
