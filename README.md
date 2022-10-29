@@ -4,16 +4,15 @@ Pressure sensitive display for the analog values of your Wooting keyboard! Visit
 ## Running the app
 ### Website view
 This application uses a localTCP server that must be kept running while using the website to display your values.
-- Download/clone the repository locally.
-- Open a terminal inside the folder.
-- Type 'dotnet run'. It should say 'Server has started on xxx, Waiting for a connection'.
+- Download and run the exe file in the releases section. It should pop up in your system tray!
 - Open PressureClient.html in your favourite browser :)
+- Right click on the icon and click quit once you are done.
 
 ### OBS overlay
 This uses a browser source.
 - Follow the steps above first
 - Add a new Browser Source to your scene and label it.
-- Set the URL to the address of the PressureClient loaded in your webpage (it should look something like file:///C:/Users....../Woot-verlay/PressureClient.html)
+- Set the URL to the address of the PressureClient loaded in your webpage (it should look something like file:///C:/Users....../Downloads/PressureClient.html)
 - I recommend setting width to 800 and height to 200, and leave the next two options unticked
 - In Custom CSS, add the line `.optionalInfo{ display: none;}` below the first pre-added line
 - Once you have added all the keys, then add the line `#keyPool{display: none;}` which hides the sidebar
