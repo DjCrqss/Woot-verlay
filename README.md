@@ -6,7 +6,7 @@ Pressure sensitive display for the analog values of your Wooting keyboard! Visit
 ### Website view
 This application uses a localTCP server that must be kept running while using the website to display your values.
 - Download and run the exe file in the releases section. It should pop up in your system tray!
-- [Open this link!](http://htmlpreview.github.io/?https://github.com/DjCrqss/Woot-verlay/blob/main/PressureClient.html)
+- [Open this link!](https://djcrqss.github.io/Woot-verlay/index.html)
 - If the link above does not work, you may have to download the html and css file and open it manually,
 - Right click on the icon and click quit once you are done.
 
@@ -14,7 +14,7 @@ This application uses a localTCP server that must be kept running while using th
 This uses a browser source.
 - Follow the steps above first
 - Add a new Browser Source to your scene and label it.
-- Set the URL to the address of the PressureClient loaded in your webpage (it should look something like file:///C:/Users....../Downloads/PressureClient.html)
+- Set the URL to `https://djcrqss.github.io/Woot-verlay/index.html`
 - I recommend setting width to 800 and height to 200, and leave the next two options unticked
 - In Custom CSS, add the line `.optionalInfo{ display: none;}` below the first pre-added line
 - Once you have added all the keys, then add the line `#keyPool{display: none;}` which hides the sidebar
