@@ -16,6 +16,55 @@ body{
     /* display: none; */
 }
 
+
+
+
+/* Universal */
+*{transition: color 0.5s, background-color 0.5s; color: var(--fg-color);}
+html{
+    scroll-behavior: smooth;
+    scrollbar-color: #aaa #ffffff20; /* Mozilla */
+}
+::-webkit-scrollbar{ /* Blink browser scrollbar */
+    background-color: transparent;
+    width: 6px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #555;
+    border-radius: 12px;
+}
+
+
+::-moz-selection { /* Code for Firefox */
+  color: var(--active);
+  background: transparent;
+}
+
+::selection {
+  color: var(--active);
+  background: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Key container */
 #keyboard{
     width: 90vw;
@@ -38,16 +87,17 @@ body{
     top: 5vh; right: 5vh;
     background-color: #ffffff20;
     backdrop-filter: blur(5px);
-    border-radius: 30px;
+    border-radius: 12px;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
 }
 
 .keyOption{
-    width: 3em;
-    height: 1.25em;
+    width: 4em;
+    height: 1.5em;
     text-align: center;
+    line-height: 1.5em;
     background-color: #ffffff10;
     font-size: 1.5em;
     margin: 0.2em;
