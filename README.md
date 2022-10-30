@@ -6,7 +6,8 @@ Pressure sensitive display for the analog values of your Wooting keyboard! Visit
 ### Website view
 This application uses a localTCP server that must be kept running while using the website to display your values.
 - Download and run the exe file in the releases section. It should pop up in your system tray!
-- Open PressureClient.html in your favourite browser :)
+- [Open this link!](http://htmlpreview.github.io/?https://github.com/DjCrqss/Woot-verlay/blob/main/PressureClient.html)
+- If the link above does not work, you may have to download the html and css file and open it manually,
 - Right click on the icon and click quit once you are done.
 
 ### OBS overlay
