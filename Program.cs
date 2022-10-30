@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace Woot_verlay
@@ -13,6 +14,7 @@ namespace Woot_verlay
     {
         // global variables
         public static bool runSystem = true;
+        public static bool runNonwooting = true;
         public static List<TcpClient> activeConnections = new List<TcpClient>();
 
 
@@ -25,15 +27,20 @@ namespace Woot_verlay
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-           
-            
+
+
             // load WootingAnalogSDK
             var (noDevices, error) = WootingAnalogSDK.Initialise();
             // print error if no Wooting devices found
             if (noDevices < 0)
             {
-                MessageBox.Show("It seems that there are no Wooting devices connected. \nPlease plug in your keyboard and try again!\nAnalog SDK failed to initialise: {error}", "Woot-verlay - no device error");
-                System.Environment.Exit(1);
+                if (MessageBox.Show("Wooting Analog SDK failed to initialise. \nPlease install Wootility or the SDK manually!\n\nWould you like to keep running as a normal key input overlay?", "Woot-verlay - no SDK error", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    runNonwooting = true;
+                }
+                else {
+                    System.Environment.Exit(1);
+                }
             }
 
             // create keyboard hooks and listen for input
@@ -45,7 +52,14 @@ namespace Woot_verlay
             string ip = "127.0.0.1";
             int port = 80;
             var server = new TcpListener(IPAddress.Parse(ip), port);
-            server.Start();
+            try{
+                server.Start();
+            }
+            catch (Exception) {
+                MessageBox.Show("Uh oh. Woot-verlay server cannot be started. \nPlease close already running Woot-verlays or server apps.", "Woot-verlay - already running error");
+                System.Environment.Exit(1);
+            }
+            
             //Console.WriteLine("\nServer has started on {0}:{1}, Waiting for a connection…\n", ip, port);
 
             // run client handler and main program loop
@@ -169,35 +183,63 @@ namespace Woot_verlay
                     disconnected.ForEach(client => activeConnections.Remove(client));
                 }
 
-                // read analogue buffer and start sending keys
-                var (keys, readErr) = WootingAnalogSDK.ReadFullBuffer(20);
-                if (readErr == WootingAnalogResult.Ok) {
-                    // collect all key information
-                    try {
-                        if (keys.Count > 0){
-                            String content = "";
-                            foreach (var analog in keys){
-                                var pressed = (keyboardReceiver.activeKeys.Contains(analog.Item1)) ? 1 : 0;
-                                content += "(" + analog.Item1 + ":" + analog.Item2 + ":" + pressed + ")";
-                            }
-                            // message info to client for display
-                            activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), content));
-                            shownEmpty = false;
-                        }
-                        else if (!shownEmpty)
+                if (!runNonwooting)
+                {
+                    // read analogue buffer and start sending keys
+                    var (keys, readErr) = WootingAnalogSDK.ReadFullBuffer(20);
+                    if (readErr == WootingAnalogResult.Ok)
+                    {
+                        // collect all key information
+                        try
                         {
-                            // allow a single empty line after all keys are released
-                            activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), ""));
-                            shownEmpty = true;
+                            if (keys.Count > 0)
+                            {
+                                String content = "";
+                                foreach (var analog in keys)
+                                {
+                                    var pressed = (keyboardReceiver.activeKeys.Contains(analog.Item1)) ? 1 : 0;
+                                    content += "(" + analog.Item1 + ":" + analog.Item2 + ":" + pressed + ")";
+                                }
+                                // message info to client for display
+                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), content));
+                                shownEmpty = false;
+                            }
+                            else if (!shownEmpty)
+                            {
+                                // allow a single empty line after all keys are released
+                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), ""));
+                                shownEmpty = true;
+                            }
                         }
+                        catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
                     }
-                    catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
+                    else
+                    {
+                        //Console.WriteLine($"Read failed with {readErr}");
+                        Thread.Sleep(1000);
+                    }
+                    Thread.Sleep(25);
                 }
                 else {
-                    //Console.WriteLine($"Read failed with {readErr}");
-                    Thread.Sleep(1000);
+                    try
+                    {
+                         String content = "";
+                        foreach (var key in keyboardReceiver.activeKeys) {
+                            content += "(" + key + ":1:1)";
+                        }
+                        foreach (var key in keyboardReceiver.inActiveKeys)
+                        {
+                            content += "(" + key + ":0:0)";
+                        }
+                        keyboardReceiver.inActiveKeys.Clear();
+                        // message info to client for display
+                        activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), content));
+                        shownEmpty = false;
+                    }
+                    catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
+
+                    Thread.Sleep(25);
                 }
-                Thread.Sleep(25);
             }
         }
 
@@ -222,6 +264,7 @@ namespace Woot_verlay
 
             // store active keys
             public List<int> activeKeys = new List<int>();
+            public List<int> inActiveKeys = new List<int>();
 
             // listen key upstrokes and downstrokes
             public void Receive(KeyboardEvent @event)
@@ -235,6 +278,7 @@ namespace Woot_verlay
                     if (@event.State == NeatInput.Windows.Processing.Keyboard.Enums.KeyStates.Up && activeKeys.Contains((int)keyCode))
                     { // remove key on upstroke
                         activeKeys.Remove((int)keyCode);
+                        inActiveKeys.Add((int)keyCode);
                     }
                     else if (!activeKeys.Contains((int)keyCode))
                     { // add key on downstroke
