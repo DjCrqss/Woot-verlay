@@ -14,7 +14,7 @@ namespace Woot_verlay
     {
         // global variables
         public static bool runSystem = true;
-        public static bool runNonwooting = true;
+        public static bool runNonwooting = false;
         public static List<TcpClient> activeConnections = new List<TcpClient>();
 
 
