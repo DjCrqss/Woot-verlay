@@ -12,8 +12,8 @@ body{
 }
 
 /* Logging information */
-.optionalInfo{
-    /* display: none; */
+#optionalInfo{
+    visibility: hidden;
 }
 
 
@@ -46,29 +46,50 @@ html{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#toolbar{
+    position: fixed;
+    top: 0;
+    right: 30vw;
+    background: #55555580;
+    backdrop-filter: blur(5px);
+    min-width: 200px;
+    min-height: 60px;
+    border: 1px solid white;
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: space-evenly;
+    transition: opacity 0.5s;
+}
+.material-symbols-outlined {
+    position: relative;
+  font-size: 28px !important;
+  line-height: 60px !important;
+  cursor: pointer;
+}
+.material-symbols-outlined:hover .infoField{
+    visibility: visible;
+}
+.infoField{
+    position: absolute;
+    font-size: 0.75rem;
+    top: 50px;
+    width: 60px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    left: -24px;
+    line-height: 1rem;
+    background-color: #6a6a6a;
+    font-family: Arial;
+    border-radius: 6px;
+    visibility: hidden;
+}
 
 
 /* Key container */
 #keyboard{
     width: 90vw;
-    height: 100vh;
+    height: 75vh;
     box-sizing: border-box;
     position: relative;
 
@@ -91,6 +112,7 @@ html{
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+    visibility: hidden;
 }
 
 .keyOption{
@@ -123,6 +145,8 @@ html{
     border-radius: 4px;
     position: absolute;
     transition: opacity 1s, background-color 1s, border-color 0.35s;
+
+    box-shadow: 3px 5px 10px 0px #13121250 inset;
 }
 
 .key:hover{
@@ -132,7 +156,7 @@ html{
 }
 
 /* Key labels */
-.label{ z-index: 0; }
+.label{ z-index: 0;  text-shadow: 2px 2px 6px #1312123c;}
 
 /* Pressure progress on keys */
 .progress{

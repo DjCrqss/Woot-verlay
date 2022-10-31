@@ -34,7 +34,7 @@ namespace Woot_verlay
             // print error if no Wooting devices found
             if (noDevices < 0)
             {
-                if (MessageBox.Show("Wooting Analog SDK failed to initialise. \nPlease install Wootility or the SDK manually!\n\nWould you like to keep running as a normal key input overlay?", "Woot-verlay - no SDK error", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Wooting Analog SDK failed to initialise. \nPlease install Wootility or the SDK manually!\n\nWould you like to continue as a normal input overlay?", "Woot-verlay - no SDK error", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     runNonwooting = true;
                 }

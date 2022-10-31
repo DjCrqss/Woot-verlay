@@ -12,6 +12,9 @@
     
 		<!-- css stylesheets -->
 		<link rel='stylesheet' type='text/css' href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"> -->
+
   </head>
 
   <!-- BODY -->
@@ -19,19 +22,55 @@
     <!-- keyboard and keys display -->
     <section id="keyboard"></section>
 
+    
+
     <!-- HUD -->
     <section id="keyPool">
       <h2>&ensp;>> Add a key</h1>
     </section>
     <!-- optional information -->
-    <div class = "optionalInfo">
+    <div id = "optionalInfo">
       <h1 id="values">Start pressing!</h1>
       <hr>
       <h2 id="output"></h2>
     </div>
 
+    <!-- floating toolbar -->
+    <div id="toolbar">
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
+      <i class="material-symbols-outlined">settings<span class="infoField">Customise</span></i>
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
+    </div>
   </body>
 
+  <script type="text/javascript">
+  
+    document.addEventListener("mouseleave", function(event){
+    if(event.clientY <= 0 || event.clientX <= 0 || (event.clientX >= window.innerWidth || event.clientY >= window.innerHeight)){
+      document.getElementById("toolbar").style.opacity = 0;
+    }});
+
+    document.addEventListener("mouseenter", function(event){
+    if(event.clientY >= 0 || event.clientX >= 0 || (event.clientX <= window.innerWidth || event.clientY <= window.innerHeight)){
+      document.getElementById("toolbar").style.opacity = 1;
+    }});
+
+  
+  
+
+
+  </script>
+
+  <script>
+    function toggleVisiblity(elmnt) {
+      var x = document.getElementById(elmnt);
+      if (x.style.visibility === "visible") {
+        x.style.visibility = "hidden";
+      } else {
+        x.style.visibility = "visible";
+      }
+    }
+    </script>
 
   <!-- SCRIPTING -->
   <script>
@@ -105,14 +144,15 @@
       // append to key log and print
       latestInputs.unshift(content);
       if(latestInputs.length > 30) latestInputs.pop();
-      var keyLog = "";
-      latestInputs.forEach(element => keyLog += element + "<br>");
-      output.innerHTML = keyLog;
+      if(document.getElementById("optionalInfo").style.visibility === "visible"){
+        var keyLog = "";
+        latestInputs.forEach(element => keyLog += element + "<br>");
+        output.innerHTML = keyLog;
+      }
     }
 
     // attempt connection
     connect();
-
   </script>
 
 
