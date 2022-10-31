@@ -12,17 +12,20 @@ This application uses a localTCP server that must be kept running while using th
 
 ### OBS overlay
 This uses a browser source.
-- Follow the steps above first
 - Add a new Browser Source to your scene and label it.
 - Set the URL to `https://djcrqss.github.io/Woot-verlay/index.html`
-- I recommend setting width to 800 and height to 200, and leave the next two options unticked
-- In Custom CSS, add the line `.optionalInfo{ display: none;}` below the first pre-added line
-- Once you have added all the keys, then add the line `#keyPool{display: none;}` which hides the sidebar
+- I recommend setting width to 800 and height to 600, and leave the next two options unticked
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
 
+Configure your setup by right clicking on the overlay and clicking 'Interact'.
+
 ## Configuring your settings
-Using the sidebar, you can add extra keys to the view. 
-Click and drag on the keys to shift them around, and hover then drag over the green or orange handles on the edges of a key to resize it.
+When your mouse is on the page, a popup appears at the top middle of the screen.
+- Click + to bring the key sidebar out where you can add extra keys
+- Click the cog to change global settings
+- Click the eye to see extra stats below the keyboard.
+
+Click and drag on the keys to shift them around, and hover then drag over the green or orange dotted handles on the edges of a key to resize it.
 Right click on any key to remove it.
 
 

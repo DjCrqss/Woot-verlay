@@ -196,7 +196,7 @@
           keyPool.append(curDiv);
           // attach onclick listener
           curDiv.onclick = function(){
-            buildKey( new Key(keyID, label, parseInt((Math.random()*4))*72 + 600, parseInt((Math.random()*4))*72 + 300, 1, 1));
+            buildKey( new Key(keyID, label, parseInt((Math.random()*(parseInt(window.innerWidth*0.7 / 72))))*72, snapGrid(window.innerHeight*0.75) - 72 - parseInt((Math.random()*2))*72, 1, 1));
             saveState();
           }
         }
@@ -352,7 +352,7 @@
           elmnt.style.opacity = 0;
           elmnt.style.backgroundColor = "#925555";
           await new Promise(resolve => setTimeout(resolve, 1000));
-          keyboard.removeChild(elmnt);
+          try{keyboard.removeChild(elmnt);}catch(exception){}
           saveState();
         } else if((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth)){ // resize width when dragging right side
           document.onmousemove = elementResizeWidth;
@@ -413,11 +413,13 @@
         saveState();
       }
 
-      function snapGrid(num) {
-         return Math.ceil(num / 12) * 12;
-      }
+      
     }
-  
+    
+    function snapGrid(num) {
+        return Math.ceil(num / 12) * 12;
+    }
+
     buildOptions();
   </script>
 

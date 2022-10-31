@@ -8,6 +8,9 @@
 body{
     background-color: #202124;
     color:white;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
     /* overflow-y: hidden; */
 }
 
@@ -49,7 +52,7 @@ html{
 #toolbar{
     position: fixed;
     top: 0;
-    right: 30vw;
+    right: 35vw;
     background: #55555580;
     backdrop-filter: blur(5px);
     min-width: 200px;
@@ -60,6 +63,7 @@ html{
     display: flex;
     justify-content: space-evenly;
     transition: opacity 0.5s;
+    opacity: 0;
 }
 .material-symbols-outlined {
     position: relative;
@@ -102,7 +106,8 @@ html{
 
 
 #keyPool{
-    width:20vw;
+    width: 28vw;
+    max-width: 400px;
     height:90vh;
     position: fixed;
     top: 5vh; right: 5vh;
