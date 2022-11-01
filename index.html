@@ -41,8 +41,45 @@
       <i class="material-symbols-outlined">settings<span class="infoField">Customise</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
     </div>
+
+    <div id="settings">
+      Rounding?
+    </div>
+
+    <!-- Key option dialog -->
+    <div id="keyOptionDialog">
+      <p>Fill dir.</p>
+      <table class="directions">
+        <tr>
+          <td id="topLeft" onclick=updateKeySettings(this.id)>🡦</td>
+          <td id="top" onclick=updateKeySettings(this.id)>🡣</td>
+          <td id="topRight" onclick=updateKeySettings(this.id)>🡧</td>
+        </tr>
+        <tr>
+          <td id="left" onclick=updateKeySettings(this.id)>🡢</td>
+          <td id="centre" onclick=updateKeySettings(this.id)>⤫</td>
+          <td id="right" onclick=updateKeySettings(this.id)>🡠</td>
+        </tr>
+        <tr>
+          <td id="bottomLeft" onclick=updateKeySettings(this.id)>🡥</td>
+          <td id="bottom" onclick=updateKeySettings(this.id)>🡡</td>
+          <td id="bottomRight" onclick=updateKeySettings(this.id)>🡤</td>
+        </tr>
+      </table>
+      <table class="directions">
+        <tr>
+          <td id="vertical" onclick=updateKeySettings(this.id)>⥊</td>
+          <td id="horizontal" onclick=updateKeySettings(this.id)>⥍</td>
+        </tr>
+      </table>
+
+      <span class="deleteButton" onclick=removeKey()>Remove</span>
+    </div>
   </body>
 
+
+<!-- SCRIPTING -->
+  <!-- mouse events -->
   <script type="text/javascript">
   
     document.addEventListener("mouseleave", function(event){
@@ -61,6 +98,7 @@
 
   </script>
 
+  <!-- show hide -->
   <script>
     function toggleVisiblity(elmnt) {
       var x = document.getElementById(elmnt);
@@ -72,7 +110,7 @@
     }
     </script>
 
-  <!-- SCRIPTING -->
+  <!-- websockets -->
   <script>
     // disable (most) user keyboard inputs
     document.onkeydown = function(e) {return false;}
@@ -154,19 +192,20 @@
     // attempt connection
     connect();
   </script>
-
-
-  <script >
-    
+   
+   
+  <!-- customisation --> -->
+  <script>
     // key class
     class Key{
-      constructor(keyCode, label, x, y, width, height){
+      constructor(keyCode, label, x, y, width, height, fillDir){
         this.keyCode = keyCode;
         this.label = label;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.fillDir = fillDir;
       }
     }
 
@@ -203,13 +242,11 @@
       }
     }
 
-
-
-
     // Store list of keys and environment variables
     var keys = [];
     var activeKeyIDs = [];
     getState();
+    var isRounded = false;
 
     var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-size'));
     var keyboard = document.getElementById("keyboard");
@@ -230,8 +267,8 @@
       var curProgress = document.createElement('div');
       curDiv.appendChild(curProgress);
       curProgress.className = "progress";
-
-      updateKeySettings(curProgress, 3, 1, false);
+      curProgress.classList.add(curKey.fillDir);
+      // updateKeySettings(curProgress, 3, 1, false);
 
 
 
@@ -248,52 +285,28 @@
       buildOptions();
     }
 
-    // key obect
-    // wh: 0=both, 1=heightonly, 2=widthonly
-    // round: true or false rounding
-    function updateKeySettings(keyObj, pos, wh, round){
-      const positioning = { 
-        0:"auto",  // mid
-        1:"0 auto auto auto", // top
-        2:"auto 0 auto auto", // right
-        3:"auto auto 0 auto", // bottom
-        4:"auto auto auto 0", // left
-        5: "0 0 auto auto", // top right
-        6: "auto 0 0 auto", // bottom right
-        7: "auto auto 0 0 ", // bottom left
-        8: "0 auto auto 0" // top left
-      }
-      // fill start direction
-      keyObj.style['inset'] = positioning[pos];
-      // width and height
-      keyObj.style.minWidth =  wh==1?"100%":"0";  // if width enabled, only top mid and bottom positioning
-      keyObj.style.minHeight =  wh==2?"100%":"0"; // if height enabled. only left mid right positioning
-      // border
-      keyObj.style.borderRadius = "0px";
-      keyObj.style.setProperty('border-top-left-radius', '0', "important"); 
-
-    }
-
     // get locally stored key states for usage
     function getState(){
       // localStorage.removeItem("keys");
       if(localStorage.getItem("keys") != null){ // retrieve locally stored keys
         var storedKeys = JSON.parse(localStorage.getItem("keys", storedKeys));
         storedKeys.forEach(element => {
-          keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5]));
+          keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6]));
         });
 
       } else{ // default keys
         keys = [
-          new Key(26, "W", 156, 0, 1, 1), // W
-          new Key(4, "A", 96, 72, 1, 1), // A
-          new Key(22, "S", 168, 72, 1, 1), // S
-          new Key(7, "D", 240, 72, 1, 1), // D
-          new Key(225, "🡅", 0, 0, 1.6, 1), // Left Shift
-          new Key(224, "Ctrl", 0, 72, 1.2, 1), // Left Ctrl
-          new Key(44, "__", 324, 72, 1.8, 1), // Space
+          new Key(26, "W", 156, 0, 1, 1, "bottom"), // W
+          new Key(4, "A", 96, 72, 1, 1, "bottom"), // A
+          new Key(22, "S", 168, 72, 1, 1, "bottom"), // S
+          new Key(7, "D", 240, 72, 1, 1, "bottom"), // D
+          new Key(225, "🡅", 0, 0, 1.6, 1, "bottom"), // Left Shift
+          new Key(224, "Ctrl", 0, 72, 1.2, 1, "bottom"), // Left Ctrl
+          new Key(44, "__", 324, 72, 1.8, 1, "bottom"), // Space
         ];
       }
+
+      isRounded = JSON.parse(localStorage.getItem("isRounded")); 
     }
     
     // saves the state of all keys in local storage
@@ -306,24 +319,71 @@
       // turn key elements into arrays for storage
       for( i=0; i< childKeys.length; i++ )
       {
-        var id = childKeys[i].getElementsByClassName('progress')[0].id;
+        var progress = childKeys[i].getElementsByClassName('progress')[0];
+        var fillDir = progress.classList[1];
         var label = childKeys[i].getElementsByClassName('label')[0].textContent;
         let keyData = [
-        parseInt(id), label, parseInt(childKeys[i].style.left), parseInt(childKeys[i].style.top),
-          childKeys[i].clientWidth/keySize, childKeys[i].clientHeight/keySize
+        parseInt(progress.id), label, parseInt(childKeys[i].style.left), parseInt(childKeys[i].style.top),
+          childKeys[i].clientWidth/keySize, childKeys[i].clientHeight/keySize, fillDir
         ]
         storedKeys.push(keyData);
-        activeKeyIDs.push(parseInt(id));
+        activeKeyIDs.push(parseInt(progress.id));
         
       }
       // store updated keys in local storage
       localStorage.setItem("keys", JSON.stringify(storedKeys));
       buildOptions();
+
+      // store 
+      localStorage.setItem("isRounded", isRounded);
     }
 
     // create keys on screen
     keyboard.addEventListener('contextmenu', event => event.preventDefault());
     for (var i = 0; i < keys.length; i++) buildKey(keys[i]);
+
+    // menu dialog
+    const menuDialog = document.getElementById("keyOptionDialog");
+    var activeKey;
+    // show menu
+    function showOptions(){
+      menuDialog.style.display = "block";
+      menuDialog.style.top = parseInt(activeKey.style.top) + 8 + "px";
+      menuDialog.style.left =  parseInt(activeKey.style.left) + activeKey.clientWidth + 20 + "px";
+    }
+    
+    // update direction of key object
+    function updateKeySettings(direction){
+      if(activeKey != null){
+        var progress = activeKey.getElementsByClassName('progress')[0];
+        progress.className = "progress";
+        progress.classList.add(direction);
+      }
+      saveState();
+    }
+
+    // hide menu
+    document.addEventListener("click", function(event){
+    if(activeKey != null && !menuDialog.contains(event.target)){
+      activeKey = null;
+      hideDialog()
+    }});
+
+    function hideDialog(){
+      menuDialog.style.display = "none";
+    }
+
+    async function removeKey(){
+      if(activeKey != null){
+        activeKey.style.opacity = 0;
+        activeKey.style.backgroundColor = "#925555";
+        hideDialog();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        try{keyboard.removeChild(activeKey);}catch(exception){}
+        activeKey = null;
+        saveState();
+      }
+    }
 
     // all functions related to dragging and resizing a key             
     function dragElement(elmnt) {
@@ -348,12 +408,9 @@
         document.onmouseup = closeDragElement;
 
         // call a function whenever the cursor moves
-        if(e.button === 2){ // delete element on left click
-          elmnt.style.opacity = 0;
-          elmnt.style.backgroundColor = "#925555";
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          try{keyboard.removeChild(elmnt);}catch(exception){}
-          saveState();
+        if(e.button === 2){ // show options on left click
+          activeKey = elmnt;
+          showOptions();
         } else if((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth)){ // resize width when dragging right side
           document.onmousemove = elementResizeWidth;
         } else if(e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight){ // resize height when dragging bottom
@@ -371,6 +428,7 @@
 
         // calculate the new cursor position to add to width
         width += (e.clientX - oldPosX);
+        if(width < 24)width=24;
         
         // set the element's new position:
         elmnt.style.width = snapGrid(width) + "px";
@@ -384,6 +442,7 @@
 
         // calculate the new cursor position to add to height
         height += (e.clientY - oldPosY);
+        if(height < 24)height=24;
         
         // set the element's new position:
         elmnt.style.height = snapGrid(height) + "px";
