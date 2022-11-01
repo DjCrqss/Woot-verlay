@@ -3,9 +3,14 @@ Pressure sensitive display for the analog values of your Wooting keyboard! Visit
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM)
 
 ## Running the app
-### Website view
 This application uses a localTCP server that must be kept running while using the website to display your values.
-- Download and run the exe file in the releases section. It should pop up in your system tray!
+Download and run the exe file in the releases section. It should pop up in your system tray!
+You may have to accept the warnings to run the program, as I can not afford a digital signature, but if you are worried, feel free to download the source and build the program yourself! To accept the smartscreen warning, click 'more info' at the top left, then 'run anyway'.
+
+You may have to update to the DotNet6 framework if you are not on Windows 11. However this is a short one-time process with instructions upon launching the app.
+
+
+### Website view
 - [Open this link!](https://djcrqss.github.io/Woot-verlay/index.html)
 - If the link above does not work, you may have to download the html and css file and open it manually,
 - Right click on the icon and click quit once you are done.
