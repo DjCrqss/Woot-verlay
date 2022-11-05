@@ -37,14 +37,22 @@
 
     <!-- floating toolbar -->
     <div id="toolbar">
+      <div id="settings">
+        <p>Active:
+        <input type="color" id="activeColorPicker"></p>
+        <p>Inactive:
+        <input type="color" id="inactiveColorPicker"></p>
+        <p>Accent:
+        <input type="color" id="accentColorPicker"></p>
+        <p>Rounding:
+          <input type="checkbox" id="roundingCheckbox"></p>
+      </div>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
-      <i class="material-symbols-outlined">settings<span class="infoField">Customise</span></i>
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span class="infoField">Customise</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
     </div>
 
-    <div id="settings">
-      Rounding?
-    </div>
+    
 
     <!-- Key option dialog -->
     <div id="keyOptionDialog">
@@ -91,11 +99,6 @@
     if(event.clientY >= 0 || event.clientX >= 0 || (event.clientX <= window.innerWidth || event.clientY <= window.innerHeight)){
       document.getElementById("toolbar").style.opacity = 1;
     }});
-
-  
-  
-
-
   </script>
 
   <!-- show hide -->
@@ -120,7 +123,16 @@
     const values = document.querySelector("#values");
     var latestInputs = new Array(); // logs inputs of keys
 
+    // rounding
+    var isRounded = JSON.parse(localStorage.getItem("isRounded")) || false;
+    document.getElementById("roundingCheckbox").onclick = function() {
+      isRounded = this.checked;
+      localStorage.setItem("isRounded", this.checked);
+    };
+    document.getElementById("roundingCheckbox").checked = isRounded;
+    
 
+    // reset keys to unpressed state
     function resetKeys(){
         var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
         for( i=0; i< childKeys.length; i++ ) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
@@ -143,16 +155,13 @@
           connect();
         }, 5000);
       };
-
-     
-
       websocket.onmessage = (e) => { update(`${e.data}`); };
-
       websocket.onerror = (e) => { console.log("Error.  " + e.data); };
     }
 
     // function to update the display on the screen
     function update(message) {
+      // var isRounded = true;
       if(message == ""){
         resetKeys();
         return;
@@ -170,7 +179,9 @@
           // draw height of key
           activeKey.style.height = parseFloat(values[1]*100)+"%";
           activeKey.style.width = parseFloat(values[1]*100)+"%";
-          // activeKey.style.borderRadius =  (100-parseFloat(values[1]*100))+"px";
+          if(this.isRounded){activeKey.style.borderRadius =  (100-parseFloat(values[1]*100))+"px";}
+          else{activeKey.style.borderRadius = 0;}
+          
           // draw active state of key
           activeKey.style.backgroundColor = values[2]==1 ? "var(--active)" : null;
         }
@@ -194,7 +205,7 @@
   </script>
    
    
-  <!-- customisation --> -->
+  <!-- customisation -->
   <script>
     // key class
     class Key{
@@ -246,7 +257,6 @@
     var keys = [];
     var activeKeyIDs = [];
     getState();
-    var isRounded = false;
 
     var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-size'));
     var keyboard = document.getElementById("keyboard");
@@ -305,8 +315,6 @@
           new Key(44, "__", 324, 72, 1.8, 1, "bottom"), // Space
         ];
       }
-
-      isRounded = JSON.parse(localStorage.getItem("isRounded")); 
     }
     
     // saves the state of all keys in local storage
@@ -333,9 +341,6 @@
       // store updated keys in local storage
       localStorage.setItem("keys", JSON.stringify(storedKeys));
       buildOptions();
-
-      // store 
-      localStorage.setItem("isRounded", isRounded);
     }
 
     // create keys on screen
@@ -482,4 +487,58 @@
     buildOptions();
   </script>
 
+  <!-- colour pickers -->
+  <script>
+    const activeColPicker = document.getElementById('activeColorPicker');
+    const inactiveColPicker = document.getElementById('inactiveColorPicker');
+    const accentPicker = document.getElementById('accentColorPicker');
+
+    var colours;
+    // get colours from storage
+    if(localStorage.getItem("colours")){
+      colours = new Array(
+        JSON.parse(localStorage.getItem("colours"))[0],
+        JSON.parse(localStorage.getItem("colours"))[1],
+        JSON.parse(localStorage.getItem("colours"))[2],
+      );
+      // set colours on screen
+      document.documentElement.style.setProperty('--active', colours[0]);
+      document.documentElement.style.setProperty('--inactive', colours[1]);
+      document.documentElement.style.setProperty('--prim-color', colours[2]);  
+
+    } else {
+      colours = new Array(
+        getComputedStyle(document.body).getPropertyValue('--active'),
+        getComputedStyle(document.body).getPropertyValue('--inactive'),
+        getComputedStyle(document.body).getPropertyValue('--prim-color')
+      )
+    }
+    
+
+    // listeners
+    activeColPicker.value  = getComputedStyle(document.body).getPropertyValue('--active');
+    activeColPicker.addEventListener('input', function() {
+      colours[0] = activeColPicker.value;
+      document.documentElement.style.setProperty('--active', activeColPicker.value);  saveColours()
+    });
+
+    inactiveColPicker.value  = getComputedStyle(document.body).getPropertyValue('--inactive');
+    inactiveColPicker.addEventListener('input', function() {
+      colours[1] = inactiveColPicker.value;
+      document.documentElement.style.setProperty('--inactive', inactiveColPicker.value);  
+      saveColours()});
+
+    accentPicker.value  = getComputedStyle(document.body).getPropertyValue('--prim-color');
+    accentPicker.addEventListener('input', function() {
+      colours[2] = accentPicker.value;
+      document.documentElement.style.setProperty('--prim-color', accentPicker.value);  
+      saveColours()});
+
+
+    // save colours to storage
+    function saveColours(){
+      localStorage.setItem("colours", JSON.stringify(colours));
+    }
+
+  </script>
 </html>

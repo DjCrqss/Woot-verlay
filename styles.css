@@ -1,8 +1,8 @@
 :root{
 	--key-size: 60px;
-    --prim-color: #fff;
-    --active: #55927b;
-    --overlay-color: #925555;
+    --prim-color:#FFFFFF;
+    --active:#55927b;
+    --inactive:#925555;
 }
 
 body{
@@ -12,11 +12,6 @@ body{
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
     /* overflow-y: hidden; */
-}
-
-/* Logging information */
-#optionalInfo{
-    visibility: hidden;
 }
 
 
@@ -36,19 +31,17 @@ html{
     background-color: #555;
     border-radius: 12px;
 }
-
-
 ::-moz-selection { /* Code for Firefox */
   color: var(--active);
   background: transparent;
 }
-
 ::selection {
   color: var(--active);
   background: transparent;
 }
 
 
+/* Floating menu */
 #toolbar{
     position: fixed;
     top: 0;
@@ -88,7 +81,27 @@ html{
     border-radius: 6px;
     visibility: hidden;
 }
+#settings{
+    visibility: hidden;
+    background-color: #444;
+    border: 1px solid white;
+    border-radius: 12px;
 
+    width: 100%;
+    min-height: 60px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 70px;
+}
+
+
+
+/* Logging information */
+#optionalInfo{
+    visibility: hidden;
+}
 
 /* Key container */
 #keyboard{
@@ -105,6 +118,8 @@ html{
 }
 
 
+
+/* Key add menu */
 #keyPool{
     width: 28vw;
     max-width: 400px;
@@ -119,7 +134,6 @@ html{
     overflow-y: auto;
     visibility: hidden;
 }
-
 .keyOption{
     width: 4em;
     height: 1.5em;
@@ -133,6 +147,8 @@ html{
     border: 1px solid #ccc;
     cursor: pointer;
 }
+
+
 
 /* Keys */
 .key{
@@ -153,7 +169,6 @@ html{
 
     box-shadow: 3px 5px 10px 0px #13121250 inset;
 }
-
 .key:hover{
     border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
     border-style: solid dashed  dashed  solid;
@@ -166,24 +181,14 @@ html{
 /* Pressure progress on keys */
 .progress{
     position: absolute;
-    
-    background-color: var(--overlay-color);
+    background-color: var(--inactive);
     transition: background-color 0.15s, height 0.05s, width 0.05s, border-radius 0.05s;
-   
-
-    /* bottom: 0; */
-    /* left: 0; */
-    /* top: 0; */
-    /* top: 0; */
-
-
-    /*  Unique bindings */
-    /* border-radius: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important; */
 }
 
+
+
+
+/* Fill directions */
 .topLeft{
     inset: 0 auto auto 0;
     border-bottom-left-radius: 0 !important;
@@ -259,15 +264,18 @@ html{
     box-shadow: 3px 5px 10px 0px #13121250 inset;
     padding: 1rem;
 }
+
+
+
+/* Right click menu */
 .directions{
     width: 100%;
     background-color: #555;
     margin-bottom: 1rem;
     border-collapse: separate;
-  border-spacing: 0.25rem;
-  table-layout: fixed;
+     border-spacing: 0.25rem;
+    table-layout: fixed;
 }
-
 .directions td{
     text-align: center;
     background-color: #666;
@@ -276,8 +284,6 @@ html{
     cursor: pointer;
     gap: 5px;
 }
-
-
 .deleteButton{
     background-color: #925555;
     display: block;
