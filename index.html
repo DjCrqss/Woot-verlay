@@ -172,14 +172,15 @@
       keys.filter(element => element.length != 0).forEach(element => {
         // split keys into values
         var values = element.split(':');
-        content += "(" + values[0] + ", " + values[1].substring(0, 4) + ", " + values[2] + ") ";
+        content += "(" + values[0] + " " + values[1].substring(0, 4) + " " + values[2] + ") ";
         // draw key with values
         var activeKey;
         if(activeKey = document.getElementById(values[0])){
           // draw height of key
-          activeKey.style.height = parseFloat(values[1]*100)+"%";
-          activeKey.style.width = parseFloat(values[1]*100)+"%";
-          if(this.isRounded){activeKey.style.borderRadius =  (100-parseFloat(values[1]*100))+"px";}
+          var pressure = parseFloat(values[1].replace(',', '.') * 100);
+          activeKey.style.height = pressure+"%";
+          activeKey.style.width = pressure+"%";
+          if(this.isRounded){activeKey.style.borderRadius =  (100-pressure)+"px";}
           else{activeKey.style.borderRadius = 0;}
           
           // draw active state of key
