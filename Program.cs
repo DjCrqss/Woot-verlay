@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace Woot_verlay
@@ -13,9 +12,9 @@ namespace Woot_verlay
     internal static class Program
     {
         // global variables
-        public static bool runSystem = true;
-        public static bool runNonwooting = false;
-        public static List<TcpClient> activeConnections = new List<TcpClient>();
+        private static bool runSystem = true;
+        private static bool runNonwooting = false;
+        private static List<TcpClient> activeConnections = new List<TcpClient>();
 
 
         /// <summary>
@@ -23,11 +22,9 @@ namespace Woot_verlay
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+        {   
+            // initialise application
             ApplicationConfiguration.Initialize();
-
 
             // load WootingAnalogSDK
             var (noDevices, error) = WootingAnalogSDK.Initialise();
@@ -59,14 +56,12 @@ namespace Woot_verlay
                 MessageBox.Show("Uh oh. Woot-verlay server cannot be started. \nPlease close already running Woot-verlays or server apps.", "Woot-verlay - already running error");
                 System.Environment.Exit(1);
             }
-            
-            //Console.WriteLine("\nServer has started on {0}:{1}, Waiting for a connection…\n", ip, port);
 
             // run client handler and main program loop
             ThreadPool.QueueUserWorkItem(o => handleClients(server));
             ThreadPool.QueueUserWorkItem(o => runLoop(keyboardReceiver));
 
-            // start application
+            // start application in the tray
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new WootTrayApp());
@@ -74,7 +69,7 @@ namespace Woot_verlay
 
 
         /// <summary>
-        /// Sends a message to a JavaSript websocket
+        /// Sends a correctly structured message to a JavaSript websocket
         /// </summary>
         private static void sendMessage(NetworkStream stream, string inputText)
         {
@@ -85,7 +80,6 @@ namespace Woot_verlay
 
             if (sendBytes.Length <= 125)
                 lengthHeader = (byte)sendBytes.Length;
-
             if (125 < sendBytes.Length && sendBytes.Length < 65535) //System.UInt16
             {
                 lengthHeader = 126;
@@ -124,15 +118,16 @@ namespace Woot_verlay
         /// <summary>
         /// Looping method to accept incoming connections
         /// </summary>
-        public static void handleClients(TcpListener server)
+        private static void handleClients(TcpListener server)
         {
             while (runSystem)
             {
+                // listen for a new connection
                 TcpClient client = server.AcceptTcpClient();
                 NetworkStream stream = client.GetStream();
-
                 bool hasHandshaked = false;
-                // client information
+
+                // attempt client handshake
                 while (!hasHandshaked && client.Connected)
                 {
                     byte[] bytes = new byte[client.Available];
@@ -158,11 +153,8 @@ namespace Woot_verlay
                         stream.Write(response, 0, response.Length);
                         hasHandshaked = true;
                         activeConnections.Add(client);
-                        //Console.WriteLine("Client " + activeConnections.Count + " connected.\n");
                     }
                 }
-
-
             }
         }
 
@@ -170,8 +162,8 @@ namespace Woot_verlay
         /// <summary>
         /// Main program loop that reads Wooting SDK input and sends info to clients
         /// </summary>
-        public static void runLoop(KeyListener keyboardReceiver) {
-            // run SDK loop
+        private static void runLoop(KeyListener keyboardReceiver) {
+            // run SDK loop for continuous update stream
             bool shownEmpty = false;
             while (runSystem)
             {
@@ -218,12 +210,12 @@ namespace Woot_verlay
                         //Console.WriteLine($"Read failed with {readErr}");
                         Thread.Sleep(1000);
                     }
-                    Thread.Sleep(25);
+                   
                 }
                 else {
                     try
                     {
-                         String content = "";
+                        String content = "";
                         foreach (var key in keyboardReceiver.activeKeys) {
                             content += "(" + key + ":1:1)";
                         }
@@ -237,9 +229,9 @@ namespace Woot_verlay
                         shownEmpty = false;
                     }
                     catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
-
-                    Thread.Sleep(25);
                 }
+                // control refresh speed
+                Thread.Sleep(25);
             }
         }
 
@@ -249,7 +241,7 @@ namespace Woot_verlay
         /// </summary>
         internal class KeyListener : IKeyboardEventReceiver
         {
-            // convert key events to wooting key numbers
+            // convert key events to Wooting key numbers
             enum keyMaps
             {
                 A = 4, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, // Z = 29
@@ -262,7 +254,7 @@ namespace Woot_verlay
                 LControlKey = 224, LShiftKey, LMenu, LWin, RControlKey, RShiftKey, RMenu, RWin
             }
 
-            // store active keys
+            // store active keys and inActive keys
             public List<int> activeKeys = new List<int>();
             public List<int> inActiveKeys = new List<int>();
 
@@ -270,8 +262,7 @@ namespace Woot_verlay
             public void Receive(KeyboardEvent @event)
             {
                 // Console.WriteLine(@event.Key.ToString());
-
-                var keyCode = keyMaps.Space;
+                keyMaps keyCode;
                 keyMaps.TryParse(@event.Key.ToString(), out keyCode);
                 if ((int)keyCode > 0)
                 {
@@ -288,6 +279,7 @@ namespace Woot_verlay
             }
         }
 
+
         /// <summary>
         /// Class <c>WootTrayApp</c> is the main tray application
         /// </summary>
@@ -295,8 +287,10 @@ namespace Woot_verlay
         {
             private NotifyIcon trayIcon;
 
+            // constructor
             public WootTrayApp()
             {
+                // create menu strip with contents
                 var strip = new ContextMenuStrip()
                 {
                     Items =
@@ -308,6 +302,7 @@ namespace Woot_verlay
                 strip.ForeColor = Color.White;
                 strip.RenderMode = ToolStripRenderMode.System;
 
+                // create tray application with strip and icon
                 trayIcon = new NotifyIcon()
                 {
                     Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath),
@@ -316,6 +311,7 @@ namespace Woot_verlay
                 };
             }
 
+            // exit button function
             void Exit(object? sender, EventArgs e)
             {
                 // Hide tray icon, otherwise it will remain shown until user mouses over it

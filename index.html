@@ -13,22 +13,17 @@
 		<!-- css stylesheets -->
 		<link rel='stylesheet' type='text/css' href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"> -->
-
   </head>
 
   <!-- BODY -->
-  <body style="font-family: monospace;">
+  <body>
     <!-- keyboard and keys display -->
     <section id="keyboard"></section>
 
-    
+    <!-- popup to add more keys to screen -->
+    <section id="keyPool"></section>
 
-    <!-- HUD -->
-    <section id="keyPool">
-      <h2>&ensp;>> Add a key</h1>
-    </section>
-    <!-- optional information -->
+    <!-- optional logging information -->
     <div id = "optionalInfo">
       <h1 id="values">Start pressing!</h1>
       <hr>
@@ -37,6 +32,7 @@
 
     <!-- floating toolbar -->
     <div id="toolbar">
+      <!-- settings popup menu -->
       <div id="settings">
         <p>Active:
         <input type="color" id="activeColorPicker"></p>
@@ -47,6 +43,7 @@
         <p>Rounding:
           <input type="checkbox" id="roundingCheckbox"></p>
       </div>
+      <!-- icons -->
       <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span class="infoField">Customise</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
@@ -87,7 +84,7 @@
 
 
 <!-- SCRIPTING -->
-  <!-- mouse events -->
+  <!-- mouse event based script -->
   <script type="text/javascript">
   
     document.addEventListener("mouseleave", function(event){
@@ -101,7 +98,7 @@
     }});
   </script>
 
-  <!-- show hide -->
+  <!-- show hide certain element script -->
   <script>
     function toggleVisiblity(elmnt) {
       var x = document.getElementById(elmnt);
@@ -113,7 +110,7 @@
     }
     </script>
 
-  <!-- websockets -->
+  <!-- websockets related scripts -->
   <script>
     // disable (most) user keyboard inputs
     document.onkeydown = function(e) {return false;}
@@ -123,30 +120,16 @@
     const values = document.querySelector("#values");
     var latestInputs = new Array(); // logs inputs of keys
 
-    // rounding
-    var isRounded = JSON.parse(localStorage.getItem("isRounded")) || false;
-    document.getElementById("roundingCheckbox").onclick = function() {
-      isRounded = this.checked;
-      localStorage.setItem("isRounded", this.checked);
-    };
-    document.getElementById("roundingCheckbox").checked = isRounded;
-    
-
-    // reset keys to unpressed state
-    function resetKeys(){
-        var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
-        for( i=0; i< childKeys.length; i++ ) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
-      }
-
-
     // function to bind to server
     function connect() {
       // websocket
       const wsUri = "ws://127.0.0.1/";
       const websocket = new WebSocket(wsUri);
 
+      // action when websocket connects
       websocket.onopen = (e) => { console.log("Connected to server."); };
-
+      
+      // action if websocket closes
       websocket.onclose = (e) => {
         console.log("Socket is closed. Reconnect will be attempted in 5 seconds.");
         resetKeys();
@@ -155,22 +138,28 @@
           connect();
         }, 5000);
       };
+
+      // action when websocket recieves data
       websocket.onmessage = (e) => { update(`${e.data}`); };
+
+      // when websocket recieves an error
       websocket.onerror = (e) => { console.log("Error.  " + e.data); };
     }
 
     // function to update the display on the screen
     function update(message) {
-      // var isRounded = true;
+      // check for key reset
       if(message == ""){
         resetKeys();
         return;
       }
+
       var content = "";
-      // split message into keys
+
+      // split message into key tuples
       const keys = message.split(/[()]/);
       keys.filter(element => element.length != 0).forEach(element => {
-        // split keys into values
+        // split key into seperate values
         var values = element.split(':');
         content += "(" + values[0] + " " + values[1].substring(0, 4) + " " + values[2] + ") ";
         // draw key with values
@@ -201,12 +190,28 @@
       }
     }
 
+
+    // rounding
+    var isRounded = JSON.parse(localStorage.getItem("isRounded")) || false;
+    document.getElementById("roundingCheckbox").onclick = function() {
+      isRounded = this.checked;
+      localStorage.setItem("isRounded", this.checked);
+    };
+    document.getElementById("roundingCheckbox").checked = isRounded;
+
+    // reset keys to unpressed state
+    function resetKeys(){
+        var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
+        for( i = 0; i < childKeys.length; i++ ) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
+    }
+
+
     // attempt connection
     connect();
   </script>
    
    
-  <!-- customisation -->
+  <!-- customisation and key handling -->
   <script>
     // key class
     class Key{
@@ -221,6 +226,7 @@
       }
     }
 
+    // convert key ID's to readable names
     const keyPairs = {
       A:4, B:5, C:6, D:7, E:8, F:9, G:10, H:11, I:12, J:13, K:14, L:15, M:16, N:17, O:18, P:19, Q:20, R:21, S:22, T:23, U:24,V:25, W:26, X:27, Y:28, Z:29,
       1:30, 2:31, 3:32, 4:33, 5:34, 6:35, 7:36, 8:37, 9:38, 0:39,
@@ -232,6 +238,7 @@
       Ctrl:224, "L🡅":225, Alt:226, Win:227, RCtrl:228, "R🡅":229, RMenu:230, RWin:231, Fn:1033,
     };
 
+    // build keyPool options based on available keys
     function buildOptions(){
       // clear existing options
       var keyPool = document.getElementById("keyPool");
@@ -267,6 +274,7 @@
       var curDiv = document.createElement('div');
       activeKeyIDs.push(curKey.keyCode);
       keyboard.appendChild(curDiv);
+      
       // key styling
       curDiv.id = "draggable"; 
       curDiv.className = "key";
@@ -274,16 +282,14 @@
       curDiv.style.left = curKey.x + "px";
       curDiv.style.width = curKey.width == 1 ? "var(--key-size)" : "calc(var(--key-size)*" + curKey.width + ")";
       curDiv.style.height = curKey.height == 1 ? "var(--key-size)" : "calc(var(--key-size)*" + curKey.height + ")";
+
       // progress styling
       var curProgress = document.createElement('div');
       curDiv.appendChild(curProgress);
       curProgress.className = "progress";
       curProgress.classList.add(curKey.fillDir);
-      // updateKeySettings(curProgress, 3, 1, false);
-
-
-
       curProgress.id = curKey.keyCode;
+
       // label styling
       var curLabel = document.createElement('span');
       curDiv.appendChild(curLabel);

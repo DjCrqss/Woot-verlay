@@ -8,13 +8,11 @@
 body{
     background-color: #202124;
     color:white;
+    font-family: monospace;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
-    /* overflow-y: hidden; */
 }
-
-
 
 
 /* Universal */
@@ -60,9 +58,9 @@ html{
 }
 .material-symbols-outlined {
     position: relative;
-  font-size: 28px !important;
-  line-height: 60px !important;
-  cursor: pointer;
+    font-size: 28px !important;
+    line-height: 60px !important;
+    cursor: pointer;
 }
 .material-symbols-outlined:hover .infoField{
     visibility: visible;
@@ -97,11 +95,11 @@ html{
 }
 
 
-
 /* Logging information */
 #optionalInfo{
     visibility: hidden;
 }
+
 
 /* Key container */
 #keyboard{
@@ -116,7 +114,6 @@ html{
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
 }
-
 
 
 /* Key add menu */
@@ -171,7 +168,7 @@ html{
 }
 .key:hover{
     border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
-    border-style: solid dashed  dashed  solid;
+    border-style: solid dashed dashed solid;
     background-color: #3e3f41;
 }
 
@@ -253,6 +250,8 @@ html{
     height: 100% !important;
 }
 
+
+/* Right click menu */
 #keyOptionDialog{
     display: none;
     position: fixed;
@@ -264,10 +263,6 @@ html{
     box-shadow: 3px 5px 10px 0px #13121250 inset;
     padding: 1rem;
 }
-
-
-
-/* Right click menu */
 .directions{
     width: 100%;
     background-color: #555;
@@ -283,6 +278,12 @@ html{
     border-radius: 2px;
     cursor: pointer;
     gap: 5px;
+}
+.directions td:hover{
+    background-color: rgb(129, 129, 129);
+}
+.directions td:active{
+    background-color: rgb(155, 155, 155);
 }
 .deleteButton{
     background-color: #925555;
