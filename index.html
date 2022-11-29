@@ -423,9 +423,9 @@
         if(e.button === 2){ // show options on left click
           activeKey = elmnt;
           showOptions();
-        } else if((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth)){ // resize width when dragging right side
+        } else if((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth -5)){ // resize width when dragging right side
           document.onmousemove = elementResizeWidth;
-        } else if(e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight){ // resize height when dragging bottom
+        } else if(e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight -5){ // resize height when dragging bottom
           document.onmousemove = elementResizeHeight;
         }else{ // move on drag
           document.onmousemove = elementDrag;
