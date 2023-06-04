@@ -40,6 +40,9 @@
         <input type="color" id="inactiveColorPicker"></p>
         <p>Accent:
         <input type="color" id="accentColorPicker"></p>
+        <p>Tick if colour inputs don't work.
+          <input type="checkbox" id="inputCheckbox">
+        </p>
         <p>Rounding:
           <input type="checkbox" id="roundingCheckbox"></p>
       </div>
@@ -87,15 +90,13 @@
   <!-- mouse event based script -->
   <script type="text/javascript">
   
-    document.addEventListener("mouseleave", function(event){
-    if(event.clientY <= 0 || event.clientX <= 0 || (event.clientX >= window.innerWidth || event.clientY >= window.innerHeight)){
+    document.querySelector("body").addEventListener("mouseleave", function(event){
       document.getElementById("toolbar").style.opacity = 0;
-    }});
+    });
 
-    document.addEventListener("mouseenter", function(event){
-    if(event.clientY >= 0 || event.clientX >= 0 || (event.clientX <= window.innerWidth || event.clientY <= window.innerHeight)){
+    document.querySelector("body").addEventListener("mouseenter", function(event){
       document.getElementById("toolbar").style.opacity = 1;
-    }});
+    });
   </script>
 
   <!-- show hide certain element script -->
@@ -112,9 +113,9 @@
 
   <!-- websockets related scripts -->
   <script>
-    // disable (most) user keyboard inputs
+    // disable modifier key inputs
     document.onkeydown = function(e) {return false;}
-
+    
     // values
     const output = document.querySelector("#output");
     const values = document.querySelector("#values");
@@ -500,6 +501,8 @@
     const inactiveColPicker = document.getElementById('inactiveColorPicker');
     const accentPicker = document.getElementById('accentColorPicker');
 
+    const inputCheckbox = document.getElementById('inputCheckbox');
+
     var colours;
     // get colours from storage
     if(localStorage.getItem("colours")){
@@ -520,13 +523,28 @@
         getComputedStyle(document.body).getPropertyValue('--prim-color')
       )
     }
+
+    // if input checkbox is checked then replace the color pickers with text inputs
+    inputCheckbox.addEventListener('change', function() {
+      if(this.checked) {
+        activeColPicker.type = "text";
+        inactiveColPicker.type = "text";
+        accentPicker.type = "text";
+      } else {
+        activeColPicker.type = "color";
+        inactiveColPicker.type = "color";
+        accentPicker.type = "color";
+      }
+    });
     
 
     // listeners
     activeColPicker.value  = getComputedStyle(document.body).getPropertyValue('--active');
     activeColPicker.addEventListener('input', function() {
       colours[0] = activeColPicker.value;
-      document.documentElement.style.setProperty('--active', activeColPicker.value);  saveColours()
+      document.documentElement.style.setProperty('--active', activeColPicker.value);
+      console.log(activeColPicker.value);
+      saveColours();
     });
 
     inactiveColPicker.value  = getComputedStyle(document.body).getPropertyValue('--inactive');

@@ -94,6 +94,11 @@ html{
     top: 70px;
 }
 
+input{
+    background-color: transparent;
+    border: none;
+}
+
 
 /* Logging information */
 #optionalInfo{
