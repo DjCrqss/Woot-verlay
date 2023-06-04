@@ -45,6 +45,9 @@
         </p>
         <p>Rounding:
           <input type="checkbox" id="roundingCheckbox"></p>
+        <p>Instant transitions:
+          <input type="checkbox" id="transitionCheckbox"></p>
+        </p>
       </div>
       <!-- icons -->
       <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
@@ -507,6 +510,7 @@
     const accentPicker = document.getElementById('accentColorPicker');
 
     const inputCheckbox = document.getElementById('inputCheckbox');
+    const transitionCheckbox = document.getElementById('transitionCheckbox');
 
     var colours;
     // get colours from storage
@@ -519,8 +523,7 @@
       // set colours on screen
       document.documentElement.style.setProperty('--active', colours[0]);
       document.documentElement.style.setProperty('--inactive', colours[1]);
-      document.documentElement.style.setProperty('--prim-color', colours[2]);  
-
+      document.documentElement.style.setProperty('--prim-color', colours[2]);
     } else {
       colours = new Array(
         getComputedStyle(document.body).getPropertyValue('--active'),
@@ -528,6 +531,17 @@
         getComputedStyle(document.body).getPropertyValue('--prim-color')
       )
     }
+
+    // if transition checkbox is checked set transitinos to 0.02 seconds
+    transitionCheckbox.addEventListener('change', function() {
+      if(this.checked) {
+        document.documentElement.style.setProperty('--col-transition', '0.02s');
+        document.documentElement.style.setProperty('--transform-transition', '0.02s');
+      } else {
+        document.documentElement.style.setProperty('--col-transition', '0.05s');
+        document.documentElement.style.setProperty('--transform-transition', '0.15s');
+      }
+    });
 
     // if input checkbox is checked then replace the color pickers with text inputs
     inputCheckbox.addEventListener('change', function() {
