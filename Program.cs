@@ -47,7 +47,7 @@ namespace Woot_verlay
 
             // initialise server
             string ip = "127.0.0.1";
-            int port = 80;
+            int port = 32312;
             var server = new TcpListener(IPAddress.Parse(ip), port);
             try{
                 server.Start();
