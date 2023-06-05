@@ -22,7 +22,7 @@ This uses a browser source.
 - I recommend setting width to 800 and height to 600, and leave the next two options unticked
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
 
-Configure your setup by right clicking on the overlay and clicking 'Interact'.
+Configure your setup by right-clicking on the overlay and clicking 'Interact'.
 
 ## Configuring your settings
 When your mouse is on the page, a popup appears at the top middle of the screen.
@@ -30,17 +30,26 @@ When your mouse is on the page, a popup appears at the top middle of the screen.
 - Click the cog to change global settings
 - Click the eye to see extra stats below the keyboard.
 
-Right click on a key to open a menu to change fill direction or delete the key.
+Right-click on a key to open a menu to change the fill direction or delete the key.
 Click and drag on the keys to shift them around, and hover, then drag the green or orange dotted handles on the edges of a key to resize it.
 
+----
+## Profile presets
+Here are example profile presets. To use them, copy the text, then click the presets option in the toolbar (looks like bookmarks) and paste it in the box that appears. Then click save to apply it.
 
 
+### Default gaming
+```
+[[4,"A",96,72,1,1,"bottom"],[22,"S",168,72,1,1,"bottom"],[7,"D",240,72,1,1,"bottom"],[225,"🡅",0,0,1.6,1,"bottomRight"],[224,"Ctrl",0,72,1.2,1,"topRight"],[44,"__",324,72,8.8,1,"bottom"],[26,"W",144,0,1,1,"undefined"]]
+```
+
+Please feel free to send in your own ones and I will update this list!
+<br><br>
 
 ---
 
 ## Planned features
 - Preset configurations
-- Export and import profiles to send to others
 - Showing actuation points
 - Mouse support with keys and velocity
 - Custom key names

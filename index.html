@@ -34,24 +34,34 @@
     <div id="toolbar">
       <!-- settings popup menu -->
       <div id="settings">
-        <p>Active:
-        <input type="color" id="activeColorPicker"></p>
-        <p>Inactive:
-        <input type="color" id="inactiveColorPicker"></p>
-        <p>Accent:
-        <input type="color" id="accentColorPicker"></p>
-        <p>Tick if colour inputs don't work.
+        <div>Active:
+        <input type="color" id="activeColorPicker"></div>
+        <div>Inactive:
+        <input type="color" id="inactiveColorPicker"></div>
+        <div>Accent:
+        <input type="color" id="accentColorPicker">
+
+        <hr>
+        
+        <div>Tick if colour inputs don't work.
           <input type="checkbox" id="inputCheckbox">
-        </p>
-        <p>Rounding:
-          <input type="checkbox" id="roundingCheckbox"></p>
-        <p>Instant transitions:
-          <input type="checkbox" id="transitionCheckbox"></p>
-        </p>
+        </div>
+        <div>Rounding:
+          <input type="checkbox" id="roundingCheckbox"></div>
+        <div>Instant transitions:
+          <input type="checkbox" id="transitionCheckbox"></div>
+        </div>
+      </div>
+      <div id="presets">
+        <p>Presets</p>
+        <textarea id="presetInput" placeholder="Paste preset here"></textarea>
+        <button onclick="loadState()">Save</button>
+        <button onclick="copyToClipboard()">Copy to clipboard</button>
       </div>
       <!-- icons -->
       <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span class="infoField">Customise</span></i>
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('presets')">bookmarks<span class="infoField">Presets</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
     </div>
 
@@ -213,8 +223,6 @@
         var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
         for( i = 0; i < childKeys.length; i++ ) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
     }
-
-
     // attempt connection
     connect();
   </script>
@@ -268,6 +276,8 @@
           }
         }
       }
+
+      presetInput.value = localStorage.getItem("keys");
     }
 
     // Store list of keys and environment variables
@@ -277,6 +287,7 @@
 
     var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-size'));
     var keyboard = document.getElementById("keyboard");
+    var presetInput = document.getElementById("presetInput");
 
     // builds a key given an object
     function buildKey(curKey){
@@ -333,6 +344,23 @@
       }
     }
     
+    // loads  an imported set of key JSON from the presetInput
+    function loadState(){
+      var data = JSON.parse(presetInput.value);
+      keys = [];
+      data.forEach(element => {
+        keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6]));
+      });
+      // clear existing keys off screen by deleting all children of keyboard
+      while (keyboard.firstChild) {
+        keyboard.removeChild(keyboard.firstChild);
+      }
+
+      buildOptions();
+      displayKeys();
+      saveState();
+    }
+
     // saves the state of all keys in local storage
     function saveState(){
       // store key array, key elements, and key size information
@@ -359,9 +387,12 @@
       buildOptions();
     }
 
-    // create keys on screen
-    keyboard.addEventListener('contextmenu', event => event.preventDefault());
-    for (var i = 0; i < keys.length; i++) buildKey(keys[i]);
+    function displayKeys(){
+      // create keys on screen
+      keyboard.addEventListener('contextmenu', event => event.preventDefault());
+      for (var i = 0; i < keys.length; i++) buildKey(keys[i]);
+    }
+    
 
     // menu dialog
     const menuDialog = document.getElementById("keyOptionDialog");
@@ -500,10 +531,11 @@
         return Math.ceil(num / 12) * 12;
     }
 
+    displayKeys();
     buildOptions();
   </script>
 
-  <!-- colour pickers -->
+  <!-- colour pickers and transitions menu -->
   <script>
     const activeColPicker = document.getElementById('activeColorPicker');
     const inactiveColPicker = document.getElementById('inactiveColorPicker');
@@ -582,6 +614,18 @@
     // save colours to storage
     function saveColours(){
       localStorage.setItem("colours", JSON.stringify(colours));
+    }
+
+  </script>
+
+
+  <!-- presets menu -->
+  <script>
+    function copyToClipboard(){
+      var copyText = document.getElementById("presetInput");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+      document.execCommand("copy");
     }
 
   </script>

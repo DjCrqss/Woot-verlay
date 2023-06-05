@@ -94,11 +94,47 @@ html{
 
     position: absolute;
     top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
-input{
-    background-color: transparent;
+#presets{
+    visibility: hidden;
+    background-color: #444;
+    border: 1px solid white;
+    border-radius: 12px;
+
+    width: 100%;
+    min-height: 60px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+
+}
+
+input, button, textarea{
+    background-color: #555;
     border: none;
+}
+
+button, textarea{
+    padding: 0.5em;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+hr{
+    opacity: 0.05;
+    margin: 1em 1em;
 }
 
 
