@@ -124,12 +124,23 @@ html{
 input, button, textarea{
     background-color: #555;
     border: none;
+    accent-color: white;
 }
 
 button, textarea{
     padding: 0.5em;
     border-radius: 6px;
     box-sizing: border-box;
+}
+
+button:hover{
+    background-color: #666;
+    cursor: pointer;
+}
+
+button:active{
+    background-color: #777;
+    cursor: pointer;
 }
 
 hr{

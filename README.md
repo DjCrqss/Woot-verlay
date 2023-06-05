@@ -40,7 +40,12 @@ Here are example profile presets. To use them, copy the text, then click the pre
 
 ### Default gaming
 ```
-[[4,"A",96,72,1,1,"bottom"],[22,"S",168,72,1,1,"bottom"],[7,"D",240,72,1,1,"bottom"],[225,"🡅",0,0,1.6,1,"bottomRight"],[224,"Ctrl",0,72,1.2,1,"topRight"],[44,"__",324,72,8.8,1,"bottom"],[26,"W",144,0,1,1,"undefined"]]
+[[4,"A",96,72,1,1,"bottom"],[22,"S",168,72,1,1,"bottom"],[7,"D",240,72,1,1,"bottom"],[225,"🡅",0,0,1.6,1,"bottomRight"],[224,"Ctrl",0,72,1.2,1,"topRight"],[44,"__",324,72,8.8,1,"bottom"],[26,"W",144,0,1,1,"bottom"]]
+```
+
+### TKL Keyboard
+```
+[[26,"W",204,144,1,1,"bottom"],[4,"A",156,216,1,1,"bottom"],[22,"S",228,216,1,1,"bottom"],[7,"D",300,216,1,1,"centre"],[225,"🡅",24,288,2.6,1,"centre"],[224,"Ctrl",24,360,1.4,1,"centre"],[44,"__",312,360,6.6,1,"bottom"],[41,"Esc",24,72,1,1,"centre"],[30,"1",96,72,1,1,"horizontal"],[31,"2",168,72,1,1,"horizontal"],[33,"4",312,72,1,1,"horizontal"],[32,"3",240,72,1,1,"horizontal"],[34,"5",384,72,1,1,"horizontal"],[35,"6",456,72,1,1,"horizontal"],[36,"7",528,72,1,1,"horizontal"],[37,"8",600,72,1,1,"horizontal"],[38,"9",672,72,1,1,"horizontal"],[39,"0",744,72,1,1,"horizontal"],[45,"-",816,72,1,1,"centre"],[46,"+",888,72,1,1,"centre"],[42,"Back",960,72,2.2,1,"centre"],[43,"Tab",24,144,1.6,1,"centre"],[20,"Q",132,144,1,1,"bottomRight"],[8,"E",276,144,1,1,"bottomLeft"],[21,"R",348,144,1,1,"centre"],[23,"T",420,144,1,1,"centre"],[28,"Y",492,144,1,1,"centre"],[24,"U",564,144,1,1,"centre"],[12,"I",636,144,1,1,"centre"],[18,"O",708,144,1,1,"centre"],[19,"P",780,144,1,1,"centre"],[47,"[",852,144,1,1,"vertical"],[48,"]",924,144,1,1,"vertical"],[49,"\\",996,144,1.6,1,"centre"],[57,"Caps",24,216,2,1,"centre"],[9,"F",372,216,1,1,"left"],[10,"G",444,216,1,1,"centre"],[11,"H",516,216,1,1,"centre"],[13,"J",588,216,1,1,"centre"],[14,"K",660,216,1,1,"centre"],[15,"L",732,216,1,1,"centre"],[51,"; :",804,216,1,1,"centre"],[52,"' \"",876,216,1,1,"centre"],[40,"Enter",948,216,2.4,1,"centre"],[25,"V",408,288,1,1,"topLeft"],[27,"X",264,288,1,1,"top"],[6,"C",336,288,1,1,"topLeft"],[29,"Z",192,288,1,1,"topRight"],[5,"B",480,288,1,1,"centre"],[16,"M",624,288,1,1,"centre"],[17,"N",552,288,1,1,"centre"],[54,",",696,288,1,1,"centre"],[55,".",768,288,1,1,"centre"],[56,"/ ?",840,288,1,1,"centre"],[82,"▲",912,288,3,1,"bottom"],[227,"Win",120,360,1.4,1,"centre"],[226,"Alt",216,360,1.4,1,"centre"],[1033,"Fn",720,360,1.4,1,"centre"],[79,"▶",1008,360,1.4,1,"left"],[80,"◀",816,360,1.4,1,"right"],[81,"▼",912,360,1.4,1,"top"]]
 ```
 
 Please feel free to send in your own ones and I will update this list!
@@ -49,12 +54,10 @@ Please feel free to send in your own ones and I will update this list!
 ---
 
 ## Planned features
-- Preset configurations
+- Preset configurations as buttons and ability to save and load colour scheme too
 - Showing actuation points
-- Mouse support with keys and velocity
 - Custom key names
-
-- Possibly add screen overlay that gets rendered on top of your games and apps
+- Rewrite code to be less spaghetti
 
 
 
