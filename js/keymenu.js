@@ -1,12 +1,14 @@
 // hadnles moving and resizing keys as well as the key right click menu
 
 const menuDialog = document.getElementById("keyOptionDialog");
+const renameInput = document.getElementById("keyLabel");
 var activeKey;
 // show menu
 function showOptions() {
     menuDialog.style.display = "block";
     menuDialog.style.top = parseInt(activeKey.style.top) + 8 + "px";
     menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 + "px";
+    if(activeKey != null) renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
 }
 
 // update direction of key object
@@ -15,6 +17,15 @@ function updateKeySettings(direction) {
         var progress = activeKey.getElementsByClassName('progress')[0];
         progress.className = "progress";
         progress.classList.add(direction);
+    }
+    saveState();
+}
+
+// update label of key object
+function updateKeyLabel(event){
+    if (activeKey != null) {
+        var label = activeKey.getElementsByClassName('label')[0];
+        label.innerHTML = event.value;
     }
     saveState();
 }
