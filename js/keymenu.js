@@ -23,9 +23,13 @@ function updateKeySettings(direction) {
 document.addEventListener("click", function (event) {
     if (activeKey != null && !menuDialog.contains(event.target)) {
         activeKey = null;
-        menuDialog.style.display = "none";
+        hideDialog();
     }
 });
+
+function hideDialog() {
+    menuDialog.style.display = "none";
+}
 
 async function removeKey() {
     if (activeKey != null) {
@@ -126,9 +130,10 @@ function dragElement(elmnt) {
         saveState();
     }
 
-    function snapGrid(num) {
-        return Math.ceil(num / 12) * 12;
-    }
+}
+
+function snapGrid(num) {
+    return Math.ceil(num / 12) * 12;
 }
 
 

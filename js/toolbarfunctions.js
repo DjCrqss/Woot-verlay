@@ -73,7 +73,7 @@ transitionCheckbox.addEventListener('change', function () {
 });
 
 // if input checkbox is checked then replace the color pickers with text inputs
-document.onkeydown = function(e) {return false;}
+// document.onkeydown = function(e) {return false;}
 inputCheckbox.addEventListener('change', function () {
     if (this.checked) {
         document.onkeydown = function(e) {return true;}
