@@ -1,4 +1,5 @@
 // values
+const allowDebug = true; // disable on your own project unless you add the same elements to your page
 const output = document.querySelector("#output");
 const values = document.querySelector("#values");
 
@@ -20,9 +21,10 @@ function connect() {
     // action if websocket closes
     websocket.onclose = (e) => {
         console.log("Socket is closed. Reconnect will be attempted in 3 seconds.");
+        // swap websocket address to handle older versions of the server
         useDefault = !useDefault;
-        resetKeys();
         // reset key input values
+        resetKeys();
         connect();
         return;
     };
@@ -48,39 +50,46 @@ function update(message) {
     const keys = message.split(/[()]/);
     keys.filter(element => element.length != 0).forEach(element => {
         // split key into seperate values
-        var values = element.split(':');
-        content += "(" + values[0] + " " + values[1].substring(0, 4) + " " + values[2] + ") ";
-        // draw key with values
-        var activeKey;
+        var keydata = element.split(':');
+        content += "(" + keydata[0] + " " + keydata[1].substring(0, 4) + " " + keydata[2] + ") ";
+
+
+        // REPLACE THIS SECTION WITH YOUR KEY OBJECTS TO CUSTOMISE
         // find div on keyboard with id of key pressed down and customise its CSS
-        if (activeKey = document.getElementById(values[0])) {
+        var activeKey;
+        if (activeKey = document.getElementById(keydata[0])) {
             // draw height of key
-            var pressure = parseFloat(values[1].replace(',', '.') * 100);
+            var pressure = parseFloat(keydata[1].replace(',', '.') * 100);
             activeKey.style.height = pressure + "%";
             activeKey.style.width = pressure + "%";
-            // draw rounding
+            // draw rounding if enabled
             if (this.isRounded) { activeKey.style.borderRadius = (100 - pressure) + "px"; }
             else { activeKey.style.borderRadius = 0; }
             // draw active state of key
-            activeKey.style.backgroundColor = values[2] == 1 ? "var(--active)" : null;
+            activeKey.style.backgroundColor = keydata[2] == 1 ? "var(--active)" : null;
         }
+
+
     })
 
-    // write active keys
-    values.innerHTML = "Active keys: " + content;
+    if(allowDebug){
+        // write active keys
+        values.innerHTML = "Active keys: " + content;
 
-    // append to top key log and print
-    latestInputs.unshift(content);
-    if (latestInputs.length > 30) latestInputs.pop();
-    if (document.getElementById("optionalInfo").style.visibility === "visible") {
-        var keyLog = "";
-        latestInputs.forEach(element => keyLog += element + "<br>");
-        output.innerHTML = keyLog;
+        // append to top key log and print
+        latestInputs.unshift(content);
+        if (latestInputs.length > 30) latestInputs.pop();
+        if (document.getElementById("optionalInfo").style.visibility === "visible") {
+            var keyLog = "";
+            latestInputs.forEach(element => keyLog += element + "<br>");
+            output.innerHTML = keyLog;
+        }
     }
 }
 
-// reset keys to unpressed state
+// reset keys to unpressed state if screen should be cleared upon all keys released
 function resetKeys() {
+    // REPLACE THIS SECTION WITH YOUR KEY OBJECTS TO CUSTOMISE
     var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
     for (i = 0; i < childKeys.length; i++) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
 }

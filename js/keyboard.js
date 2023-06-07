@@ -21,7 +21,7 @@ const keyPairs = {
     F1: 58, F2: 59, F3: 60, F4: 61, F5: 62, F6: 63, F7: 64, F8: 65, F9: 66, F10: 67, F11: 68, F12: 69,
     PrtScr: 70, ScrLk: 71, "⏵⏸": 72, Ins: 73, Home: 74, PgUp: 75, Del: 76, End: 77, PgDn: 78,
     '▶': 79, '◀': 80, '▼': 81, '▲': 82, NumLk: 83, Menu: 101,
-    Ctrl: 224, "L🡅": 225, Alt: 226, Win: 227, RCtrl: 228, "R🡅": 229, RMenu: 230, RWin: 231, Fn: 1033,
+    Ctrl: 224, "🡅": 225, Alt: 226, Win: 227, RCtrl: 228, "R🡅": 229, RMenu: 230, RWin: 231, Fn: 1033,
 };
 
 // build keyPool options based on available keys
