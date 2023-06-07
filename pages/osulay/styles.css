@@ -1,0 +1,366 @@
+:root{
+	--key-size: 60px;
+    --prim-color:#FFFFFF;
+    --active:#55927b;
+    --inactive:#925555;
+    --col-transition: 0.05s;
+    --transform-transition: 0.15s;
+}
+
+body{
+    background-color: #202124;
+    color:white;
+    font-family: monospace;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    margin: 0;
+    overflow: clip;
+}
+
+canvas {
+    height: 100%;
+    min-width: 1200px;
+    width: 100%;
+    max-width: 2048px;
+    display: block;
+  }
+  
+
+/* Universal */
+*{transition: color 0.5s, background-color 0.5s; color: var(--fg-color);}
+html{
+    scroll-behavior: smooth;
+    scrollbar-color: #aaa #ffffff20; /* Mozilla */
+}
+::-webkit-scrollbar{ /* Blink browser scrollbar */
+    background-color: transparent;
+    width: 6px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #555;
+    border-radius: 12px;
+}
+::-moz-selection { /* Code for Firefox */
+  color: var(--active);
+  background: transparent;
+}
+::selection {
+  color: var(--active);
+  background: transparent;
+}
+
+
+/* Floating menu */
+#toolbar{
+    position: fixed;
+    top: 0;
+    right: 35vw;
+    background: #55555580;
+    backdrop-filter: blur(5px);
+    min-width: 200px;
+    min-height: 60px;
+    border: 1px solid white;
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: space-evenly;
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+.material-symbols-outlined {
+    position: relative;
+    font-size: 28px !important;
+    line-height: 60px !important;
+    cursor: pointer;
+}
+.material-symbols-outlined:hover .infoField{
+    visibility: visible;
+}
+.infoField{
+    position: absolute;
+    font-size: 0.75rem;
+    top: 50px;
+    width: 60px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    left: -24px;
+    line-height: 1rem;
+    background-color: #6a6a6a;
+    font-family: Arial;
+    border-radius: 6px;
+    visibility: hidden;
+}
+#settings{
+    visibility: hidden;
+    background-color: #444;
+    border: 1px solid white;
+    border-radius: 12px;
+
+    width: 100%;
+    min-height: 60px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#presets{
+    visibility: hidden;
+    background-color: #444;
+    border: 1px solid white;
+    border-radius: 12px;
+
+    width: 100%;
+    min-height: 60px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+
+}
+
+input, button, textarea{
+    background-color: #555;
+    border: none;
+    accent-color: white;
+}
+
+button, textarea{
+    padding: 0.5em;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button:hover{
+    background-color: #666;
+    cursor: pointer;
+}
+
+button:active{
+    background-color: #777;
+    cursor: pointer;
+}
+
+hr{
+    opacity: 0.05;
+    margin: 1em 1em;
+}
+
+
+/* Logging information */
+#optionalInfo{
+    visibility: hidden;
+}
+
+
+/* Key container */
+#keyboard{
+    width: 90vw;
+    height: 75vh;
+    box-sizing: border-box;
+    position: relative;
+
+
+    /* Disable text selection */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+
+/* Key add menu */
+#keyPool{
+    width: 28vw;
+    max-width: 400px;
+    height:90vh;
+    position: fixed;
+    top: 5vh; right: 5vh;
+    background-color: #ffffff20;
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    visibility: hidden;
+}
+.keyOption{
+    width: 4em;
+    height: 1.5em;
+    text-align: center;
+    line-height: 1.5em;
+    background-color: #ffffff10;
+    font-size: 1.5em;
+    margin: 0.2em;
+    display: inline-block;
+    border-radius: 3em;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+
+
+/* Keys */
+.key{
+    width: var(--key-size);
+    height: var(--key-size);
+    border: 4px solid var(--prim-color);
+    background-color: #ffffff22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc( var(--key-size) /3 );
+    font-weight: bold;
+    color: var(--prim-color);
+
+    border-radius: 4px;
+    position: absolute;
+    transition: opacity 0.5s, background-color 0.5s, border-color 0.35s;
+
+    box-shadow: 3px 5px 10px 0px #13121250 inset;
+}
+.key:hover{
+    border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
+    border-style: solid dashed dashed solid;
+    background-color: #3e3f41;
+}
+
+/* Key labels */
+.label{ z-index: 0;  text-shadow: 2px 2px 6px #1312123c;}
+
+/* Pressure progress on keys */
+.progress{
+    position: absolute;
+    background-color: var(--inactive);
+    transition: background-color var(--transform-transition), height var(--col-transition), width var(--col-transition), border-radius var(--col-transition);
+    /* transition: background-color 0.15s, height 0.05s, width 0.05s, border-radius 0.05s; */
+    /* transition: background-color 0.05s, height 0.025s, width 0.025s, border-radius 0.01s; */
+}
+
+
+
+
+/* Fill directions */
+.topLeft{
+    inset: 0 auto auto 0;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.topRight{
+    inset: 0 0 auto auto;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.bottomRight{
+    inset: auto 0 0 auto;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.bottomLeft{
+    inset: auto auto 0 0;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.top{
+    top: 0;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    width: 100% !important;
+}
+
+.right{
+    right: 0;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    height: 100% !important;
+}
+
+.bottom{
+    bottom: 0;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    width: 100% !important;
+}
+
+.left{
+    left: 0;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    height: 100% !important;
+}
+
+.horizontal{
+    width: 100% !important;
+}
+
+.vertical{
+    height: 100% !important;
+}
+
+
+/* Right click menu */
+#keyOptionDialog{
+    display: none;
+    position: fixed;
+    width: 96px;
+    min-height: 120px;
+    border: 4px solid var(--prim-color);
+    background-color: #444;
+    border-radius: 4px;
+    box-shadow: 3px 5px 10px 0px #13121250 inset;
+    padding: 1rem;
+}
+.directions{
+    width: 100%;
+    background-color: #555;
+    margin-bottom: 1rem;
+    border-collapse: separate;
+     border-spacing: 0.25rem;
+    table-layout: fixed;
+}
+.directions td{
+    text-align: center;
+    background-color: #666;
+    line-height: 1.6rem;
+    border-radius: 2px;
+    cursor: pointer;
+    gap: 5px;
+}
+.directions td:hover{
+    background-color: rgb(129, 129, 129);
+}
+.directions td:active{
+    background-color: rgb(155, 155, 155);
+}
+.deleteButton{
+    background-color: #925555;
+    display: block;
+    text-align: center;
+    line-height: 1.6rem;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+}
+.deleteButton:hover{
+    background-color: #c48282;
+    color: black;
+}

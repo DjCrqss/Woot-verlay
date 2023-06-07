@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- HEAD -->
+  <head>
+    <!-- page information -->
+		<meta charset="UTF-8">
+		<title>DJ | OSUlay</title>
+		<meta name="description" content="A customisable pressure sensitive display for your Wooting keyboard!">
+    <link rel="shortcut icon" type="image/png" href="woootcon.ico"/>
+		<meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#131313">
+    
+		<!-- css stylesheets -->
+		<link rel='stylesheet' type='text/css' href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </head>
+
+  <!-- BODY -->
+  <body>
+    <!-- keyboard and keys display -->
+    <!-- <section id="keyboard"></section> -->
+    <canvas id="canvas">
+    </canvas>
+
+    <!-- popup to add more keys to screen -->
+    <section id="keyPool" class="tabmenu"></section>
+
+    <!-- floating toolbar -->
+    <div id="toolbar" class="mouseOver">
+      <div id="presets"  class="tabmenu">
+        <p>Presets</p>
+        <textarea id="presetInput" placeholder="Paste preset here"></textarea>
+        <button onclick="loadState()">Save</button>
+        <button onclick="copyToClipboard()">Copy to clipboard</button>
+      </div>
+      <!-- icons -->
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('presets')">bookmarks<span class="infoField">Presets</span></i>
+    </div>
+  </body>
+
+
+<!-- SCRIPTING -->
+  <!-- mouse event based script -->
+  <script type="text/javascript" src="../../js/global/mousehandlers.js"></script>
+
+  <!-- key menu and key customisation -->
+  
+  <!-- keyboard related scripts -->
+  <script type="text/javascript" src="../../js/osulay/keyboard.js"></script>
+  <script type="text/javascript" src="../../js/osulay/pressureDisplay.js"></script>
+  
+  <script type="text/javascript" src="../../js/osulay/keymenu.js"></script>
+  <!-- websockets related scripts -->
+  <script type="text/javascript" src="../../js/osulay/websocket.js"></script>
+   
+  <!-- toolbar settings related scripts -->
+  <!-- <script type="text/javascript" src="js/toolbarfunctions.js"></script> -->
+</html>
