@@ -45,14 +45,12 @@ function update(message) {
     }
 
     var content = "";
-
     // split message into key tuples
     const keys = message.split(/[()]/);
     keys.filter(element => element.length != 0).forEach(element => {
         // split key into seperate values
         var keydata = element.split(':');
         content += "(" + keydata[0] + " " + keydata[1].substring(0, 4) + " " + keydata[2] + ") ";
-
 
         // REPLACE THIS SECTION WITH YOUR KEY OBJECTS TO CUSTOMISE
         // find div on keyboard with id of key pressed down and customise its CSS
@@ -68,7 +66,6 @@ function update(message) {
             // draw active state of key
             activeKey.style.backgroundColor = keydata[2] == 1 ? "var(--active)" : null;
         }
-
 
     })
 
@@ -92,6 +89,7 @@ function resetKeys() {
     // REPLACE THIS SECTION WITH YOUR KEY OBJECTS TO CUSTOMISE
     var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
     for (i = 0; i < childKeys.length; i++) childKeys[i].getElementsByClassName('progress')[0].style.height = "0";
+    if (allowDebug) values.innerHTML = "Active keys: ";
 }
 
 // attempt connection
