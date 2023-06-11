@@ -109,6 +109,11 @@ function copyToClipboard() {
 
 // CUSTOM LAN
 function connectToExternalLan(){
+    // check if page is from github
+    if (window.location.href.includes("djcrqss.github.io")){
+        alert("You can't connect to a custom IP from the github page. Please download the project and run it locally. \n There are instructions on the readme.");
+    }
+
     var ip = document.getElementById("lanInput").value;
     changeDefaultWSI(ip);
     console.log("Connecting to custom IP");

@@ -27,6 +27,8 @@ Configure your setup by right-clicking on the overlay and clicking 'Interact'.
 ### LAN connections
 If you want to use the overlay on a different computer to the one running the server, you will need to connect them to the same network. This will allow you to host the overlay on another PC that could be recording, or even on a mobile device as a mini external display!
 
+Unfortunately, due to the way web security works, I would have to purchase and distribute a digital certificate to allow you to connect to the server. This is not something I can afford to do, so you will have to download this repository. Above the code, click on the green 'Code' button, then click 'Download ZIP'. Extract the files and double-click on the html file. 
+
 When launching Woot-verlay client, make sure to press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
 On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. It will take a few seconds, but after a while, try pressing a key on your keyboard and it should show up on the site!
 
