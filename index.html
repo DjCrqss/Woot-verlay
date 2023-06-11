@@ -52,16 +52,26 @@
           <input type="checkbox" id="transitionCheckbox"></div>
         </div>
       </div>
+
       <div id="presets"  class="tabmenu">
         <p>Presets</p>
         <textarea id="presetInput" placeholder="Paste preset here"></textarea>
         <button onclick="loadState()">Save</button>
         <button onclick="copyToClipboard()">Copy to clipboard</button>
       </div>
+
+      <div id="lanSettings" class="tabmenu">
+        <p>Connect to external client.</p>
+        <p>Press connect and wait ~3 seconds.</p>
+        <input id="lanInput" placeholder="192.168.x.x">
+        <button onclick="connectToExternalLan()">Connect</button>
+      </div>
+
       <!-- icons -->
       <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add keys</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span class="infoField">Customise</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('presets')">bookmarks<span class="infoField">Presets</span></i>
+      <i class="material-symbols-outlined" onclick="toggleVisiblity('lanSettings')">magic_tether<span class="infoField">LAN connection</span></i>
       <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span class="infoField">Toggle info</span></i>
     </div>
 

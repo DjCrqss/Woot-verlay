@@ -24,10 +24,20 @@ If it doesn't work after some time, open this menu back up and click 'Refresh ca
 
 Configure your setup by right-clicking on the overlay and clicking 'Interact'.
 
+### LAN connections
+If you want to use the overlay on a different computer to the one running the server, you will need to connect them to the same network. This will allow you to host the overlay on another PC that could be recording, or even on a mobile device as a mini external display!
+
+When launching Woot-verlay client, make sure to press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
+On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. It will take a few seconds, but after a while, try pressing a key on your keyboard and it should show up on the site!
+
+
 ## Configuring your settings
 When your mouse is on the page, a popup appears at the top middle of the screen.
 - Click + to bring the key sidebar out where you can add extra keys by clicking on them
 - Click the cog to change global settings
+    - You can change colours, rounding, and transition speed.
+- Click the bookmark icon to copy and paste new profiles.
+- Click the WiFi/LAN icon to connect to your keyboard from an external device.
 - Click the eye to see extra stats below the keyboard.
 
 Right-click on a key to open a menu to change the fill direction or delete the key.
@@ -71,7 +81,6 @@ Please feel free to send in your own ones and I will update this list!
 - Showing actuation points
 - Custom key names
 - Rewrite code to be less spaghetti
-
 
 
 

@@ -98,13 +98,18 @@ document.getElementById("roundingCheckbox").onclick = function () {
 document.getElementById("roundingCheckbox").checked = isRounded;
 
 
-
-
-
 // PRESETS
 function copyToClipboard() {
     var copyText = document.getElementById("presetInput");
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
+}
+
+
+// CUSTOM LAN
+function connectToExternalLan(){
+    var ip = document.getElementById("lanInput").value;
+    changeDefaultWSI(ip);
+    console.log("Connecting to custom IP");
 }
