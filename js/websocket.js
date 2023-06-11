@@ -7,13 +7,22 @@ var latestInputs = new Array(); // logs inputs of keys
 var defaultWSI = "ws://127.0.0.1:32312/";
 var knownWSI = "ws://127.0.0.1/"
 var useDefault = true;
+var stopConnecting = false;
 
+
+function changeDefaultWSI(optionalCustomWSI) {
+    newWSI = "ws://" + optionalCustomWSI + ":32312/";
+    knownWSI = newWSI;
+    defaultWSI = newWSI;
+}
 
 // function to bind to server
 function connect() {
+    if(stopConnecting) return;
     // websocket
     const wsUri = useDefault ? defaultWSI : knownWSI;
-    const websocket = new WebSocket(wsUri);
+    var websocket = new WebSocket(wsUri);
+
 
     // action when websocket connects
     websocket.onopen = (e) => { console.log("Connected to server."); };
@@ -30,7 +39,7 @@ function connect() {
     };
 
     // action when websocket recieves data
-    websocket.onmessage = (e) => { update(`${e.data}`); };
+    websocket.onmessage = (e) => { update(${e.data}); };
 
     // when websocket recieves an error
     websocket.onerror = (e) => { console.log("Error.  " + e.data); };
