@@ -14,6 +14,7 @@ namespace Woot_verlay
         // global variables
         private static bool runSystem = true;
         private static bool runNonwooting = false;
+        private static DialogResult openToLan;
         private static List<TcpClient> activeConnections = new List<TcpClient>();
 
 
@@ -45,8 +46,15 @@ namespace Woot_verlay
             var inputSource = new InputSource(keyboardReceiver);
             inputSource.Listen();
 
-            // initialise server
+            // ask user if they want to run open to LAN or just this pc
+            openToLan = MessageBox.Show("Do you want to use LAN mode? LAN means that you will be able to view your keypresses on other devices (useful for secondary pc streaming). Pressing NO (Default) will only allow the overlay to work on this device." , "Woot-verlay - Mode Selection", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             string ip = "127.0.0.1";
+            if(openToLan == DialogResult.Yes){
+                ip = "0.0.0.0";
+                MessageBox.Show("Right click Woot-verlay in your system tray see check your local IP address." + " Open Woot-verlay on another device and click the port tab in the toolbar.", "Info", MessageBoxButtons.OK);
+            }
+
+            // initialise server
             int port = 32312;
             var server = new TcpListener(IPAddress.Parse(ip), port);
             try{
@@ -114,6 +122,19 @@ namespace Woot_verlay
             stream.Write(responseArray.ToArray(), 0, responseArray.Count);
         }
 
+
+        private static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
 
         /// <summary>
         /// Looping method to accept incoming connections
@@ -291,11 +312,19 @@ namespace Woot_verlay
             public WootTrayApp()
             {
                 // create menu strip with contents
+                ToolStripMenuItem toolStripIpItem = new ToolStripMenuItem("Running local mode.", null, null, "");
+                if (openToLan == DialogResult.Yes)
+                {
+                    string IP = GetLocalIPAddress();
+                    toolStripIpItem = new ToolStripMenuItem("LAN IP: " + IP, null, null, "");
+                }
                 var strip = new ContextMenuStrip()
                 {
                     Items =
                         {
+                            toolStripIpItem,
                             new ToolStripMenuItem("Stop overlay", null, new EventHandler(Exit), "EXIT")
+
                         }
                 };
                 strip.BackColor = Color.FromArgb(255, 20, 21, 24); ;

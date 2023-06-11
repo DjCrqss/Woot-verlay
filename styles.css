@@ -71,7 +71,7 @@ html{
     position: absolute;
     font-size: 0.75rem;
     top: 50px;
-    width: 60px;
+    min-width: 60px;
     text-align: center;
     padding: 0.25rem 0.5rem;
     left: -24px;
@@ -100,7 +100,7 @@ html{
     gap: 1em;
 }
 
-#presets{
+#presets, #lanSettings{
     visibility: hidden;
     background-color: #444;
     border: 1px solid white;
@@ -117,8 +117,6 @@ html{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-
-
 }
 
 input, button, textarea{
