@@ -14,6 +14,7 @@ class Key {
         this.width = width;
         this.colour = colour;
         this.pressure = 0;
+        this.prevPressures = [];
     }
 
     // draw key on canvas
@@ -30,7 +31,17 @@ class Key {
         ctx.textAlign = "center";
         ctx.fillText(this.label, this.x + (this.width * keyScale) / 2, this.y + (keyHeight * keyScale) / 1.6);
         ctx.stroke();
+
+        drawPressure(ctx, this);
         
+    }
+
+    // update key
+    update() {
+        this.prevPressures.unshift(this.pressure);
+        if (this.prevPressures.length > 1000) {
+            this.prevPressures.pop();
+        }
     }
 
     // check if mouse is hovering over key
@@ -193,23 +204,122 @@ function draw() {
     ctx.clearRect(0, 0, canvasActualWidth, canvasActualHeight);
 
     // draw lines
-    lines.forEach(element => {
-        element.draw(ctx, canvasActualWidth, canvasActualHeight);
-        element.update();
-    });
+    // lines.forEach(element => {
+    //     element.draw(ctx, canvasActualWidth, canvasActualHeight);
+    //     element.update();
+    // });
 
-    // draw keys
+    
+
     ctx.strokeStyle = "red";
     ctx.lineWidth = "4";
+    // draw keys
     keys.forEach(element => {
-        element.draw(ctx, canvasActualWidth, canvasActualHeight);
-        if(element.pressure > 0) {
-            lines.push(new Line(element.x + (element.width * keyScale)/2, element.y, element.pressure, element.color));
-        }
+        element.draw(ctx, canvasActualWidth, canvasActualHeight); // draw key
+    });
+    keys.forEach(element => {
+        // drawPressure(ctx, canvasActualWidth, canvasActualHeight, element); // draw pressure
+        element.update(); // update pressures
+        // if(element.pressure > 0) {
+        //     lines.push(new Line(element.x + (element.width * keyScale)/2, element.y, element.pressure, element.color));
+        // }
     });
 
 
 }
+
+async function drawPressure(ctx,key){
+    if(key.prevPressures.length == 0){
+        return;
+    }
+
+    // if(key.label != 'W'){
+    //     return;
+    // }
+    // draw left side to top than right side.
+    // draw rect
+   
+
+    // ctx.beginPath();
+    ctx.strokeStyle = "green";
+    // ctx.rect(key.x, 100, 400, 500);
+    // ctx.stroke();
+
+
+    // console.log(key.prevPressures);
+    ctx.fillStyle = key.color;
+    ctx.lineWidth = 0;
+    ctx.beginPath();
+    ctx.moveTo(key.x + (key.width * keyScale)/2 - key.prevPressures[0], key.y + key.height);
+    test = [];
+    test2= [];
+
+    
+    test.push({x: key.x + (key.width * keyScale)/2, y: key.y, f: 0});
+    test2.push({x: key.x + (key.width * keyScale)/2, y: key.y, f: 0});
+    for(i = 0; i < key.prevPressures.length; i++){
+        // ctx.rect(key.x + (key.width * keyScale)/2, key.y - i, key.prevPressures[i]/2, 1);
+        // ctx.lineTo(key.x + (key.width * keyScale)/2 - key.prevPressures[i]/2, key.y - i*2);
+        test.push({x: key.x + (key.width * keyScale)/2 - key.prevPressures[i]/2, y: key.y - i*2, f: key.prevPressures[i]});
+        test2.push({x: key.x + (key.width * keyScale)/2 + key.prevPressures[i]/2, y: key.y - i*2, f: key.prevPressures[i]});
+    }
+    test.push({x: key.x + (key.width * keyScale)/2, y: key.y - key.prevPressures.length*2, f: 0});
+    test2.push({x: key.x + (key.width * keyScale)/2, y: key.y - key.prevPressures.length*2, f: 0});
+    // for(i = key.prevPressures.length - 1; i >= 0; i--){
+    //     // ctx.lineTo(key.x + (key.width * keyScale)/2 + key.prevPressures[i]/2, key.y - i*2);
+    //     test.push({x: key.x + (key.width * keyScale)/2 + key.prevPressures[i]/2, y: key.y - i*2});
+    // }
+    bzCurve(ctx, test, 0.7, 0.6);
+    bzCurve(ctx, test2, 0.7, 0.6);
+    // ctx.fill();
+}
+
+
+
+function gradient(a, b) { 
+    return (b.y-a.y)/(b.x-a.x);
+}
+
+function bzCurve(ctx, points, f, t) {
+    //f = 0, will be straight line
+    //t suppose to be 1, but changing the value can control the smoothness too
+    if (typeof(f) == 'undefined') f = 0.3;
+    if (typeof(t) == 'undefined') t = 0.6;
+
+    
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    ctx.lineTo(points[1].x, points[1].y);
+
+    var m = 0;
+    var dx1 = 0;
+    var dy1 = 0;
+
+    var preP = points[1];
+    for (var i = 2; i < points.length -1; i++) {
+        var curP = points[i];
+        nexP = points[i + 1];
+        if (nexP && curP.f > 0) {
+            m = gradient(preP, nexP);
+            if(gradient == Infinity || gradient <= 2) {
+                m = 1;
+            }
+            dx2 = (nexP.x - curP.x) * -f;
+            dy2 = dx2 * m * t;
+        } else {
+            dx2 = 0;
+            dy2 = 0;
+        }
+        ctx.bezierCurveTo(preP.x - dx1, preP.y - dy1, curP.x + dx2, curP.y + dy2, curP.x, curP.y);
+        dx1 = dx2;
+        dy1 = dy2;
+        preP = curP;
+    }
+    ctx.lineTo(points[points.length-1].x, points[points.length-1].y);
+    ctx.fill();
+}
+
+
 
 // constantly redraw canvas
 function animate() {

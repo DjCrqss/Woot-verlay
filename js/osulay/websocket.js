@@ -48,15 +48,22 @@ function update(message) {
         // split key into seperate values
         var keydata = element.split(':');
         content += "(" + keydata[0] + " " + keydata[1].substring(0, 4) + " " + keydata[2] + ") ";
-        console.log(content);
+        // console.log(content);
 
         // REPLACE THIS SECTION WITH YOUR KEY OBJECTS TO CUSTOMISE
         // find div on keyboard with id of key pressed down and customise its CSS
         var activeKey;
         keys.forEach(key => {
             if (key.keyCode == parseInt(keydata[0])) {
+    
+                if(keydata[2] == 1){
+                    
+                    key.pressure = parseFloat(keydata[1].replace(',', '.') * keyScale * key.width);
+                } else {
+                    key.pressure = 0;
+                }
                 // lines.push(new Line(key.x + (key.width * keyScale) / 2, key.y, keydata[1] * keyScale * key.width));
-                key.pressure = parseFloat(keydata[1].replace(',', '.') * keyScale * key.width);
+                
             }
         });
         // if (activeKeyIDs.includes(parseInt(keydata[0]))) {
