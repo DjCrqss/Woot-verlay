@@ -76,6 +76,7 @@ document.addEventListener("mousedown", function (event) {
     mouseDown = true;
 });
 document.addEventListener("mouseup", function (event) {
+    activeKey = null;
     mouseDown = false;
 });
 
