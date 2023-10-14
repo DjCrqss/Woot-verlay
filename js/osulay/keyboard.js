@@ -32,9 +32,9 @@ class Key {
         ctx.fillText(this.label, this.x + (this.width * keyScale) / 2, this.y + (keyHeight * keyScale) / 1.6);
         ctx.stroke();
 
-        drawPressure(ctx, this);
-        
+        drawPressure(ctx, this);    
     }
+
 
     // update key
     update() {

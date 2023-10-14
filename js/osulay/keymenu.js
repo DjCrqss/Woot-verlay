@@ -42,29 +42,36 @@ async function removeKey() {
 }
 
 // find mouse position at all times
-var mouseX = 0;
-var mouseY = 0;
+var prevMouseX = null;
+var prevMouseY = null;
+var activeKeyX = null;
+var activeKeyY = null;
+
 document.addEventListener("mousemove", function (event) {
      // scale mouse position by canvas scale and window dimensions
      mouseX = event.clientX * canvasWidth / canvas.clientWidth;
      mouseY = event.clientY * canvasHeight / canvas.clientHeight;
 
-    if(!activeKey){
-        // check if a key is hoeverd over
-        keys.forEach(curKey => {
-            if(curKey.isHovered(mouseX, mouseY)){
-                // show options
-                activeKey = curKey;
-            }
-        });
-    }
+   
 
     if(mouseDown){
         // check if mouse is dragging a key
         if(activeKey != null){
+            if(prevMouseX == null || prevMouseY == null){
+                prevMouseX = mouseX;
+                prevMouseY = mouseY;
+            }
+
             // move key
-            activeKey.x = snapGrid(mouseX);
-            activeKey.y = snapGrid(mouseY);
+            let newX = activeKeyX + (mouseX - prevMouseX);
+            let newY = activeKeyY + (mouseY - prevMouseY);
+            activeKeyX = newX;
+            activeKeyY = newY;
+            activeKey.x = snapGrid(newX);
+            activeKey.y = snapGrid(newY);
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
+
             saveState();
         }
     }
@@ -74,10 +81,24 @@ document.addEventListener("mousemove", function (event) {
 var mouseDown = false;
 document.addEventListener("mousedown", function (event) {
     mouseDown = true;
+    if(!activeKey){
+        // check if a key is hoeverd over
+        keys.forEach(curKey => {
+            if(curKey.isHovered(mouseX, mouseY)){
+                // show options
+                activeKey = curKey;
+                activeKeyX = curKey.x;
+                activeKeyY = curKey.y;
+            }
+        });
+    }
 });
+
 document.addEventListener("mouseup", function (event) {
     activeKey = null;
     mouseDown = false;
+    prevMouseX = null;
+    prevMouseY = null;
 });
 
 
