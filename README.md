@@ -1,25 +1,26 @@
 # Woot-verlay
-Pressure sensitive display for the analog values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
+Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM)
 
 ## Running the app
-This application uses a localTCP server that must be kept running while using the website to display your values.
+This application uses a local TCP server that must be kept running while using the website to display your values.
 Download and run the exe file in the releases section. It should pop up in your system tray!
 You may have to accept the warnings to run the program, as I can not afford a digital signature, but if you are worried, feel free to download the source code and build the program yourself! To accept the smartscreen warning, click 'more info' at the top left, then 'run anyway'.
 
-You may have to update to the DotNet6 framework if you are not on Windows 11. However this is a short one-time process with instructions upon launching the app. You will also need to have Wootility (from Wooting) installed.
+You may have to update to the DotNet6 framework if you are not on Windows 11. However, this is a short one-time process with instructions upon launching the app. You will also need to have Wootility (from Wooting) installed.
 
 
 ### Website view
 - [Open this link!](https://djcrqss.github.io/Woot-verlay/index.html)
 - If the link above does not work, you may have to download the html and css file and open it manually,
-- Right click on the icon and click quit once you are done.
+- Right-click on the icon and click quit once you are done.
 
 ### OBS overlay
 This uses a browser source.
 - Add a new Browser Source to your scene and label it.
 - Set the URL to `https://djcrqss.github.io/Woot-verlay/index.html`
-- I recommend setting width to 800 and height to 600, and leave the next two options unticked
+- I recommend setting the width to 800 and height to 600 and leaving the next two options unticked.
+  
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
 
 Configure your setup by right-clicking on the overlay and clicking 'Interact'.
@@ -29,7 +30,7 @@ If you want to use the overlay on a different computer to the one running the se
 
 Unfortunately, due to the way web security works, I would have to purchase and distribute a digital certificate to allow you to connect to the server. This is not something I can afford to do, so you will have to download this repository. Above the code, click on the green 'Code' button, then click 'Download ZIP'. Extract the files and double-click on the html file. 
 
-When launching Woot-verlay client, make sure to press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
+When launching the Woot-verlay client, make sure to press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
 On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. It will take a few seconds, but after a while, try pressing a key on your keyboard and it should show up on the site!
 
 
@@ -84,10 +85,12 @@ Please feel free to send in your own ones and I will update this list!
 ---
 
 ## Planned features
-- Preset configurations as buttons and ability to save and load colour scheme too
+- Improving presets with saving locally and colour schemes
+- OSU key effect thing
+- Multi-selection for dragging keys
+- Linux support
 - Showing actuation points
-- Custom key names
-- Rewrite code to be less spaghetti
+
 
 
 
