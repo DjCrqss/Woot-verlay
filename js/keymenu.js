@@ -144,7 +144,7 @@ function dragElement(elmnt) {
 }
 
 function snapGrid(num) {
-    return Math.ceil(num / 12) * 12;
+    return Math.ceil(num / 6) * 6;
 }
 
 

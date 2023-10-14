@@ -270,8 +270,11 @@ namespace Woot_verlay
                 Return, Escape, Back, Tab, Space, OemMinus, OemPlus, OemOpenBrackets, OemCloseBrackets, Oem5, // 50 = non-US-1
                 Oem1 = 51, Oem7, Oemtilde, Oemcomma, OemPeriod, OemQuestion, Capital,
                 F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
-                PrintScreen, Scroll, MediaPlayPause, Insert, Home, PageUp, Delete, End, PageDown,
-                Right, Left, Down, Up, NumLock, Apps = 101,
+                PrintScreen, Scroll, MediaPlayPause = 72, Pause = 72, Insert, Home, PageUp, Delete, End, PageDown,
+                Right, Left, Down, Up, NumLock,
+                Divide, Multiply, Subtract, Add, NumPad1 = 89, NumPad2, NumPad3, NumPad4, NumPad5, NumPad6, NumPad7, NumPad8, NumPad9, NumPad0, Decimal,
+                Apps = 101,
+                F13 = 104, F14, F15, F16, F17, F18, F19, F20, F21, F22, F23, F24,
                 LControlKey = 224, LShiftKey, LMenu, LWin, RControlKey, RShiftKey, RMenu, RWin
             }
 
@@ -282,11 +285,12 @@ namespace Woot_verlay
             // listen key upstrokes and downstrokes
             public void Receive(KeyboardEvent @event)
             {
-                // Console.WriteLine(@event.Key.ToString());
                 keyMaps keyCode;
                 keyMaps.TryParse(@event.Key.ToString(), out keyCode);
+                Console.WriteLine("Input: " + @event.Key.ToString());
                 if ((int)keyCode > 0)
                 {
+                    Console.WriteLine("Output: " + @event.Key.ToString() + " " + (int)keyCode);
                     if (@event.State == NeatInput.Windows.Processing.Keyboard.Enums.KeyStates.Up && activeKeys.Contains((int)keyCode))
                     { // remove key on upstroke
                         activeKeys.Remove((int)keyCode);
