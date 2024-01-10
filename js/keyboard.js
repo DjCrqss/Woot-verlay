@@ -89,7 +89,7 @@ function buildKey(curKey) {
     curLabel.className = "label";
     curLabel.textContent = curKey.label;
 
-    // make key draggable
+    // make key draggable and listen to other mouse events
     dragElement(curDiv);
 
     buildOptions();

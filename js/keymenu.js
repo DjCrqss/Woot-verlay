@@ -67,6 +67,19 @@ function dragElement(elmnt) {
     var oldPosY = 0;
 
     elmnt.onmousedown = dragMouseDown;
+    elmnt.onmousemove = showResize;
+
+    async function showResize(e){
+        if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
+            elmnt.style.cursor = "nwse-resize";
+        }else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
+           elmnt.style.cursor = "ew-resize";
+        } else if (e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize height when dragging bottom
+            elmnt.style.cursor = "ns-resize";
+        } else {
+            elmnt.style.cursor = "move";
+        }
+    }
 
     async function dragMouseDown(e) {
         e = e || window.event;
@@ -80,7 +93,9 @@ function dragElement(elmnt) {
         if (e.button === 2) { // show options on left click
             activeKey = elmnt;
             showOptions();
-        } else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
+        } else if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
+            document.onmousemove = elementResizeBoth;
+        }else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
             document.onmousemove = elementResizeWidth;
         } else if (e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize height when dragging bottom
             document.onmousemove = elementResizeHeight;
@@ -89,6 +104,25 @@ function dragElement(elmnt) {
         }
 
 
+    }
+
+    function elementResizeBoth(e) {{
+            e = e || window.event;
+            e.preventDefault();
+
+            // calculate the new cursor position to add to width and height
+            width += (e.clientX - oldPosX);
+            height += (e.clientY - oldPosY);
+            if (width < 24) width = 24;
+            if (height < 24) height = 24;
+
+            // set the element's new position:
+            elmnt.style.width = snapGrid(width) + "px";
+            elmnt.style.height = snapGrid(height) + "px";
+            // set old values
+            oldPosX = e.clientX;
+            oldPosY = e.clientY;
+        }
     }
 
     function elementResizeWidth(e) {

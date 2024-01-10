@@ -210,7 +210,7 @@ namespace Woot_verlay
                                 String content = "";
                                 foreach (var analog in keys)
                                 {
-                                    var pressed = (keyboardReceiver.activeKeys.Contains(analog.Item1)) ? 1 : 0;
+                                    var pressed = keyboardReceiver.activeKeys.Contains(analog.Item1) ? 1 : 0;
                                     content += "(" + analog.Item1 + ":" + analog.Item2 + ":" + pressed + ")";
                                 }
                                 // message info to client for display

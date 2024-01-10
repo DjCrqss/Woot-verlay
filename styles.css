@@ -5,6 +5,7 @@
     --inactive:#925555;
     --col-transition: 0.05s;
     --transform-transition: 0.15s;
+    --key-color: #ffffff22;
 }
 
 body{
@@ -28,7 +29,7 @@ html{
     width: 6px;
 }
 ::-webkit-scrollbar-thumb{
-    background-color: #555;
+    background-color: #7a7a7a;
     border-radius: 12px;
 }
 ::-moz-selection { /* Code for Firefox */
@@ -175,9 +176,10 @@ hr{
     height:90vh;
     position: fixed;
     top: 5vh; right: 5vh;
-    background-color: #ffffff20;
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
+    background-color: #74747480;
+    border: 1px solid white;
+    backdrop-filter: blur(12px);
+    border-radius: 8px;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -185,14 +187,13 @@ hr{
 }
 .keyOption{
     width: 4em;
-    height: 1.5em;
     text-align: center;
-    line-height: 1.5em;
-    background-color: #ffffff10;
+    line-height: 2em;
+    background-color: var(--key-color);
     font-size: 1.5em;
     margin: 0.2em;
     display: inline-block;
-    border-radius: 3em;
+    border-radius: 4px;
     border: 1px solid #ccc;
     cursor: pointer;
 }
@@ -204,7 +205,7 @@ hr{
     width: var(--key-size);
     height: var(--key-size);
     border: 4px solid var(--prim-color);
-    background-color: #ffffff22;
+    background-color: var(--key-color);
     display: flex;
     align-items: center;
     justify-content: center;
