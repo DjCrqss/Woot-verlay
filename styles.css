@@ -171,31 +171,64 @@ hr{
 
 /* Key add menu */
 #keyPool{
-    width: 28vw;
-    max-width: 400px;
-    height:90vh;
+    /* width: 28vw; */
+    width: min(400px, 30vw);
+    height: 90vh;
     position: fixed;
-    top: 5vh; right: 5vh;
+    top: 5vmin; right: 5vmin;
     background-color: #74747480;
     border: 1px solid white;
     backdrop-filter: blur(12px);
     border-radius: 8px;
-    padding: 20px;
+    padding: min(20px, 2vmin);
     box-sizing: border-box;
-    overflow-y: auto;
     visibility: hidden;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    gap: 1em;
+   
 }
+
+#keyPoolInput{
+    font-size: 1em;
+    padding: 0.5em;
+    width: 100%;
+    color: var(--prim-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+[type="search"]::-webkit-search-cancel-button{
+    filter: brightness(10);
+    cursor: pointer;
+}
+
+
+
+#keyPoolOptions{
+    overflow-y: auto;
+    font-size: max(min(1.1vmin, 0.825em), 8px);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
 .keyOption{
-    width: 4em;
+    width: 3.95em;
     text-align: center;
-    line-height: 2em;
+    line-height: 2.5em;
+    height: fit-content;
     background-color: var(--key-color);
+    color: var(--prim-color);
     font-size: 1.5em;
-    margin: 0.2em;
     display: inline-block;
     border-radius: 4px;
     border: 1px solid #ccc;
     cursor: pointer;
+}
+
+.keyOption:hover{
+    opacity: 0.7;
 }
 
 

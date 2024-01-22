@@ -21,7 +21,10 @@
     <section id="keyboard"></section>
 
     <!-- popup to add more keys to screen -->
-    <section id="keyPool" class="tabmenu"></section>
+    <section id="keyPool" class="tabmenu">
+      <input type="search" id="keyPoolInput" placeholder="Search" oninput="buildOptions()" >
+      <div id="keyPoolOptions"></div>
+    </section>
 
     <!-- optional logging information -->
     <div id = "optionalInfo">
@@ -114,6 +117,9 @@
 <!-- SCRIPTING -->
   <!-- mouse event based script -->
   <script type="text/javascript" src="js/mousehandlers.js"></script>
+
+  <!-- key pool script -->
+  <script type="text/javascript" src="js/keypool.js"></script>
 
   <!-- key menu and key customisation -->
   <script type="text/javascript" src="js/keymenu.js"></script>
