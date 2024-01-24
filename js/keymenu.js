@@ -8,7 +8,9 @@ function showOptions() {
     menuDialog.style.display = "block";
     menuDialog.style.top = parseInt(activeKey.style.top) + 8 + "px";
     menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 + "px";
-    if(activeKey != null) renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
+    if(activeKey != null) {
+        renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
+    }
 }
 
 // update direction of key object
@@ -33,6 +35,7 @@ function updateKeyLabel(event){
 // hide menu
 document.addEventListener("click", function (event) {
     if (activeKey != null && !menuDialog.contains(event.target)) {
+        activeKey.style.backgroundColor = "";
         activeKey = null;
         hideDialog();
     }
@@ -91,7 +94,11 @@ function dragElement(elmnt) {
 
         // call a function whenever the cursor moves
         if (e.button === 2) { // show options on left click
+            if(activeKey != null) {
+                activeKey.style.backgroundColor = "";
+            }
             activeKey = elmnt;
+            activeKey.style.backgroundColor = "var(--wooting-yellow)";
             showOptions();
         } else if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
             document.onmousemove = elementResizeBoth;

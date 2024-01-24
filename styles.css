@@ -1,74 +1,116 @@
-:root{
-	--key-size: 60px;
-    --prim-color:#FFFFFF;
-    --active:#55927b;
-    --inactive:#925555;
+:root {
+    --key-size: 60px;
+    --prim-color: #FFFFFF;
+    /* Key border colors */
+    --active: #55927b;
+    --inactive: #925555;
     --col-transition: 0.05s;
     --transform-transition: 0.15s;
     --key-color: #ffffff22;
+
+    /* App styles */
+    --elem-border-radius: 10px;
+    --app-bg: #121212;
+    --elem-prim-bg: #212121b3;
+    --elem-prim-border: #353b44;
+    --elem-sec-bg: #212121;
+    --elem-sec-border: #555555;
+    --elem-tert-bg: #4d4d4d;
+    
+    --btn-bg: #333333;
+    --btn-active-bg: #4d4d4d;
+
+    --input-bg: #333333;
+
+    --text-prim: #f1f0f1;
+    --text-sec: #969696;
+    --text-tert: #acabaa;
+
+    --wooting-yellow: #ffd45c;
 }
 
-body{
-    background-color: #202124;
-    color:white;
+body {
+    background-color: var(--app-bg);
+    color: white;
     font-family: monospace;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 
 /* Universal */
-*{transition: color 0.5s, background-color 0.5s; color: var(--fg-color);}
-html{
-    scroll-behavior: smooth;
-    scrollbar-color: #aaa #ffffff20; /* Mozilla */
+* {
+    transition: color 0.5s, background-color 0.5s;
+    color: var(--fg-color);
 }
-::-webkit-scrollbar{ /* Blink browser scrollbar */
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-color: #aaa #ffffff20;
+    /* Mozilla */
+}
+
+::-webkit-scrollbar {
+    /* Blink browser scrollbar */
     background-color: transparent;
     width: 6px;
 }
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
     background-color: #7a7a7a;
     border-radius: 12px;
 }
-::-moz-selection { /* Code for Firefox */
-  color: var(--active);
-  background: transparent;
+
+::-moz-selection {
+    /* Code for Firefox */
+    color: var(--active);
+    background: transparent;
 }
+
 ::selection {
-  color: var(--active);
-  background: transparent;
+    color: var(--active);
+    background: transparent;
 }
 
 
 /* Floating menu */
-#toolbar{
+#toolbar {
     position: fixed;
     top: 0;
     right: 35vw;
-    background: #55555580;
+    padding: 0 1em;
+    background: var(--elem-prim-bg);
     backdrop-filter: blur(5px);
     min-width: 200px;
     min-height: 60px;
-    border: 1px solid white;
+    border: 1px solid var(--elem-sec-border);
     border-top: 0;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 var(--elem-border-radius) var(--elem-border-radius);
     display: flex;
+    gap: 1em;
     justify-content: space-evenly;
     transition: opacity 0.5s;
     opacity: 0;
 }
+
 .material-symbols-outlined {
     position: relative;
+    color: var(--text-prim);
     font-size: 28px !important;
     line-height: 60px !important;
     cursor: pointer;
 }
-.material-symbols-outlined:hover .infoField{
+
+.material-symbols-outlined:hover .infoField {
     visibility: visible;
 }
-.infoField{
+
+/* Hover hints */
+.infoField {
     position: absolute;
     font-size: 0.75rem;
     top: 50px;
@@ -77,15 +119,17 @@ html{
     padding: 0.25rem 0.5rem;
     left: -24px;
     line-height: 1rem;
-    background-color: #6a6a6a;
+    background-color: var(--btn-active-bg);
+    color: var(--text-prim);
     font-family: Arial;
     border-radius: 6px;
     visibility: hidden;
 }
-#settings{
+
+#settings {
     visibility: hidden;
-    background-color: #444;
-    border: 1px solid white;
+    background-color: var(--elem-sec-bg);
+    border: 1px solid var(--elem-sec-border);
     border-radius: 12px;
 
     width: 100%;
@@ -101,10 +145,11 @@ html{
     gap: 1em;
 }
 
-#presets, #lanSettings{
+#presets,
+#lanSettings {
     visibility: hidden;
-    background-color: #444;
-    border: 1px solid white;
+    background-color: var(--elem-sec-bg);
+    border: 1px solid var(--elem-sec-border);
     border-radius: 12px;
 
     width: 100%;
@@ -120,91 +165,103 @@ html{
     gap: 0.5em;
 }
 
-input, button, textarea{
-    background-color: #555;
+input,
+button,
+textarea {
+    background-color: var(--input-bg);
     border: none;
-    accent-color: white;
+    accent-color: var(--wooting-yellow);
 }
 
-button, textarea{
+input[type="text"]{
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    box-sizing: border-box;
+
+}
+
+button,
+textarea {
     padding: 0.5em;
     border-radius: 6px;
     box-sizing: border-box;
 }
 
-button:hover{
+button:hover {
     background-color: #666;
     cursor: pointer;
 }
 
-button:active{
+button:active {
     background-color: #777;
     cursor: pointer;
 }
 
-hr{
+hr {
     opacity: 0.05;
     margin: 1em 1em;
 }
 
 
 /* Logging information */
-#optionalInfo{
+#optionalInfo {
     visibility: hidden;
 }
 
 
 /* Key container */
-#keyboard{
+#keyboard {
     width: 90vw;
     height: 75vh;
     box-sizing: border-box;
     position: relative;
 
-
     /* Disable text selection */
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 
 /* Key add menu */
-#keyPool{
+#keyPool {
     /* width: 28vw; */
     width: min(400px, 30vw);
     height: 90vh;
     position: fixed;
-    top: 5vmin; right: 5vmin;
-    background-color: #74747480;
-    border: 1px solid white;
+    top: 5vmin;
+    right: 5vmin;
+    background-color: var(--elem-prim-bg);
+    border: 1px solid var(--elem-sec-border);
     backdrop-filter: blur(12px);
-    border-radius: 8px;
+    border-radius: var(--elem-border-radius);
     padding: min(20px, 2vmin);
     box-sizing: border-box;
     visibility: hidden;
     display: grid;
     grid-template-rows: min-content 1fr;
     gap: 1em;
-   
+
 }
 
-#keyPoolInput{
+#keyPoolInput {
     font-size: 1em;
     padding: 0.5em;
     width: 100%;
-    color: var(--prim-color);
+    color: var(--text-prim);
     border-radius: 4px;
     box-sizing: border-box;
 }
-[type="search"]::-webkit-search-cancel-button{
+
+[type="search"]::-webkit-search-cancel-button {
     filter: brightness(10);
     cursor: pointer;
 }
 
-
-
-#keyPoolOptions{
+#keyPoolOptions {
     overflow-y: auto;
     font-size: max(min(1.1vmin, 0.825em), 8px);
     display: flex;
@@ -213,36 +270,35 @@ hr{
     align-content: flex-start;
 }
 
-.keyOption{
+.keyOption {
     width: 3.95em;
     text-align: center;
-    line-height: 2.5em;
-    height: fit-content;
-    background-color: var(--key-color);
-    color: var(--prim-color);
-    font-size: 1.5em;
+    line-height: 3.95em;
+    height: 3.95em;
+    background-color: var(--elem-tert-bg);
+    color: var(--text-tert);
+    font-size: 1.325em;
     display: inline-block;
     border-radius: 4px;
-    border: 1px solid #ccc;
     cursor: pointer;
 }
 
-.keyOption:hover{
+.keyOption:hover {
     opacity: 0.7;
 }
 
 
 
 /* Keys */
-.key{
+.key {
     width: var(--key-size);
     height: var(--key-size);
-    border: 4px solid var(--prim-color);
+    border: 3.8px solid var(--prim-color);
     background-color: var(--key-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc( var(--key-size) /3 );
+    font-size: calc(var(--key-size) /3);
     font-weight: bold;
     color: var(--prim-color);
 
@@ -252,17 +308,21 @@ hr{
 
     box-shadow: 3px 5px 10px 0px #13121250 inset;
 }
-.key:hover{
+
+.key:hover {
     border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
     border-style: solid dashed dashed solid;
     background-color: #3e3f41;
 }
 
 /* Key labels */
-.label{ z-index: 0;  text-shadow: 2px 2px 6px #1312123c;}
+.label {
+    z-index: 0;
+    text-shadow: 2px 2px 6px #1312123c;
+}
 
 /* Pressure progress on keys */
-.progress{
+.progress {
     position: absolute;
     background-color: var(--inactive);
     transition: background-color var(--transform-transition), height var(--col-transition), width var(--col-transition), border-radius var(--col-transition);
@@ -271,95 +331,96 @@ hr{
 }
 
 
-
-
 /* Fill directions */
-.topLeft{
+.topLeft {
     inset: 0 auto auto 0;
     border-bottom-left-radius: 0 !important;
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
 
-.topRight{
+.topRight {
     inset: 0 0 auto auto;
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
 
-.bottomRight{
+.bottomRight {
     inset: auto 0 0 auto;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
 
-.bottomLeft{
+.bottomLeft {
     inset: auto auto 0 0;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
 
-.top{
+.top {
     top: 0;
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
     width: 100% !important;
 }
 
-.right{
+.right {
     right: 0;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     height: 100% !important;
 }
 
-.bottom{
+.bottom {
     bottom: 0;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     width: 100% !important;
 }
 
-.left{
+.left {
     left: 0;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
     height: 100% !important;
 }
 
-.horizontal{
+.horizontal {
     width: 100% !important;
 }
 
-.vertical{
+.vertical {
     height: 100% !important;
 }
 
 
 /* Right click menu */
-#keyOptionDialog{
+#keyOptionDialog {
     display: none;
     position: fixed;
     width: 96px;
     min-height: 120px;
-    border: 4px solid var(--prim-color);
-    background-color: #444;
+    border: 3px solid var(--text-prim);
+    background-color: var(--elem-prim-bg);
+    backdrop-filter: blur(12px);
     border-radius: 4px;
     box-shadow: 3px 5px 10px 0px #13121250 inset;
     padding: 1rem;
 }
-.directions{
+
+.directions {
     width: 100%;
     background-color: #555;
     margin-bottom: 1rem;
     border-collapse: separate;
-     border-spacing: 0.25rem;
+    border-spacing: 0.25rem;
     table-layout: fixed;
 }
-.directions td{
+
+.directions td {
     text-align: center;
     background-color: #666;
     line-height: 1.6rem;
@@ -367,13 +428,16 @@ hr{
     cursor: pointer;
     gap: 5px;
 }
-.directions td:hover{
+
+.directions td:hover {
     background-color: rgb(129, 129, 129);
 }
-.directions td:active{
+
+.directions td:active {
     background-color: rgb(155, 155, 155);
 }
-.deleteButton{
+
+.deleteButton {
     background-color: #925555;
     display: block;
     text-align: center;
@@ -382,7 +446,8 @@ hr{
     width: 100%;
     cursor: pointer;
 }
-.deleteButton:hover{
+
+.deleteButton:hover {
     background-color: #c48282;
     color: black;
 }
