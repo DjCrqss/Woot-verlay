@@ -2,7 +2,7 @@
     --key-size: 60px;
     --prim-color: #FFFFFF;
     /* Key border colors */
-    --active: #55927b;
+    --active: #519e80;
     --inactive: #925555;
     --col-transition: 0.05s;
     --transform-transition: 0.15s;
@@ -340,7 +340,7 @@ hr {
 }
 
 .key:hover {
-    border-color: var(--prim-color) #71d970 #ea9367 var(--prim-color);
+    border-color: var(--prim-color) var(--wooting-yellow) #37dd9d var(--prim-color);
     border-style: solid dashed dashed solid;
     background-color: #3e3f41;
 }
