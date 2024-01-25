@@ -1,6 +1,24 @@
-# Woot-verlay
+![logo](https://github.com/DjCrqss/Woot-verlay/assets/25734612/d654f249-a332-493f-99d2-3837875cf767)
+
 Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
-[Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM)
+[Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM) 
+<hr>
+
+<img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/8f93d8ac-c4e4-46c7-8a97-e1d58e331941" width="60%" align="right"/>
+<br clear="both"/><br>
+<img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/2c203a0d-1ed8-428d-b648-8ec1ff22eb24" width="60%" align="left"/>
+
+### Configuring your settings
+When your mouse is on the page, a popup appears at the top middle of the screen.
+Click + to add extra keys. Use the cog to change global settings, bookmark icon to copy and paste new profiles, WiFi/LAN icon to connect to your keyboard from an external device, and the eye to see extra stats below the keyboard.
+
+Right-click on a key to open a menu to change the fill direction or delete the key.
+Drag on the keys to shift them around. Grab the the green or orange dotted handles on the edges of a key to resize.
+<br clear="both"/><br>
+<img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/dde0c084-6368-48a5-a633-597200856cd0" width="60%" align="right"/>
+<br clear="both"/><br>
+
+
 
 ## Running the app
 This application uses a local TCP server that must be kept running while using the website to display your values.
@@ -8,8 +26,7 @@ Download and run the exe file in the releases section. It should pop up in your 
 You may have to accept the warnings to run the program, as I can not afford a digital signature, but if you are worried, feel free to download the source code and build the program yourself! To accept the smartscreen warning, click 'more info' at the top left, then 'run anyway'.
 
 You may have to update to the DotNet6 framework if you are not on Windows 11. However, this is a short one-time process with instructions upon launching the app. You will also need to have Wootility (from Wooting) installed.
-
-
+<br>After running the system tray app, choose one of the following viewing methods:
 ### Website view
 - [Open this link!](https://djcrqss.github.io/Woot-verlay/index.html)
 - If the link above does not work, you may have to download the html and css file and open it manually,
@@ -34,17 +51,7 @@ When launching the Woot-verlay client, make sure to press 'Yes' on the first pop
 On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. It will take a few seconds, but after a while, try pressing a key on your keyboard and it should show up on the site!
 
 
-## Configuring your settings
-When your mouse is on the page, a popup appears at the top middle of the screen.
-- Click + to bring the key sidebar out where you can add extra keys by clicking on them
-- Click the cog to change global settings
-    - You can change colours, rounding, and transition speed.
-- Click the bookmark icon to copy and paste new profiles.
-- Click the WiFi/LAN icon to connect to your keyboard from an external device.
-- Click the eye to see extra stats below the keyboard.
 
-Right-click on a key to open a menu to change the fill direction or delete the key.
-Click and drag on the keys to shift them around, and hover, then drag the green or orange dotted handles on the edges of a key to resize it.
 
 ----
 ## Profile presets
@@ -80,16 +87,7 @@ Here are example profile presets. To use them, copy the text, then click the pre
 ```
 
 Please feel free to send in your own ones and I will update this list!
-<br><br>
 
----
-
-## Planned features
-- Improving presets with saving locally and colour schemes
-- OSU key effect thing
-- Multi-selection for dragging keys
-- Linux support
-- Showing actuation points
 
 
 
