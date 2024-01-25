@@ -3,6 +3,8 @@
 const activeColPicker = document.getElementById('activeColorPicker');
 const inactiveColPicker = document.getElementById('inactiveColorPicker');
 const accentPicker = document.getElementById('accentColorPicker');
+const keyBgColPicker = document.getElementById('keyBgColorPicker');
+const keyBgOpacityPicker = document.getElementById('keyBgOpacityPicker');
 const inputCheckbox = document.getElementById('inputCheckbox');
 const transitionCheckbox = document.getElementById('transitionCheckbox');
 
@@ -15,16 +17,19 @@ if (localStorage.getItem("colours")) {
         JSON.parse(localStorage.getItem("colours"))[0],
         JSON.parse(localStorage.getItem("colours"))[1],
         JSON.parse(localStorage.getItem("colours"))[2],
+        JSON.parse(localStorage.getItem("colours"))[3]
     );
     // set colours on screen
     document.documentElement.style.setProperty('--active', colours[0]);
     document.documentElement.style.setProperty('--inactive', colours[1]);
     document.documentElement.style.setProperty('--prim-color', colours[2]);
+    document.documentElement.style.setProperty('--key-color', colours[3]);
 } else {
     colours = new Array(
         getComputedStyle(document.body).getPropertyValue('--active'),
         getComputedStyle(document.body).getPropertyValue('--inactive'),
-        getComputedStyle(document.body).getPropertyValue('--prim-color')
+        getComputedStyle(document.body).getPropertyValue('--prim-color'),
+        getComputedStyle(document.body).getPropertyValue('--key-color')
     )
 }
 
@@ -42,15 +47,38 @@ inactiveColPicker.value = getComputedStyle(document.body).getPropertyValue('--in
 inactiveColPicker.addEventListener('input', function () {
     colours[1] = inactiveColPicker.value;
     document.documentElement.style.setProperty('--inactive', inactiveColPicker.value);
-    saveColours()
+    saveColours();
 });
 
 accentPicker.value = getComputedStyle(document.body).getPropertyValue('--prim-color');
 accentPicker.addEventListener('input', function () {
     colours[2] = accentPicker.value;
     document.documentElement.style.setProperty('--prim-color', accentPicker.value);
-    saveColours()
+    saveColours();
 });
+
+keyBgColPicker.value = getComputedStyle(document.body).getPropertyValue('--key-color').substring(0, 7);
+keyBgColPicker.addEventListener('input', function () {
+    colours[3] = keyBgColPicker.value;
+    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value);
+    saveColours();
+});
+
+let stringOpacity = getComputedStyle(document.body).getPropertyValue('--key-color').substring(7, 10);
+keyBgOpacityPicker.value = parseInt(stringOpacity, 16) / 255;
+keyBgOpacityPicker.addEventListener('input', function () {
+    // convert 0 to 1 to 00 to ff
+    var opacity = Math.round(keyBgOpacityPicker.value * 255).toString(16);
+    if (opacity.length == 1) {
+        opacity = "0" + opacity;
+    }
+    colours[3] = keyBgColPicker.value + opacity;
+    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value + opacity);
+    saveColours();
+});
+
+
+
 
 // save colours to storage
 function saveColours() {
@@ -80,11 +108,13 @@ inputCheckbox.addEventListener('change', function () {
         activeColPicker.type = "text";
         inactiveColPicker.type = "text";
         accentPicker.type = "text";
+        keyBgColPicker.type = "text";
     } else {
         document.onkeydown = function(e) {return false;}
         activeColPicker.type = "color";
         inactiveColPicker.type = "color";
         accentPicker.type = "color";
+        keyBgColPicker.type = "color";
     }
 });
 
