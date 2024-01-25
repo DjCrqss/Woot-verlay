@@ -5,7 +5,7 @@ const renameInput = document.getElementById("keyLabel");
 var activeKey;
 // show menu
 function showOptions() {
-    menuDialog.style.display = "block";
+    menuDialog.style.display = "flex";
     menuDialog.style.top = parseInt(activeKey.style.top) + 8 + "px";
     menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 + "px";
     if(activeKey != null) {

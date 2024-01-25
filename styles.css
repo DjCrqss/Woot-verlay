@@ -6,27 +6,27 @@
     --inactive: #925555;
     --col-transition: 0.05s;
     --transform-transition: 0.15s;
-    --key-color: #ffffff22;
+    --key-color: #7e7e7e22;
 
     /* App styles */
     --elem-border-radius: 10px;
-    --app-bg: #121212;
+    --app-bg: #181818;
     --elem-prim-bg: #212121b3;
     --elem-prim-border: #353b44;
     --elem-sec-bg: #212121;
     --elem-sec-border: #555555;
     --elem-tert-bg: #4d4d4d;
-    
+
     --btn-bg: #333333;
     --btn-active-bg: #4d4d4d;
 
-    --input-bg: #333333;
+    --input-bg: #3d3d3d;
 
     --text-prim: #f1f0f1;
     --text-sec: #969696;
     --text-tert: #acabaa;
 
-    --wooting-yellow: #ffd45c;
+    --wooting-yellow: #ecc457;
 }
 
 body {
@@ -67,13 +67,17 @@ html {
 
 ::-moz-selection {
     /* Code for Firefox */
-    color: var(--active);
+    color: var(--wooting-yellow);
     background: transparent;
 }
 
 ::selection {
-    color: var(--active);
+    color: var(--wooting-yellow);
     background: transparent;
+}
+
+h2 {
+    margin: 0.5rem 0;
 }
 
 
@@ -165,15 +169,36 @@ html {
     gap: 0.5em;
 }
 
+
+/* Flex styles */
+.flexRows{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.flexRows > div {
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+
+/* Inputs and other styles */
 input,
 button,
 textarea {
     background-color: var(--input-bg);
     border: none;
     accent-color: var(--wooting-yellow);
+    flex-shrink: 1;
+    max-width: 100%;
+    min-width: 0;
 }
 
-input[type="text"]{
+input[type="text"] {
     padding: 0.5em 1em;
     border-radius: 6px;
     box-sizing: border-box;
@@ -206,6 +231,11 @@ hr {
 /* Logging information */
 #optionalInfo {
     visibility: hidden;
+    background-color: var(--elem-prim-bg);
+    border: 1px solid var(--elem-sec-border);
+    border-radius: var(--elem-border-radius);
+    margin: 1.5em;
+    padding: 2em;
 }
 
 
@@ -229,7 +259,7 @@ hr {
 /* Key add menu */
 #keyPool {
     /* width: 28vw; */
-    width: min(400px, 30vw);
+    width: min(420px, 32vw);
     height: 90vh;
     position: fixed;
     top: 5vmin;
@@ -242,7 +272,7 @@ hr {
     box-sizing: border-box;
     visibility: hidden;
     display: grid;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content min-content 1fr;
     gap: 1em;
 
 }
@@ -400,6 +430,8 @@ hr {
 /* Right click menu */
 #keyOptionDialog {
     display: none;
+    flex-direction: column;
+    gap: 1em;
     position: fixed;
     width: 96px;
     min-height: 120px;
@@ -413,12 +445,12 @@ hr {
 
 .directions {
     width: 100%;
-    background-color: #555;
-    margin-bottom: 1rem;
     border-collapse: separate;
     border-spacing: 0.25rem;
     table-layout: fixed;
 }
+
+
 
 .directions td {
     text-align: center;
@@ -450,4 +482,62 @@ hr {
 .deleteButton:hover {
     background-color: #c48282;
     color: black;
+}
+
+
+/* Custom switches */
+.switch {
+    position: relative;
+    display: inline-block;
+    font-size: 1.6em;
+    width: 1.8em;
+    height: 1em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: background-color .4s, transform .4s;
+    transition: background-color .4s, transform .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: calc(1em - 2px);
+    width: calc(1em - 2px);
+    left: 1px;
+    bottom: 1px;
+    background-color: var(--elem-sec-bg);
+    -webkit-transition: background-color .4s, transform .4s;
+    transition: background-color .4s, transform .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--wooting-yellow);
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px var(--wooting-yellow);
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(0.8em);
+    -ms-transform: translateX(0.8em);
+    transform: translateX(0.8em);
 }
