@@ -2,7 +2,9 @@
 
 Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM) 
-<hr>
+<br><br><br>
+
+# Features
 
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/8f93d8ac-c4e4-46c7-8a97-e1d58e331941" width="60%" align="right"/>
 
