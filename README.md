@@ -2,7 +2,7 @@
 
 Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM) 
-<br><br><br>
+<br><br>
 
 # Features
 
@@ -10,10 +10,10 @@ Pressure-sensitive display for the analogue values of your Wooting keyboard! Vis
 
 ### Customisation
 Woot-verlay is made to be extremely customisable. Right-click on keys to rename, change the fill direction or delete them.
-Drag the keys to shift them around. Grab the green or orange dotted handles on the edges of a key to resize. 
+Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize. 
 <br>
 ### Presets
-Presets are available to save and import. There is a list of presets [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets) Please feel free to send in your own presets.
+Presets are available to save and import. They can be found [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets)
 
 <br clear="both"/><br><br>
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/2c203a0d-1ed8-428d-b648-8ec1ff22eb24" width="60%" align="left"/>
@@ -27,10 +27,8 @@ Click + to add extra keys. Use the cog to change global settings, the bookmark i
 
 ### OBS and LAN connections
 The OBS plugin allows streaming to Twitch and other platforms with this as an overlay on top! View the running instructions in the section below.
-
 Using LAN,  you can host the overlay on another PC that could be recording, or even on a mobile device as a mini external display!
-Launch the Woot-verlay client and press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
-On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. 
+
 
 <br clear="both"/><br>
 
@@ -55,8 +53,14 @@ This uses a browser source.
 - I recommend setting the width to 800 and height to 600 and leaving the next two options unticked.
   
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
-
 Configure your setup by right-clicking on the overlay and clicking 'Interact'.
+<br><br>
+## Using the LAN connector
+To access the visuals across devices
+Launch the Woot-verlay client and press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
+On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. 
+
+
 
 
 
