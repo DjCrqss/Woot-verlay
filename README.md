@@ -8,11 +8,11 @@ Pressure-sensitive display for the analogue values of your Wooting keyboard! Vis
 
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/8f93d8ac-c4e4-46c7-8a97-e1d58e331941" width="60%" align="right"/>
 
-### Customisation
+### Customisation and Presets
 Woot-verlay is made to be extremely customisable. Right-click on keys to rename, change the fill direction or delete them.
 Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize. 
 <br>
-### Presets
+
 Presets are available to save and import. They can be found [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets)
 
 <br clear="both"/><br><br>
