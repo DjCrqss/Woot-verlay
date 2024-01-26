@@ -11,18 +11,18 @@ Pressure-sensitive display for the analogue values of your Wooting keyboard! Vis
 ### Customisation
 Woot-verlay is made to be extremely customisable. Right-click on keys to rename, change the fill direction or delete them.
 Drag the keys to shift them around. Grab the green or orange dotted handles on the edges of a key to resize. 
-<br><br>
+<br>
 ### Presets
 Presets are available to save and import. There is a list of presets [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets) Please feel free to send in your own presets.
 
-<br clear="both"/><br>
+<br clear="both"/><br><br>
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/2c203a0d-1ed8-428d-b648-8ec1ff22eb24" width="60%" align="left"/>
 
 ### Settings
 When your mouse is on the page, a popup appears at the top middle of the screen.
-Click + to add extra keys. Use the cog to change global settings, bookmark icon to copy and paste new profiles, WiFi/LAN icon to connect to your keyboard from an external device, and the eye to see extra stats below the keyboard.
+Click + to add extra keys. Use the cog to change global settings, the bookmark icon to copy and paste new profiles, the WiFi/LAN icon to connect to your keyboard from an external device, and the eye to see extra stats below the keyboard.
 
-<br clear="both"/><br>
+<br clear="both"/><br><br>
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/dde0c084-6368-48a5-a633-597200856cd0" width="60%" align="right"/>
 
 ### OBS and LAN connections
