@@ -2,7 +2,10 @@
 
 const menuDialog = document.getElementById("keyOptionDialog");
 const renameInput = document.getElementById("keyLabel");
-var activeKey;
+
+var activeKey; // current key being interacted with
+var selectedKeys = []; // list of keys selected with shift or box select
+
 // show menu
 function showOptions() {
     menuDialog.style.display = "flex";
@@ -16,9 +19,10 @@ function showOptions() {
 // update direction of key object
 function updateKeySettings(direction) {
     if (activeKey != null) {
-        var progress = activeKey.getElementsByClassName('progress')[0];
-        progress.className = "progress";
-        progress.classList.add(direction);
+        for (var i = 0; i < selectedKeys.length; i++) {
+            selectedKeys[i].element.getElementsByClassName('progress')[0].className = "progress";
+            selectedKeys[i].element.getElementsByClassName('progress')[0].classList.add(direction);
+        }
     }
     saveState();
 }
@@ -34,9 +38,13 @@ function updateKeyLabel(event){
 
 // hide menu
 document.addEventListener("click", function (event) {
-    if (activeKey != null && !menuDialog.contains(event.target)) {
+    if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target) && !selectedKeys.some(x => x.element.contains(event.target))){
         activeKey.style.backgroundColor = "";
         activeKey = null;
+        for(var i = 0; i < selectedKeys.length; i++){
+            selectedKeys[i].element.style.backgroundColor = "";
+        }
+        selectedKeys = [];
         hideDialog();
     }
 });
@@ -57,19 +65,45 @@ async function removeKey() {
     }
 }
 
+async function select(elmnt){
+    
+    // if not already in selected keys, add to list
+    if(!selectedKeys.some(x => x.element == elmnt)){
+        selectedKeys.push({
+            element: elmnt,
+            x: parseInt(elmnt.style.left),
+            y: parseInt(elmnt.style.top),
+            oldPosX: 0,
+            oldPosY: 0,
+            width: elmnt.clientWidth,
+            height: elmnt.clientHeight
+        });
+    }
+
+    activeKey = elmnt;
+    elmnt.style.backgroundColor = "var(--wooting-yellow)";
+}
+async function deselect(){
+    for(var i = 0; i < selectedKeys.length; i++){
+        selectedKeys[i].element.style.backgroundColor = "";
+    }
+    selectedKeys = [];
+    hideDialog();
+}
+
 // all functions related to dragging and resizing a key             
-function dragElement(elmnt) {
+function keyInteract(elmnt) {
     // current position
-    var x = parseInt(elmnt.style.left);
-    var y = parseInt(elmnt.style.top);
+    var x = 0;
+    var y = 0;
     // curent size
-    var width = elmnt.clientWidth;
-    var height = elmnt.clientHeight;
+    var width = 0;
+    var height = 0;
     // previous mouse position
     var oldPosX = 0;
     var oldPosY = 0;
 
-    elmnt.onmousedown = dragMouseDown;
+    elmnt.onmousedown = mouseDown;
     elmnt.onmousemove = showResize;
 
     async function showResize(e){
@@ -84,32 +118,42 @@ function dragElement(elmnt) {
         }
     }
 
-    async function dragMouseDown(e) {
+    async function mouseDown(e) {
         e = e || window.event;
         e.preventDefault();
-        // get the mouse cursor position at startup
+        // update initial values
+        x = parseInt(elmnt.style.left);
+        y = parseInt(elmnt.style.top);
         oldPosX = e.clientX;
         oldPosY = e.clientY;
-        document.onmouseup = closeDragElement;
+        width = elmnt.clientWidth;
+        height = elmnt.clientHeight;
 
-        // call a function whenever the cursor moves
+        document.onmouseup = mouseUp;
+
+        
+        if (e.shiftKey && e.button === 0) { 
+            // add to selection on shift click
+            select(elmnt);
+        }
+        // deselect if not shift click
+        if(activeKey != null && !selectedKeys.some(x => x.element == elmnt)) {
+            deselect();
+        }
+
         if (e.button === 2) { // show options on left click
-            if(activeKey != null) {
-                activeKey.style.backgroundColor = "";
-            }
-            activeKey = elmnt;
-            activeKey.style.backgroundColor = "var(--wooting-yellow)";
+            select(elmnt);
             showOptions();
         } else if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
             document.onmousemove = elementResizeBoth;
-        }else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
+        } else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
             document.onmousemove = elementResizeWidth;
         } else if (e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize height when dragging bottom
             document.onmousemove = elementResizeHeight;
         } else { // move on drag
             document.onmousemove = elementDrag;
         }
-
+        
 
     }
 
@@ -164,18 +208,32 @@ function dragElement(elmnt) {
         e = e || window.event;
         e.preventDefault();
         // calculate the new cursor position:
-        x += (e.clientX - oldPosX);
-        y += (e.clientY - oldPosY);
-        // set the element's new position:
+        
+        xDiff = e.clientX - oldPosX;
+        yDiff = e.clientY - oldPosY;
+
+        x += xDiff;
+        y += yDiff;
         elmnt.style.top = snapGrid(y) + "px";
         elmnt.style.left = snapGrid(x) + "px";
+
+        selectedKeys.forEach(key => {
+            // if(key.element == elmnt) return;
+            key.x += xDiff;
+            key.y += yDiff;
+            key.element.style.top = snapGrid(key.y) + "px";
+            key.element.style.left = snapGrid(key.x) + "px";
+            key.oldPosX = e.clientX;
+            key.oldPosY = e.clientY;
+        });
+
         // set old values
         oldPosX = e.clientX;
         oldPosY = e.clientY;
 
     }
 
-    function closeDragElement() {
+    function mouseUp() {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;

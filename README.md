@@ -10,7 +10,7 @@ Pressure-sensitive display for the analogue values of your Wooting keyboard! Vis
 
 ### Customisation and Presets
 Woot-verlay is made to be extremely customisable. Right-click on keys to rename, change the fill direction or delete them.
-Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize. 
+Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize.  Shift click to multi select.
 <br>
 
 Presets are available to save and import. They can be found [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets)
