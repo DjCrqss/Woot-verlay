@@ -9,8 +9,15 @@ var selectedKeys = new Set(); // list of keys selected with shift or box select
 // show menu
 function showOptions() {
     menuDialog.style.display = "flex";
-    menuDialog.style.top = parseInt(activeKey.style.top) + 8 + "px";
-    menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 + "px";
+    menuDialog.style.top = parseInt(activeKey.style.top) + 8 - window.scrollY + "px";
+
+    // if key is too close to the right side of the screen, show menu on the left
+    if (parseInt(activeKey.style.left) + activeKey.clientWidth + menuDialog.offsetWidth > window.innerWidth) {
+        menuDialog.style.left = parseInt(activeKey.style.left) - menuDialog.clientWidth - window.scrollX + "px";
+    } else {
+        menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 - window.scrollX + "px";
+    }
+
     if(activeKey != null) {
         renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
     }
@@ -45,6 +52,18 @@ document.addEventListener("click", function (event) {
         deselect();
     }
 });
+
+// add listener for CTRL + A
+// document.addEventListener("keydown", function (event) {
+//     if (event.ctrlKey && event.key === 'a') {
+//         event.preventDefault();
+//         // select all keys
+//         keyboard.childNodes.forEach(key => {
+//             select(key);
+//         });
+//     }
+// });
+
 
 function hideDialog() {
     menuDialog.style.display = "none";
