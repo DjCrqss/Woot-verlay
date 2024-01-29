@@ -3,8 +3,8 @@
 const menuDialog = document.getElementById("keyOptionDialog");
 const renameInput = document.getElementById("keyLabel");
 
-var activeKey; // current key being interacted with
-var selectedKeys = []; // list of keys selected with shift or box select
+var activeKey; // current key being interacted with for single select and for right click menu positioning
+var selectedKeys = new Set(); // list of keys selected with shift or box select
 
 // show menu
 function showOptions() {
@@ -19,10 +19,10 @@ function showOptions() {
 // update direction of key object
 function updateKeySettings(direction) {
     if (activeKey != null) {
-        for (var i = 0; i < selectedKeys.length; i++) {
-            selectedKeys[i].element.getElementsByClassName('progress')[0].className = "progress";
-            selectedKeys[i].element.getElementsByClassName('progress')[0].classList.add(direction);
-        }
+        selectedKeys.forEach(key => {
+            key.element.getElementsByClassName('progress')[0].className = "progress";
+            key.element.getElementsByClassName('progress')[0].classList.add(direction);
+        });
     }
     saveState();
 }
@@ -38,14 +38,11 @@ function updateKeyLabel(event){
 
 // hide menu
 document.addEventListener("click", function (event) {
-    if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target) && !selectedKeys.some(x => x.element.contains(event.target))){
+    if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target) 
+    && ![...selectedKeys].some(x => x.element.contains(event.target)) && !event.shiftKey){
         activeKey.style.backgroundColor = "";
         activeKey = null;
-        for(var i = 0; i < selectedKeys.length; i++){
-            selectedKeys[i].element.style.backgroundColor = "";
-        }
-        selectedKeys = [];
-        hideDialog();
+        deselect();
     }
 });
 
@@ -55,21 +52,28 @@ function hideDialog() {
 
 async function removeKey() {
     if (activeKey != null) {
-        activeKey.style.opacity = 0;
-        activeKey.style.backgroundColor = "#925555";
         hideDialog();
+        selectedKeys.forEach(key => {
+            key.element.style.opacity = 0;
+            key.element.style.backgroundColor = "#925555";
+        });
+        
         await new Promise(resolve => setTimeout(resolve, 500));
-        try { keyboard.removeChild(activeKey); } catch (exception) { }
+        try { 
+            selectedKeys.forEach(key => {
+                keyboard.removeChild(key.element);
+            });
+        } catch (exception) { }
         activeKey = null;
+        deselect();
         saveState();
     }
 }
 
 async function select(elmnt){
-    
     // if not already in selected keys, add to list
-    if(!selectedKeys.some(x => x.element == elmnt)){
-        selectedKeys.push({
+    if(![...selectedKeys].some(x => x.element == elmnt)){
+        selectedKeys.add({
             element: elmnt,
             x: parseInt(elmnt.style.left),
             y: parseInt(elmnt.style.top),
@@ -84,10 +88,10 @@ async function select(elmnt){
     elmnt.style.backgroundColor = "var(--wooting-yellow)";
 }
 async function deselect(){
-    for(var i = 0; i < selectedKeys.length; i++){
-        selectedKeys[i].element.style.backgroundColor = "";
-    }
-    selectedKeys = [];
+    selectedKeys.forEach(key => {
+        key.element.style.backgroundColor = "";
+    });
+    selectedKeys.clear();
     hideDialog();
 }
 
@@ -134,10 +138,16 @@ function keyInteract(elmnt) {
         
         if (e.shiftKey && e.button === 0) { 
             // add to selection on shift click
-            select(elmnt);
+            if(![...selectedKeys].some(x => x.element == elmnt)){
+                select(elmnt);
+            } else {
+                // remove from selection on shift click
+                selectedKeys.delete([...selectedKeys].find(x => x.element == elmnt));
+                elmnt.style.backgroundColor = "";
+            }
         }
         // deselect if not shift click
-        if(activeKey != null && !selectedKeys.some(x => x.element == elmnt)) {
+        else if(activeKey != null && ![...selectedKeys].some(x => x.element == elmnt)) {
             deselect();
         }
 
@@ -243,7 +253,7 @@ function keyInteract(elmnt) {
 }
 
 function snapGrid(num) {
-    return Math.ceil(num / 6) * 6;
+    return Math.ceil(num / 4) * 4;
 }
 
 
