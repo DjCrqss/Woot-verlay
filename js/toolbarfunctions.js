@@ -136,6 +136,14 @@ function copyToClipboard() {
     document.execCommand("copy");
 }
 
+async function pasteFromClipboard() {
+    var pasteText = document.getElementById("presetInput");
+    pasteText.focus();
+    const text = await navigator.clipboard.readText();
+    pasteText.value = text;
+    loadState();
+}
+
 
 // CUSTOM LAN
 function connectToExternalLan(){
