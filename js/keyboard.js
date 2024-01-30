@@ -78,8 +78,13 @@ function getState() {
 }
 
 // loads  an imported set of key JSON from the presetInput
-function loadState() {
-    var data = JSON.parse(presetInput.value);
+function loadState(optionalData) {
+    try{
+        var data = optionalData ? JSON.parse(optionalData) : JSON.parse(presetInput.value);
+    } catch (e) {
+        alert("Invalid keyboard layout!");
+        return;
+    }
     keys = [];
     data.forEach(element => {
         keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6]));

@@ -145,6 +145,43 @@ async function pasteFromClipboard() {
 }
 
 
+for(let i = 0; i < 3; i++){
+    let presetName = localStorage.getItem("preset" + i + "Name");
+    if (presetName != null){
+        document.getElementById("preset" + i + "Name").innerHTML = presetName;
+    }
+}
+
+function loadPreset(presetNum){
+    // load from localstorage
+    let preset = localStorage.getItem("preset" + presetNum);
+    if (preset != null){
+        loadState(preset);
+    } else {
+        alert("No preset saved in this slot!");
+    }
+}
+
+function savePreset(presetNum){
+    // save to localstorage
+    if(localStorage.getItem("preset" + presetNum) != null){
+        if (!confirm("There is already a preset saved in this slot. Do you want to overwrite it?")){
+            return;
+        }
+    }
+    let presetName = prompt("Please enter a preset name:");
+    if (presetName == null){
+        return;
+    } else if (presetName.length > 10){
+        presetName = presetName.substring(0, 16);
+    }
+    document.getElementById("preset" + presetNum + "Name").innerHTML = presetName;
+    localStorage.setItem("preset" + presetNum, localStorage.getItem("keys"));
+    localStorage.setItem("preset" + presetNum + "Name", presetName);
+}
+
+
+
 // CUSTOM LAN
 function connectToExternalLan(){
     // check if page is from github
