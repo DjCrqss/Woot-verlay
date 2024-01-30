@@ -104,13 +104,13 @@ transitionCheckbox.addEventListener('change', function () {
 // document.onkeydown = function(e) {return false;}
 inputCheckbox.addEventListener('change', function () {
     if (this.checked) {
-        document.onkeydown = function(e) {return true;}
+        document.onkeydown = function (e) { return true; }
         activeColPicker.type = "text";
         inactiveColPicker.type = "text";
         accentPicker.type = "text";
         keyBgColPicker.type = "text";
     } else {
-        document.onkeydown = function(e) {return false;}
+        document.onkeydown = function (e) { return false; }
         activeColPicker.type = "color";
         inactiveColPicker.type = "color";
         accentPicker.type = "color";
@@ -144,35 +144,35 @@ async function pasteFromClipboard() {
     loadState();
 }
 
-
-for(let i = 0; i < 3; i++){
+// custom presets 
+for (let i = 0; i < 3; i++) {
     let presetName = localStorage.getItem("preset" + i + "Name");
-    if (presetName != null){
+    if (presetName != null) {
         document.getElementById("preset" + i + "Name").innerHTML = presetName;
     }
 }
 
-function loadPreset(presetNum){
+function loadPreset(presetNum) {
     // load from localstorage
     let preset = localStorage.getItem("preset" + presetNum);
-    if (preset != null){
+    if (preset != null) {
         loadState(preset);
     } else {
         alert("No preset saved in this slot!");
     }
 }
 
-function savePreset(presetNum){
+function savePreset(presetNum) {
     // save to localstorage
-    if(localStorage.getItem("preset" + presetNum) != null){
-        if (!confirm("There is already a preset saved in this slot. Do you want to overwrite it?")){
+    if (localStorage.getItem("preset" + presetNum) != null) {
+        if (!confirm("There is already a preset saved in this slot. Do you want to overwrite it?")) {
             return;
         }
     }
     let presetName = prompt("Please enter a preset name:");
-    if (presetName == null){
+    if (presetName == null) {
         return;
-    } else if (presetName.length > 10){
+    } else if (presetName.length > 10) {
         presetName = presetName.substring(0, 16);
     }
     document.getElementById("preset" + presetNum + "Name").innerHTML = presetName;
@@ -180,12 +180,37 @@ function savePreset(presetNum){
     localStorage.setItem("preset" + presetNum + "Name", presetName);
 }
 
+// default presets
+var defaultPresetsContainer = document.getElementById("defaultPresets");
+var defaultPresets = [];
+fetch('../data/wootingLayouts.json')
+    .then(response => response.json())
+    .then(data => {
+        defaultPresets = data;
+        [...data].forEach(element => {
+            // create template  <button onclick="loadPreset(0)" id="preset0Name">Empty</button>
+            let preset = document.createElement("button");
+            preset.innerHTML = element.id;
+            preset.onclick = function () {
+                loadDefaultPreset(element.id);
+            };
+            defaultPresetsContainer.appendChild(preset);
+        });
+    });
+
+function loadDefaultPreset(presetName) {
+    [...defaultPresets].forEach(element => {
+        if (element.id == presetName) {
+            loadState(JSON.stringify(element.keys));
+        }
+    });
+}
 
 
 // CUSTOM LAN
-function connectToExternalLan(){
+function connectToExternalLan() {
     // check if page is from github
-    if (window.location.href.includes("djcrqss.github.io")){
+    if (window.location.href.includes("djcrqss.github.io")) {
         alert("You can't connect to a custom IP from the github page. Please download the project and run it locally. \n There are instructions on the readme.");
     }
 

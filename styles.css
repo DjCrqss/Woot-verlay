@@ -139,6 +139,8 @@ h2, h3 {
 
     width: 100%;
     min-height: 60px;
+    max-height: calc(100vh - 80px);
+    overflow-y: scroll;
     padding: 12px;
     box-sizing: border-box;
 
@@ -159,6 +161,8 @@ h2, h3 {
 
     width: 100%;
     min-height: 60px;
+    max-height: calc(100vh - 80px);
+    overflow-y: scroll;
     padding: 12px;
     box-sizing: border-box;
 
@@ -174,7 +178,12 @@ h2, h3 {
     display: grid;
     grid-template-columns: 1fr min-content;
     gap: 0.5em;
+}
 
+#defaultPresets{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5em;
 }
 
 
