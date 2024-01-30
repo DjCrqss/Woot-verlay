@@ -5,6 +5,7 @@ const inactiveColPicker = document.getElementById('inactiveColorPicker');
 const accentPicker = document.getElementById('accentColorPicker');
 const keyBgColPicker = document.getElementById('keyBgColorPicker');
 const keyBgOpacityPicker = document.getElementById('keyBgOpacityPicker');
+const backgroundColPicker = document.getElementById('backgroundColorPicker');
 const inputCheckbox = document.getElementById('inputCheckbox');
 const transitionCheckbox = document.getElementById('transitionCheckbox');
 
@@ -17,19 +18,22 @@ if (localStorage.getItem("colours")) {
         JSON.parse(localStorage.getItem("colours"))[0],
         JSON.parse(localStorage.getItem("colours"))[1],
         JSON.parse(localStorage.getItem("colours"))[2],
-        JSON.parse(localStorage.getItem("colours"))[3]
+        JSON.parse(localStorage.getItem("colours"))[3],
+        JSON.parse(localStorage.getItem("colours"))[4]
     );
     // set colours on screen
     document.documentElement.style.setProperty('--active', colours[0]);
     document.documentElement.style.setProperty('--inactive', colours[1]);
     document.documentElement.style.setProperty('--prim-color', colours[2]);
     document.documentElement.style.setProperty('--key-color', colours[3]);
+    document.documentElement.style.setProperty('--app-bg', colours[4]);
 } else {
     colours = new Array(
         getComputedStyle(document.body).getPropertyValue('--active'),
         getComputedStyle(document.body).getPropertyValue('--inactive'),
         getComputedStyle(document.body).getPropertyValue('--prim-color'),
-        getComputedStyle(document.body).getPropertyValue('--key-color')
+        getComputedStyle(document.body).getPropertyValue('--key-color'),
+        getComputedStyle(document.body).getPropertyValue('--app-bg')
     )
 }
 
@@ -77,6 +81,13 @@ keyBgOpacityPicker.addEventListener('input', function () {
     saveColours();
 });
 
+backgroundColPicker.value = getComputedStyle(document.body).getPropertyValue('--app-bg');
+backgroundColPicker.addEventListener('input', function () {
+    colours[4] = backgroundColPicker.value;
+    document.documentElement.style.setProperty('--app-bg', backgroundColPicker.value);
+    saveColours();
+});
+
 
 
 
@@ -109,12 +120,14 @@ inputCheckbox.addEventListener('change', function () {
         inactiveColPicker.type = "text";
         accentPicker.type = "text";
         keyBgColPicker.type = "text";
+        backgroundColPicker.type = "text";
     } else {
         document.onkeydown = function (e) { return false; }
         activeColPicker.type = "color";
         inactiveColPicker.type = "color";
         accentPicker.type = "color";
         keyBgColPicker.type = "color";
+        backgroundColPicker.type = "color";
     }
 });
 
