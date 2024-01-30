@@ -181,25 +181,20 @@ function savePreset(presetNum) {
 }
 
 // default presets
+// data taken from ../data/wootingLayouts.js
 var defaultPresetsContainer = document.getElementById("defaultPresets");
-var defaultPresets = [];
-fetch('../data/wootingLayouts.json')
-    .then(response => response.json())
-    .then(data => {
-        defaultPresets = data;
-        [...data].forEach(element => {
-            // create template  <button onclick="loadPreset(0)" id="preset0Name">Empty</button>
-            let preset = document.createElement("button");
-            preset.innerHTML = element.id;
-            preset.onclick = function () {
-                loadDefaultPreset(element.id);
-            };
-            defaultPresetsContainer.appendChild(preset);
-        });
-    });
+defaultPresetsData.forEach(element => {
+    // create template  <button onclick="loadPreset(0)" id="preset0Name">Empty</button>
+    let preset = document.createElement("button");
+    preset.innerHTML = element.id;
+    preset.onclick = function () {
+        loadDefaultPreset(element.id);
+    };
+    defaultPresetsContainer.appendChild(preset);
+});
 
 function loadDefaultPreset(presetName) {
-    [...defaultPresets].forEach(element => {
+    defaultPresetsData.forEach(element => {
         if (element.id == presetName) {
             loadState(JSON.stringify(element.keys));
         }
