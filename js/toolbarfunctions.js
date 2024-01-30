@@ -63,8 +63,12 @@ accentPicker.addEventListener('input', function () {
 
 keyBgColPicker.value = getComputedStyle(document.body).getPropertyValue('--key-color').substring(0, 7);
 keyBgColPicker.addEventListener('input', function () {
-    colours[3] = keyBgColPicker.value;
-    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value);
+    var opacity = Math.round(keyBgOpacityPicker.value * 255).toString(16);
+    if (opacity.length == 1) {
+        opacity = "0" + opacity;
+    }
+    colours[3] = keyBgColPicker.value + opacity;
+    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value + opacity);
     saveColours();
 });
 
