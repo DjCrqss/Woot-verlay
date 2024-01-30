@@ -76,7 +76,7 @@ html {
     background: transparent;
 }
 
-h2 {
+h2, h3 {
     margin: 0.5rem 0;
 }
 
@@ -85,7 +85,7 @@ h2 {
 #toolbar {
     position: fixed;
     top: 0;
-    right: 35vw;
+    right: min(40vw, 500px);
     padding: 0 1em;
     background: var(--elem-prim-bg);
     backdrop-filter: blur(5px);
@@ -130,6 +130,7 @@ h2 {
     visibility: hidden;
 }
 
+/* Setting panels */
 #settings {
     visibility: hidden;
     background-color: var(--elem-sec-bg);
@@ -138,6 +139,8 @@ h2 {
 
     width: 100%;
     min-height: 60px;
+    max-height: calc(100vh - 80px);
+    overflow-y: scroll;
     padding: 12px;
     box-sizing: border-box;
 
@@ -158,6 +161,8 @@ h2 {
 
     width: 100%;
     min-height: 60px;
+    max-height: calc(100vh - 80px);
+    overflow-y: scroll;
     padding: 12px;
     box-sizing: border-box;
 
@@ -166,6 +171,18 @@ h2 {
 
     display: flex;
     flex-direction: column;
+    gap: 0.5em;
+}
+
+#savedPresets{
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    gap: 0.5em;
+}
+
+#defaultPresets{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.5em;
 }
 
@@ -268,7 +285,7 @@ hr {
     border: 1px solid var(--elem-sec-border);
     backdrop-filter: blur(12px);
     border-radius: var(--elem-border-radius);
-    padding: min(20px, 2vmin);
+    padding: min(20px, 2vw);
     box-sizing: border-box;
     visibility: hidden;
     display: grid;
@@ -319,7 +336,7 @@ hr {
 
 
 
-/* Keys */
+/* Key graphics related styles */
 .key {
     width: var(--key-size);
     height: var(--key-size);
@@ -427,6 +444,7 @@ hr {
 }
 
 
+
 /* Right click menu */
 #keyOptionDialog {
     display: none;
@@ -484,7 +502,7 @@ hr {
     color: black;
 }
 
-
+/* OTHER STYLES */
 /* Custom switches */
 .switch {
     position: relative;
