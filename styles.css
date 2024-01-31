@@ -31,6 +31,7 @@
 
 body {
     background-color: var(--app-bg);
+    margin: 0;
     color: white;
     font-family: monospace;
     -webkit-user-select: none;
@@ -270,6 +271,15 @@ hr {
     /* IE 10 and IE 11 */
     user-select: none;
     /* Standard syntax */
+}
+
+#keyboardCanvas{
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: -1;
 }
 
 
