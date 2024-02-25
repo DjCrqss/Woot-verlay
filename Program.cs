@@ -287,7 +287,7 @@ namespace Woot_verlay
             {
                 keyMaps keyCode;
                 keyMaps.TryParse(@event.Key.ToString(), out keyCode);
-                //System.Diagnostics.Debug.WriteLine("Input: " + @event.Key.ToString());
+                System.Diagnostics.Debug.WriteLine("Input: " + @event.GetHashCode);
                 if ((int)keyCode > 0)
                 {
                     Console.WriteLine("Output: " + @event.Key.ToString() + " " + (int)keyCode);

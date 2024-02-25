@@ -1,7 +1,5 @@
 const canvas = document.getElementById('keyboardCanvas');
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-const shiftAmount = 10;
+const ctx = canvas.getContext('2d');
 
 
 // constantly redraw the canvas
@@ -17,17 +15,11 @@ ctx.scale(scale, scale);
 // draw the canvas
 function draw() {
     // clear the canvas
-    const originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.putImageData(originalImageData, 0, -shiftAmount);
-    // draw full size rect with slight opacity
-    ctx.fillStyle = "#21212120";
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
 
     // draw rectangle in middle
     ctx.fillStyle = "#FF0000";
-    ctx.fillRect(320, 600, keySize, keySize);
+    ctx.fillRect(keys[keys.length-1].x + 3, keys[keys.length-1].y + 3, keySize, keySize);
 
 }
