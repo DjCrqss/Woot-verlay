@@ -36,44 +36,45 @@ if (localStorage.getItem("colours")) {
         getComputedStyle(document.body).getPropertyValue('--app-bg')
     )
 }
+updateColourPickers();
 
 
+function updateColourPickers() {
+    activeColPicker.value = getComputedStyle(document.body).getPropertyValue('--active');
+    inactiveColPicker.value = getComputedStyle(document.body).getPropertyValue('--inactive');
+    accentPicker.value = getComputedStyle(document.body).getPropertyValue('--prim-color');
+    keyBgColPicker.value = getComputedStyle(document.body).getPropertyValue('--key-color').substring(0, 7);
+    let stringOpacity = getComputedStyle(document.body).getPropertyValue('--key-color').substring(7, 10);
+    keyBgOpacityPicker.value = parseInt(stringOpacity, 16) / 255;
+    backgroundColPicker.value = getComputedStyle(document.body).getPropertyValue('--app-bg');
+    
+}
 // colour listeners
-activeColPicker.value = getComputedStyle(document.body).getPropertyValue('--active');
+
 activeColPicker.addEventListener('input', function () {
     colours[0] = activeColPicker.value;
-    document.documentElement.style.setProperty('--active', activeColPicker.value);
-    console.log(activeColPicker.value);
-    saveColours();
+    updateColours();
 });
 
-inactiveColPicker.value = getComputedStyle(document.body).getPropertyValue('--inactive');
 inactiveColPicker.addEventListener('input', function () {
     colours[1] = inactiveColPicker.value;
-    document.documentElement.style.setProperty('--inactive', inactiveColPicker.value);
-    saveColours();
+    updateColours();
 });
 
-accentPicker.value = getComputedStyle(document.body).getPropertyValue('--prim-color');
 accentPicker.addEventListener('input', function () {
     colours[2] = accentPicker.value;
-    document.documentElement.style.setProperty('--prim-color', accentPicker.value);
-    saveColours();
+    updateColours();
 });
 
-keyBgColPicker.value = getComputedStyle(document.body).getPropertyValue('--key-color').substring(0, 7);
 keyBgColPicker.addEventListener('input', function () {
     var opacity = Math.round(keyBgOpacityPicker.value * 255).toString(16);
     if (opacity.length == 1) {
         opacity = "0" + opacity;
     }
     colours[3] = keyBgColPicker.value + opacity;
-    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value + opacity);
-    saveColours();
+    updateColours();
 });
 
-let stringOpacity = getComputedStyle(document.body).getPropertyValue('--key-color').substring(7, 10);
-keyBgOpacityPicker.value = parseInt(stringOpacity, 16) / 255;
 keyBgOpacityPicker.addEventListener('input', function () {
     // convert 0 to 1 to 00 to ff
     var opacity = Math.round(keyBgOpacityPicker.value * 255).toString(16);
@@ -81,22 +82,23 @@ keyBgOpacityPicker.addEventListener('input', function () {
         opacity = "0" + opacity;
     }
     colours[3] = keyBgColPicker.value + opacity;
-    document.documentElement.style.setProperty('--key-color', keyBgColPicker.value + opacity);
-    saveColours();
+    updateColours();
 });
 
-backgroundColPicker.value = getComputedStyle(document.body).getPropertyValue('--app-bg');
 backgroundColPicker.addEventListener('input', function () {
     colours[4] = backgroundColPicker.value;
-    document.documentElement.style.setProperty('--app-bg', backgroundColPicker.value);
-    saveColours();
+    updateColours();
 });
 
 
 
-
-// save colours to storage
-function saveColours() {
+// save colours to storage and update values
+function updateColours() {
+    document.documentElement.style.setProperty('--active', colours[0]);
+    document.documentElement.style.setProperty('--inactive', colours[1]);
+    document.documentElement.style.setProperty('--prim-color', colours[2]);
+    document.documentElement.style.setProperty('--key-color', colours[3]);
+    document.documentElement.style.setProperty('--app-bg', colours[4]);
     localStorage.setItem("colours", JSON.stringify(colours));
 }
 
@@ -174,6 +176,12 @@ function loadPreset(presetNum) {
     let preset = localStorage.getItem("preset" + presetNum);
     if (preset != null) {
         loadState(preset);
+        if(localStorage.getItem("preset" + presetNum + "Colours") != null) {
+            colours = JSON.parse(localStorage.getItem("preset" + presetNum + "Colours"));
+            updateColours();
+            updateColourPickers();
+        }
+        
     } else {
         alert("No preset saved in this slot!");
     }
@@ -192,8 +200,10 @@ function savePreset(presetNum) {
     } else if (presetName.length > 10) {
         presetName = presetName.substring(0, 16);
     }
+    // set name on screen
     document.getElementById("preset" + presetNum + "Name").innerHTML = presetName;
     localStorage.setItem("preset" + presetNum, localStorage.getItem("keys"));
+    localStorage.setItem("preset" + presetNum + "Colours", JSON.stringify(colours));
     localStorage.setItem("preset" + presetNum + "Name", presetName);
 }
 
