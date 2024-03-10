@@ -10,7 +10,7 @@ Pressure-sensitive display for the analogue values of your Wooting keyboard! Vis
 
 ### Customisation and Presets
 Woot-verlay is made to be extremely customisable. Right-click on keys to rename, change the fill direction or delete them.
-Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize.  Shift click to multi select.
+Drag the keys to shift them around. Grab the green or orange dotted edges of a key to resize.  Shift click to multi-select.
 <br>
 
 Presets are available to save and import. They can be found [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets)
@@ -51,9 +51,10 @@ This uses a browser source.
 - Add a new Browser Source to your scene and label it.
 - Set the URL to `https://djcrqss.github.io/Woot-verlay/index.html`
 - I recommend setting the width to 800 and height to 600 and leaving the next two options unticked.
+- Configure your setup by right-clicking on the overlay/source and clicking 'Interact'.
   
-If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'
-Configure your setup by right-clicking on the overlay and clicking 'Interact'.
+If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'. 
+Note: customisations do not transfer across browsers or from browsers to OBS as they use their own local storage. You can go into presets and copy to clipboard, then paste it into your OBS in the same place.
 <br><br>
 ## Using the LAN connector
 To access the visuals across devices
