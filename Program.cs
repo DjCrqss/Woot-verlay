@@ -252,7 +252,7 @@ namespace Woot_verlay
                     catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
                 }
                 // control refresh speed
-                Thread.Sleep(25);
+                Thread.Sleep(10);
             }
         }
 
