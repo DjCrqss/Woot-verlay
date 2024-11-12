@@ -53,6 +53,8 @@ This uses a browser source.
 - I recommend setting the width to 800 and height to 600 and leaving the next two options unticked.
 - Configure your setup by right-clicking on the overlay/source and clicking 'Interact'.
   
+If you want to setup multiple instances of the overlay with different layouts/settings you can add the `profile` parameter to the URL. `https://djcrqss.github.io/Woot-verlay/index.html?profile=p1` will be different from `https://djcrqss.github.io/Woot-verlay/index.html?profile=p2`. The `?profile=SOME_ID` will determine the profile and you can use any ID you want.
+
 If it doesn't work after some time, open this menu back up and click 'Refresh cache of current page'. 
 Note: customisations do not transfer across browsers or from browsers to OBS as they use their own local storage. You can go into presets and copy to clipboard, then paste it into your OBS in the same place.
 <br><br>
