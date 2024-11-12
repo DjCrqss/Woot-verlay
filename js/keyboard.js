@@ -12,6 +12,9 @@ class Key {
     }
 }
 
+// Get profile from URL
+var urlParams = new URLSearchParams(window.location.search);
+var profile = urlParams.get('profile');
 
 // Store list of keys and environment variables
 var keys = [];
@@ -58,9 +61,10 @@ function buildKey(curKey) {
 // get locally stored key states for usage
 function getState() {
     // localStorage.removeItem("keys");
-    if (localStorage.getItem("keys") != null) { // retrieve locally stored keys
-        var storedKeys = JSON.parse(localStorage.getItem("keys", storedKeys));
-        storedKeys.forEach(element => {
+    if (localStorage.getItem(`keys${profile && `-${profile}`}`) != null) {
+        // retrieve locally stored keys
+        var storedKeys = JSON.parse(localStorage.getItem(`keys${profile && `-${profile}`}`, storedKeys));
+        storedKeys.forEach((element) => {
             keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6]));
         });
 
@@ -120,7 +124,7 @@ function saveState() {
 
     }
     // store updated keys in local storage
-    localStorage.setItem("keys", JSON.stringify(storedKeys));
+    localStorage.setItem(`keys${profile && `-${profile}`}`, JSON.stringify(storedKeys));
     buildOptions();
 }
 

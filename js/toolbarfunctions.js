@@ -1,3 +1,7 @@
+// Get profile from URL
+var urlParams = new URLSearchParams(window.location.search);
+var profile = urlParams.get('profile');
+
 // related to all the differnt menus and their functions in the toolbar
 
 const activeColPicker = document.getElementById('activeColorPicker');
@@ -12,14 +16,14 @@ const transitionCheckbox = document.getElementById('transitionCheckbox');
 
 // COLOURS
 var colours;
-// get colours from storage
-if (localStorage.getItem("colours")) {
+// get colours from storage;
+if (localStorage.getItem(`colours${profile && `-${profile}`}`)) {
     colours = new Array(
-        JSON.parse(localStorage.getItem("colours"))[0],
-        JSON.parse(localStorage.getItem("colours"))[1],
-        JSON.parse(localStorage.getItem("colours"))[2],
-        JSON.parse(localStorage.getItem("colours"))[3],
-        JSON.parse(localStorage.getItem("colours"))[4]
+        JSON.parse(localStorage.getItem(`colours${profile && `-${profile}`}`))[0],
+        JSON.parse(localStorage.getItem(`colours${profile && `-${profile}`}`))[1],
+        JSON.parse(localStorage.getItem(`colours${profile && `-${profile}`}`))[2],
+        JSON.parse(localStorage.getItem(`colours${profile && `-${profile}`}`))[3],
+        JSON.parse(localStorage.getItem(`colours${profile && `-${profile}`}`))[4]
     );
     // set colours on screen
     document.documentElement.style.setProperty('--active', colours[0]);
@@ -99,7 +103,7 @@ function updateColours() {
     document.documentElement.style.setProperty('--prim-color', colours[2]);
     document.documentElement.style.setProperty('--key-color', colours[3]);
     document.documentElement.style.setProperty('--app-bg', colours[4]);
-    localStorage.setItem("colours", JSON.stringify(colours));
+    localStorage.setItem(`colours${profile && `-${profile}`}`, JSON.stringify(colours));
 }
 
 
@@ -139,10 +143,10 @@ inputCheckbox.addEventListener('change', function () {
 
 
 // rounding
-var isRounded = JSON.parse(localStorage.getItem("isRounded")) || false;
+var isRounded = JSON.parse(localStorage.getItem(`isRounded${profile && `-${profile}`}`)) || false;
 document.getElementById("roundingCheckbox").onclick = function () {
     isRounded = this.checked;
-    localStorage.setItem("isRounded", this.checked);
+    localStorage.setItem(`isRounded${profile && `-${profile}`}}`, this.checked);
 };
 document.getElementById("roundingCheckbox").checked = isRounded;
 
@@ -165,7 +169,7 @@ async function pasteFromClipboard() {
 
 // custom presets 
 for (let i = 0; i < 3; i++) {
-    let presetName = localStorage.getItem("preset" + i + "Name");
+    let presetName = localStorage.getItem(`preset${profile && `-${profile}`}` + i + "Name");
     if (presetName != null) {
         document.getElementById("preset" + i + "Name").innerHTML = presetName;
     }
@@ -173,11 +177,11 @@ for (let i = 0; i < 3; i++) {
 
 function loadPreset(presetNum) {
     // load from localstorage
-    let preset = localStorage.getItem("preset" + presetNum);
+    let preset = localStorage.getItem(`preset${profile && `-${profile}`}` + presetNum);
     if (preset != null) {
         loadState(preset);
-        if(localStorage.getItem("preset" + presetNum + "Colours") != null) {
-            colours = JSON.parse(localStorage.getItem("preset" + presetNum + "Colours"));
+        if(localStorage.getItem(`preset${profile && `-${profile}`}` + presetNum + "Colours") != null) {
+            colours = JSON.parse(localStorage.getItem(`preset${profile && `-${profile}`}` + presetNum + "Colours"));
             updateColours();
             updateColourPickers();
         }
@@ -189,7 +193,7 @@ function loadPreset(presetNum) {
 
 function savePreset(presetNum) {
     // save to localstorage
-    if (localStorage.getItem("preset" + presetNum) != null) {
+    if (localStorage.getItem(`preset${profile && `-${profile}`}` + presetNum) != null) {
         if (!confirm("There is already a preset saved in this slot. Do you want to overwrite it?")) {
             return;
         }
@@ -202,9 +206,9 @@ function savePreset(presetNum) {
     }
     // set name on screen
     document.getElementById("preset" + presetNum + "Name").innerHTML = presetName;
-    localStorage.setItem("preset" + presetNum, localStorage.getItem("keys"));
-    localStorage.setItem("preset" + presetNum + "Colours", JSON.stringify(colours));
-    localStorage.setItem("preset" + presetNum + "Name", presetName);
+    localStorage.setItem(`preset${profile && `-${profile}`}` + presetNum, localStorage.getItem(`keys${profile && `-${profile}`}`));
+    localStorage.setItem(`preset${profile && `-${profile}`}` + presetNum + "Colours", JSON.stringify(colours));
+    localStorage.setItem(`preset${profile && `-${profile}`}` + presetNum + "Name", presetName);
 }
 
 // default presets

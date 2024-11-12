@@ -1,3 +1,7 @@
+// Get profile from URL
+var urlParams = new URLSearchParams(window.location.search);
+var profile = urlParams.get('profile');
+
 // convert key ID's to readable names
 const keyPairs = {
     A: 4, B: 5, C: 6, D: 7, E: 8, F: 9, G: 10, H: 11, I: 12, J: 13, K: 14, L: 15, M: 16, N: 17, O: 18, P: 19, Q: 20, R: 21, S: 22, T: 23, U: 24, V: 25, W: 26, X: 27, Y: 28, Z: 29,
@@ -37,5 +41,5 @@ function buildOptions() {
         }
     }
 
-    presetInput.value = localStorage.getItem("keys");
+    presetInput.value = localStorage.getItem(`keys${profile && `-${profile}`}`);
 }
