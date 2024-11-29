@@ -1,4 +1,6 @@
-// related to all the differnt menus and their functions in the toolbar
+// related to all the differnt menus, settings, and their functions in the toolbar
+
+const customProfileCount = 3;
 
 const activeColPicker = document.getElementById('activeColorPicker');
 const inactiveColPicker = document.getElementById('inactiveColorPicker');
@@ -9,11 +11,32 @@ const backgroundColPicker = document.getElementById('backgroundColorPicker');
 const inputCheckbox = document.getElementById('inputCheckbox');
 const transitionCheckbox = document.getElementById('transitionCheckbox');
 
+var urlParams = new URLSearchParams(window.location.search);
+var profile = urlParams.get('profile');
 
 // COLOURS
 var colours;
+
+// check if url points to a valid profile
+var urlProfile = -1;
+if (profile) {
+    // check all the presetXName to see if the profile exists
+    for (let i = 0; i < customProfileCount; i++) {
+        let presetName = localStorage.getItem("preset" + i + "Name");
+        if (presetName == profile) {
+            console.log("Loading profile " + profile);
+            loadPreset(i);
+            break;
+        }
+    }
+}
+
+// if url points to valid profile, load it
+if(urlProfile != -1) {
+    loadPreset(urlProfile);
+}
 // get colours from storage
-if (localStorage.getItem("colours")) {
+else if (localStorage.getItem("colours")) {
     colours = new Array(
         JSON.parse(localStorage.getItem("colours"))[0],
         JSON.parse(localStorage.getItem("colours"))[1],
@@ -106,16 +129,27 @@ function updateColours() {
 
 // CHECKBOXES
 
-// if transition checkbox is checked set transitinos to 0.02 seconds
+// if transition checkbox is checked set transitions to 0.02 seconds
+var instantTransition = JSON.parse(localStorage.getItem("instantTransition")) || false;
+if (instantTransition) {
+    document.documentElement.style.setProperty('--col-transition', '0.01s');
+    document.documentElement.style.setProperty('--transform-transition', '0.01s');
+} else {
+    document.documentElement.style.setProperty('--col-transition', '0.05s');
+    document.documentElement.style.setProperty('--transform-transition', '0.15s');
+}
 transitionCheckbox.addEventListener('change', function () {
+    instantTransition = this.checked;
     if (this.checked) {
-        document.documentElement.style.setProperty('--col-transition', '0.02s');
-        document.documentElement.style.setProperty('--transform-transition', '0.02s');
+        document.documentElement.style.setProperty('--col-transition', '0.01s');
+        document.documentElement.style.setProperty('--transform-transition', '0.01s');
     } else {
         document.documentElement.style.setProperty('--col-transition', '0.05s');
         document.documentElement.style.setProperty('--transform-transition', '0.15s');
     }
+    localStorage.setItem("instantTransition", this.checked);
 });
+transitionCheckbox.checked = instantTransition;
 
 // if input checkbox is checked then replace the color pickers with text inputs
 // document.onkeydown = function(e) {return false;}
@@ -164,7 +198,7 @@ async function pasteFromClipboard() {
 }
 
 // custom presets 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < customProfileCount; i++) {
     let presetName = localStorage.getItem("preset" + i + "Name");
     if (presetName != null) {
         document.getElementById("preset" + i + "Name").innerHTML = presetName;
@@ -176,12 +210,25 @@ function loadPreset(presetNum) {
     let preset = localStorage.getItem("preset" + presetNum);
     if (preset != null) {
         loadState(preset);
+        // load colours
         if(localStorage.getItem("preset" + presetNum + "Colours") != null) {
             colours = JSON.parse(localStorage.getItem("preset" + presetNum + "Colours"));
             updateColours();
             updateColourPickers();
         }
-        
+        // load settings
+        if(localStorage.getItem("preset" + presetNum + "Settings") != null) {
+            let settings = JSON.parse(localStorage.getItem("preset" + presetNum + "Settings"));
+            instantTransition = settings.instantTransition;
+            document.getElementById("transitionCheckbox").checked = instantTransition;
+            transitionCheckbox.dispatchEvent(new Event('change'));
+            isRounded = settings.isRounded;
+            document.getElementById("roundingCheckbox").checked = isRounded;
+            roundingCheckbox.dispatchEvent(new Event('change'));
+            // set current data to localstorage
+            localStorage.setItem("instantTransition", instantTransition);
+            localStorage.setItem("isRounded", isRounded);
+        }
     } else {
         alert("No preset saved in this slot!");
     }
@@ -205,6 +252,10 @@ function savePreset(presetNum) {
     localStorage.setItem("preset" + presetNum, localStorage.getItem("keys"));
     localStorage.setItem("preset" + presetNum + "Colours", JSON.stringify(colours));
     localStorage.setItem("preset" + presetNum + "Name", presetName);
+    localStorage.setItem("preset" + presetNum + "Settings", JSON.stringify({
+        "instantTransition": instantTransition,
+        "isRounded": isRounded
+    }));
 }
 
 // default presets
