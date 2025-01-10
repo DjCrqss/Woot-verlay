@@ -14,9 +14,8 @@ namespace Woot_verlay
         // global variables
         private static bool runSystem = true;
         private static bool runNonwooting = false;
-        private static DialogResult openToLan;
+        private static bool openToLan;
         private static List<TcpClient> activeConnections = new List<TcpClient>();
-
 
         /// <summary>
         ///  The entry point for the application.
@@ -26,32 +25,33 @@ namespace Woot_verlay
         {   
             // initialise application
             ApplicationConfiguration.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            // load WootingAnalogSDK
-            var (noDevices, error) = WootingAnalogSDK.Initialise();
-            // print error if no Wooting devices found
-            if (noDevices < 0)
+            // Check for Wooting compatibility
+            // Load WootingAnalogSDK
+            var (numDevices, error) = WootingAnalogSDK.Initialise();
+
+            // Show configuration window
+            var configForm = new SetupForm(numDevices < 0);
+            if (configForm.ShowDialog() != DialogResult.OK)
             {
-                if (MessageBox.Show("Wooting Analog SDK failed to initialise. \nPlease install Wootility or the SDK manually!\n\nWould you like to continue as a normal input overlay?", "Woot-verlay - no SDK error", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    runNonwooting = true;
-                }
-                else {
-                    System.Environment.Exit(1);
-                }
+                // User closed the window or cancelled
+                Environment.Exit(1);
             }
 
-            // create keyboard hooks and listen for input
-            var keyboardReceiver = new KeyListener();
-            var inputSource = new InputSource(keyboardReceiver);
-            inputSource.Listen();
+            // Get user selections
+            runNonwooting = configForm.UseNonWooting;
+            openToLan = configForm.EnableLanMode;
+            string ip = openToLan ? "0.0.0.0" : "127.0.0.1";
 
-            // ask user if they want to run open to LAN or just this pc
-            openToLan = MessageBox.Show("Do you want to use LAN mode? LAN means that you will be able to view your keypresses on other devices (useful for secondary pc streaming). Pressing NO (Default) will only allow the overlay to work on this device." , "Woot-verlay - Mode Selection", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            string ip = "127.0.0.1";
-            if(openToLan == DialogResult.Yes){
-                ip = "0.0.0.0";
-                MessageBox.Show("Right click Woot-verlay in your system tray see check your local IP address." + " Open Woot-verlay on another device and click the port tab in the toolbar.", "Info", MessageBoxButtons.OK);
+            if (configForm.EnableLanMode)
+            {
+                MessageBox.Show(
+                    "Right click Woot-verlay in your system tray to check your local IP address.\n" +
+                    "Open Woot-verlay on another device and click the port tab in the toolbar.",
+                    "Info",
+                    MessageBoxButtons.OK);
             }
 
             // initialise server
@@ -66,12 +66,15 @@ namespace Woot_verlay
             }
 
             // run client handler and main program loop
+            // create keyboard hooks and listen for input
+            var keyboardReceiver = new KeyListener();
+            var inputSource = new InputSource(keyboardReceiver);
+            inputSource.Listen();
+
             ThreadPool.QueueUserWorkItem(o => handleClients(server));
             ThreadPool.QueueUserWorkItem(o => runLoop(keyboardReceiver));
 
             // start application in the tray
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new WootTrayApp());
         }
 
@@ -317,7 +320,7 @@ namespace Woot_verlay
             {
                 // create menu strip with contents
                 ToolStripMenuItem toolStripIpItem = new ToolStripMenuItem("Running local mode.", null, null, "");
-                if (openToLan == DialogResult.Yes)
+                if (openToLan)
                 {
                     string IP = GetLocalIPAddress();
                     toolStripIpItem = new ToolStripMenuItem("LAN IP: " + IP, null, null, "");
@@ -352,6 +355,13 @@ namespace Woot_verlay
                 Application.Exit();
             }
         }
+
+  
+        //internal class ConfigurationForm : Form
+        //{
+            
+        //}
+
     }
 
 
