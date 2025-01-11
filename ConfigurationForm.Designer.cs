@@ -69,7 +69,7 @@ namespace Woot_verlay
             // wootingKbSelect
             // 
             resources.ApplyResources(wootingKbSelect, "wootingKbSelect");
-            wootingKbSelect.BackColor = Color.Black;
+            wootingKbSelect.BackColor = Color.FromArgb(64, 64, 64);
             wootingKbSelect.BorderRadius = 15;
             wootingKbSelect.Cursor = Cursors.Hand;
             wootingKbSelect.FlatAppearance.BorderSize = 0;
@@ -77,13 +77,13 @@ namespace Woot_verlay
             wootingKbSelect.ForeColor = Color.White;
             wootingKbSelect.Name = "wootingKbSelect";
             toolTip1.SetToolTip(wootingKbSelect, resources.GetString("wootingKbSelect.ToolTip"));
-            wootingKbSelect.UseVisualStyleBackColor = true;
+            wootingKbSelect.UseVisualStyleBackColor = false;
             wootingKbSelect.Click += wootingKbSelect_Click;
             // 
             // genericKbSelect
             // 
             resources.ApplyResources(genericKbSelect, "genericKbSelect");
-            genericKbSelect.BackColor = Color.Gainsboro;
+            genericKbSelect.BackColor = Color.FromArgb(64, 64, 64);
             genericKbSelect.BorderRadius = 15;
             genericKbSelect.Cursor = Cursors.Hand;
             genericKbSelect.FlatAppearance.BorderSize = 0;
