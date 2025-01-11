@@ -8,13 +8,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>woootcon.ico</ApplicationIcon>
+    <ApplicationIcon>desktopicon.ico</ApplicationIcon>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="woootcon.ico" />
+    <Content Include="desktopicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
