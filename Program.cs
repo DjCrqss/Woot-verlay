@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
+using System.Globalization;
 
 
 namespace Woot_verlay
@@ -27,6 +28,7 @@ namespace Woot_verlay
             ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            SetCulture(CultureInfo.CurrentCulture.Name);
 
             // Check for Wooting compatibility
             // Load WootingAnalogSDK
@@ -47,9 +49,7 @@ namespace Woot_verlay
 
             if (configForm.EnableLanMode)
             {
-                MessageBox.Show(
-                    "Right click Woot-verlay in your system tray to check your local IP address.\n" +
-                    "Open Woot-verlay web on another device and click the LAN Connection tab in the toolbar.",
+                MessageBox.Show(Properties.Resources.ConfigForm_LanInfo,
                     "Info",
                     MessageBoxButtons.OK);
             }
@@ -61,7 +61,7 @@ namespace Woot_verlay
                 server.Start();
             }
             catch (Exception) {
-                MessageBox.Show("Uh oh. Woot-verlay server cannot be started. \nPlease close already running Woot-verlays or server apps.", "Woot-verlay - already running error");
+                MessageBox.Show(Properties.Resources.ConfigForm_ServerError, "Woot-verlay - already running error");
                 System.Environment.Exit(1);
             }
 
@@ -259,6 +259,13 @@ namespace Woot_verlay
             }
         }
 
+        /// <summary>
+        /// Allows language swapping through resource files
+        /// </summary>
+        private static void SetCulture(string cultureCode)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode);
+        }
 
         /// <summary>
         /// Class <c>KeyListener</c> listens to key presses and stores active ones
@@ -318,22 +325,23 @@ namespace Woot_verlay
             // constructor
             public WootTrayApp()
             {
-                // create menu strip with contents
-                ToolStripMenuItem toolStripIpItem = new ToolStripMenuItem("Running local mode.", null, null, "");
-                if (openToLan)
-                {
-                    string IP = GetLocalIPAddress();
-                    toolStripIpItem = new ToolStripMenuItem("LAN IP: " + IP, null, null, "");
-                }
-                var strip = new ContextMenuStrip()
-                {
-                    Items =
-                        {
-                            toolStripIpItem,
-                            new ToolStripMenuItem("Stop overlay", null, new EventHandler(Exit), "EXIT")
+                // set language
+                SetCulture(CultureInfo.CurrentCulture.Name);
 
-                        }
-                };
+                // create menu strip with contents
+                string ipMessage = openToLan
+                ? string.Format(Properties.Resources.Tray_LanIP, GetLocalIPAddress())
+                : Properties.Resources.Tray_LocalMode;
+
+                    var strip = new ContextMenuStrip()
+                    {
+                        Items =
+                {
+                    new ToolStripMenuItem(ipMessage, null, null, ""),
+                    new ToolStripMenuItem(Properties.Resources.Tray_StopOverlay, null, new EventHandler(Exit), "EXIT")
+                }
+                    };
+
                 strip.BackColor = Color.FromArgb(255, 20, 21, 24); ;
                 strip.ForeColor = Color.White;
                 strip.RenderMode = ToolStripRenderMode.System;
@@ -355,12 +363,6 @@ namespace Woot_verlay
                 Application.Exit();
             }
         }
-
-  
-        //internal class ConfigurationForm : Form
-        //{
-            
-        //}
 
     }
 
