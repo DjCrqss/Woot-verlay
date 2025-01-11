@@ -49,7 +49,7 @@ namespace Woot_verlay
             {
                 MessageBox.Show(
                     "Right click Woot-verlay in your system tray to check your local IP address.\n" +
-                    "Open Woot-verlay on another device and click the port tab in the toolbar.",
+                    "Open Woot-verlay web on another device and click the LAN Connection tab in the toolbar.",
                     "Info",
                     MessageBoxButtons.OK);
             }

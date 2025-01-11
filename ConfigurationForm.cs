@@ -21,12 +21,29 @@ namespace Woot_verlay
         private Color activeColor = Color.FromArgb(50, 255, 255, 255);
         private Color inactiveColor = Color.FromArgb(100, 70, 70, 70);
 
+
+
         public SetupForm(bool noWootingAccess)
         {
             this.noWootingAccess = noWootingAccess;
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.DoubleBuffered = true; // Reduce flickering
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            var graphicsPath = new GraphicsPath();
+            int cornerRadius = 30; // Adjust the corner radius as needed
+
+            // Define the rounded rectangle
+            graphicsPath.AddArc(0, 0, cornerRadius, cornerRadius, 180, 90);
+            graphicsPath.AddArc(Width - cornerRadius, 0, cornerRadius, cornerRadius, 270, 90);
+            graphicsPath.AddArc(Width - cornerRadius, Height - cornerRadius, cornerRadius, cornerRadius, 0, 90);
+            graphicsPath.AddArc(0, Height - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+            graphicsPath.CloseAllFigures();
+
+            // Apply the rounded region to the form
+            this.Region = new Region(graphicsPath);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,7 +65,8 @@ namespace Woot_verlay
             updateKeyboardStyles();
         }
 
-        private void updateKeyboardStyles() {
+        private void updateKeyboardStyles()
+        {
 
             if (UseNonWooting)
             {
@@ -62,24 +80,16 @@ namespace Woot_verlay
             }
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            e.Graphics.Clear(Color.Transparent);
-        }
 
         // BUTTON INTERACTIONS
         private void startBtn_Click(object sender, EventArgs e)
         {
-            //EnableLanMode = lanCheckBox.Checked;
-            //UseNonWooting = nonWootingRadioButton.Checked;
             this.DialogResult = DialogResult.OK;
             this.Close();
-
         }
         private void lanCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             EnableLanMode = lanCheckbox.Checked;
-
         }
 
         private void wootingKbSelect_Click(object sender, EventArgs e)
@@ -100,11 +110,8 @@ namespace Woot_verlay
             this.Close();
         }
 
-        private void titlebar_Paint(object sender, PaintEventArgs e)
-        {
 
-        }
-
+        // Titlebar Dragging
         private bool _dragging = false;
         private Point _dragCursorPoint;
         private Point _dragFormPoint;
@@ -130,12 +137,15 @@ namespace Woot_verlay
             _dragging = false;
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
 
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 
     public static class WindowUtils

@@ -29,6 +29,8 @@ namespace Woot_verlay
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupForm));
             startbtn = new RoundedButton();
             lanCheckbox = new CheckBox();
             wootingKbSelect = new RoundedButton();
@@ -37,129 +39,109 @@ namespace Woot_verlay
             titlebar = new Panel();
             label1 = new Label();
             label2 = new Label();
+            toolTip1 = new ToolTip(components);
             titlebar.SuspendLayout();
             SuspendLayout();
             // 
             // startbtn
             // 
-            startbtn.BackColor = Color.Gainsboro;
+            resources.ApplyResources(startbtn, "startbtn");
+            startbtn.BackColor = Color.FromArgb(84, 150, 126);
             startbtn.BorderRadius = 45;
             startbtn.Cursor = Cursors.Hand;
-            startbtn.FlatStyle = FlatStyle.Flat;
-            startbtn.ForeColor = SystemColors.ActiveCaptionText;
-            startbtn.Location = new Point(551, 372);
+            startbtn.ForeColor = Color.White;
             startbtn.Name = "startbtn";
-            startbtn.Size = new Size(138, 44);
-            startbtn.TabIndex = 0;
-            startbtn.Text = "Start";
+            toolTip1.SetToolTip(startbtn, resources.GetString("startbtn.ToolTip"));
             startbtn.UseVisualStyleBackColor = false;
             startbtn.Click += startBtn_Click;
             // 
             // lanCheckbox
             // 
-            lanCheckbox.AutoSize = true;
+            resources.ApplyResources(lanCheckbox, "lanCheckbox");
             lanCheckbox.Cursor = Cursors.Hand;
-            lanCheckbox.FlatStyle = FlatStyle.Flat;
-            lanCheckbox.Location = new Point(398, 382);
+            lanCheckbox.FlatAppearance.CheckedBackColor = SystemColors.MenuText;
+            lanCheckbox.ForeColor = Color.White;
             lanCheckbox.Name = "lanCheckbox";
-            lanCheckbox.Size = new Size(126, 24);
-            lanCheckbox.TabIndex = 1;
-            lanCheckbox.Text = "Use LAN Mode";
+            toolTip1.SetToolTip(lanCheckbox, resources.GetString("lanCheckbox.ToolTip"));
             lanCheckbox.UseVisualStyleBackColor = true;
             lanCheckbox.CheckedChanged += lanCheckbox_CheckedChanged;
             // 
             // wootingKbSelect
             // 
+            resources.ApplyResources(wootingKbSelect, "wootingKbSelect");
             wootingKbSelect.BackColor = Color.Black;
             wootingKbSelect.BorderRadius = 15;
             wootingKbSelect.Cursor = Cursors.Hand;
             wootingKbSelect.FlatAppearance.BorderSize = 0;
             wootingKbSelect.FlatAppearance.MouseDownBackColor = Color.FromArgb(50, 50, 50);
-            wootingKbSelect.FlatStyle = FlatStyle.Flat;
             wootingKbSelect.ForeColor = Color.White;
-            wootingKbSelect.Location = new Point(17, 115);
             wootingKbSelect.Name = "wootingKbSelect";
-            wootingKbSelect.Size = new Size(327, 227);
-            wootingKbSelect.TabIndex = 3;
-            wootingKbSelect.Text = "Wooting Keyboard\r\n\r\nHave full analog values displayed per-key.";
+            toolTip1.SetToolTip(wootingKbSelect, resources.GetString("wootingKbSelect.ToolTip"));
             wootingKbSelect.UseVisualStyleBackColor = true;
             wootingKbSelect.Click += wootingKbSelect_Click;
             // 
             // genericKbSelect
             // 
+            resources.ApplyResources(genericKbSelect, "genericKbSelect");
             genericKbSelect.BackColor = Color.Gainsboro;
             genericKbSelect.BorderRadius = 15;
             genericKbSelect.Cursor = Cursors.Hand;
             genericKbSelect.FlatAppearance.BorderSize = 0;
             genericKbSelect.FlatAppearance.MouseDownBackColor = Color.FromArgb(50, 50, 50);
-            genericKbSelect.FlatStyle = FlatStyle.Flat;
             genericKbSelect.ForeColor = Color.White;
-            genericKbSelect.Location = new Point(362, 115);
             genericKbSelect.Name = "genericKbSelect";
-            genericKbSelect.Size = new Size(327, 227);
-            genericKbSelect.TabIndex = 4;
-            genericKbSelect.Text = "Standard or Hall Effect Keyboard\r\n\r\nDisplay calculated values for WASD keys \r\nusing controller input or active status on \r\nnon-hall effect keyboards.";
+            toolTip1.SetToolTip(genericKbSelect, resources.GetString("genericKbSelect.ToolTip"));
             genericKbSelect.UseVisualStyleBackColor = false;
             genericKbSelect.Click += genericKbSelect_Click;
             // 
             // closeBtn
             // 
+            resources.ApplyResources(closeBtn, "closeBtn");
             closeBtn.BackColor = Color.Black;
             closeBtn.Cursor = Cursors.Hand;
             closeBtn.FlatAppearance.BorderSize = 0;
             closeBtn.FlatAppearance.MouseDownBackColor = Color.Transparent;
             closeBtn.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            closeBtn.FlatStyle = FlatStyle.Flat;
             closeBtn.ForeColor = SystemColors.ControlLight;
-            closeBtn.Location = new Point(635, 13);
             closeBtn.Name = "closeBtn";
-            closeBtn.Size = new Size(55, 36);
-            closeBtn.TabIndex = 5;
-            closeBtn.Text = "close";
+            toolTip1.SetToolTip(closeBtn, resources.GetString("closeBtn.ToolTip"));
             closeBtn.UseVisualStyleBackColor = false;
             closeBtn.Click += closeBtn_Click;
             // 
             // titlebar
             // 
+            resources.ApplyResources(titlebar, "titlebar");
             titlebar.BackColor = Color.Transparent;
             titlebar.Controls.Add(label1);
             titlebar.Controls.Add(closeBtn);
-            titlebar.Location = new Point(-1, -1);
             titlebar.Name = "titlebar";
-            titlebar.Size = new Size(707, 55);
-            titlebar.TabIndex = 6;
-            titlebar.Paint += titlebar_Paint;
+            toolTip1.SetToolTip(titlebar, resources.GetString("titlebar.ToolTip"));
             titlebar.MouseDown += TitleBar_MouseDown;
             titlebar.MouseMove += TitleBar_MouseMove;
             titlebar.MouseUp += TitleBar_MouseUp;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(18, 17);
+            resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Size = new Size(188, 28);
-            label1.TabIndex = 7;
-            label1.Text = "Woot-verlay Setup";
+            toolTip1.SetToolTip(label1, resources.GetString("label1.ToolTip"));
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(267, 76);
+            resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
-            label2.Size = new Size(177, 23);
-            label2.TabIndex = 8;
-            label2.Text = "choose keyboard type";
+            toolTip1.SetToolTip(label2, resources.GetString("label2.ToolTip"));
             label2.Click += label2_Click;
+            // 
+            // toolTip1
+            // 
+            toolTip1.Popup += toolTip1_Popup;
             // 
             // SetupForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(706, 433);
             ControlBox = false;
             Controls.Add(label2);
             Controls.Add(genericKbSelect);
@@ -167,13 +149,14 @@ namespace Woot_verlay
             Controls.Add(lanCheckbox);
             Controls.Add(startbtn);
             Controls.Add(titlebar);
+            DoubleBuffered = true;
             ForeColor = SystemColors.ControlLight;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "SetupForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "HE-Overlay Setup";
+            SizeGripStyle = SizeGripStyle.Hide;
+            toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             Load += Form1_Load;
             titlebar.ResumeLayout(false);
             titlebar.PerformLayout();
@@ -189,6 +172,7 @@ namespace Woot_verlay
         private RoundedButton wootingKbSelect;
         private RoundedButton genericKbSelect;
         private RoundedButton startbtn;
+        private ToolTip toolTip1;
     }
 
     public class RoundedButton : Button
