@@ -32,7 +32,8 @@
 body {
     background-color: var(--app-bg);
     color: white;
-    font-family: monospace;
+    /* find monospace sans serif font famil */
+    font-family: Consolas, monospace;
     -webkit-user-select: none;
     /* Safari */
     -ms-user-select: none;
