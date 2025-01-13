@@ -13,7 +13,7 @@
     --app-bg: #181818;
     --elem-prim-bg: #212121b3;
     --elem-prim-border: #353b44;
-    --elem-sec-bg: #212121;
+    --elem-sec-bg: rgba(33, 33, 33, 0.98);
     --elem-sec-border: #555555;
     --elem-tert-bg: #4d4d4d;
 
@@ -45,7 +45,7 @@ body {
 
 /* Universal */
 * {
-    transition: color 0.5s, background-color 0.5s;
+    transition: background-color 0.5s;
     color: var(--fg-color);
 }
 
@@ -151,10 +151,12 @@ h2, h3 {
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    overflow: auto;
 }
 
 #presets,
-#lanSettings {
+#lanSettings, #languages {
     visibility: hidden;
     background-color: var(--elem-sec-bg);
     border: 1px solid var(--elem-sec-border);
@@ -173,6 +175,8 @@ h2, h3 {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+
+    overflow: auto
 }
 
 #savedPresets{
@@ -214,6 +218,7 @@ textarea {
     flex-shrink: 1;
     max-width: 100%;
     min-width: 0;
+    transition: color 0s;
 }
 
 input[type="text"] {
@@ -278,10 +283,10 @@ hr {
 #keyPool {
     /* width: 28vw; */
     width: min(420px, 32vw);
-    height: 90vh;
+    height: 94vh;
     position: fixed;
-    top: 5vmin;
-    right: 5vmin;
+    top: 3vh;
+    right: 3vh;
     background-color: var(--elem-prim-bg);
     border: 1px solid var(--elem-sec-border);
     backdrop-filter: blur(12px);
@@ -367,6 +372,7 @@ hr {
 .label {
     z-index: 0;
     text-shadow: 2px 2px 6px #1312123c;
+    transition: color 0.5s;
 }
 
 /* Pressure progress on keys */

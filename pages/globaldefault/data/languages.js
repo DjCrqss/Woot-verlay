@@ -4,7 +4,6 @@ var english = {
         addkeys: {
             title: "Add Keys",
         },
-
         // customise
         customise: {
             title: "Customise",
@@ -18,7 +17,6 @@ var english = {
             roundprogress: "Rounded Progress",
             instanttransitions: "Instant Transitions",
         },
-
         // presets
         presets: {
             title: "Presets",
@@ -29,26 +27,27 @@ var english = {
             wootinglayouts: "Wooting Layouts",
             communitypresets: "Community Presets",
         },
-
         // lanconnection
         lanconnection: {
             title: "LAN Connection",
             desc: "Connect to an external client.<br>Please connect and wait ~3 seconds.",
             connect: "Connect",
         },
-
         //extra info
         extrainfo: {
             title: "Toggle Info",
             initialhint: "Start typing!",
             acitvekeys: "Active Keys",
         },
-
         // edit right click
         edit: {
             rename: "Rename",
             filldir: "Fill dir.",
             remove: "Remove",
+        },
+        // language
+        language: {
+            title: "Language",
         }
     }
 
@@ -58,6 +57,51 @@ var chinese = {
     menus: {
         addkeys: {
             title: "添加键",
+        },
+         // customise
+         customise: {
+            title: "定制",
+            active: "积极的",
+            inactive: "不活跃",
+            accent: "口音",
+            keybackground: "主要背景",
+            keyopacity: "键不透明度",
+            background: "背景",
+            accessiblitymode: "无障碍模式",
+            roundprogress: "全面进展",
+            instanttransitions: "即时转换",
+        },
+        // presets
+        presets: {
+            title: "预设",
+            save: "保存",
+            loadclipboard: "从剪贴板加载",
+            copytoclipboard: "复制到剪贴板",
+            saved: "保存的布局",
+            wootinglayouts: "Wooting 布局",
+            communitypresets: "社区布局",
+        },
+        // lanconnection
+        lanconnection: {
+            title: "LAN 联系",
+            desc: "连接到外部客户端。<br>请连接并等待约 3 秒",
+            connect: "连接",
+        },
+        //extra info
+        extrainfo: {
+            title: "切换信息",
+            initialhint: "开始打字!",
+            acitvekeys: "活动键",
+        },
+        // edit right click
+        edit: {
+            rename: "重命名",
+            filldir: "填充方向",
+            remove: "消除",
+        },
+        // language
+        language: {
+            title: "改变语言",
         }
     }
 }

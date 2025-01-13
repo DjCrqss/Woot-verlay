@@ -27,7 +27,7 @@
   <!-- popup to add more keys to screen -->
   <section id="keyPool" class="tabmenu">
     <h2 data-i18n="menus.addkeys.title">Add keys</h2>
-    <input type="search" id="keyPoolInput" placeholder="Search" oninput="buildOptions()">
+    <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()">
     <div id="keyPoolOptions"></div>
   </section>
 
@@ -117,6 +117,19 @@
       <button onclick="connectToExternalLan()" data-i18n="menus.lanconnection.connect">Connect</button>
     </div>
 
+    <div id="languages" class="tabmenu">
+      <h2 data-i18n="menus.language.title">Language</h2>
+<!-- 
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="en" data-i18n="menus.language.english">English</option>
+        <option value="de" data-i18n="menus.language.german">Deutsch</option> -->
+         <!-- testing langauge translation  -->
+        <button data-lang="en">English</button>
+        <button data-lang="zh">Chinese (简体字)</button>
+      <!-- </select>  -->
+
+    </div>
+
     <!-- icons -->
     <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle
       <span class="infoField" data-i18n="menus.addkeys.title">Add keys</span></i>
@@ -128,6 +141,8 @@
         class="infoField" data-i18n="menus.lanconnection.title">LAN connection</span></i>
     <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span
         class="infoField" data-i18n="menus.extrainfo.title">Toggle info</span></i>
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('languages')">translate<span
+      class="infoField" data-i18n="menus.language.title">Language</span></i>
   </div>
 
   <!-- Key option dialog -->
@@ -164,10 +179,6 @@
 
     <span class="deleteButton" onclick=removeKey() data-i18n="edit.remove">Remove</span>
   </div>
-
-  <!-- testing langauge translation -->
-  <button data-lang="en">English</button>
-  <button data-lang="zh">Chinese</button>
 </body>
 
 
