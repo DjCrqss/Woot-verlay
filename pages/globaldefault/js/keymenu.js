@@ -2,6 +2,7 @@
 
 const menuDialog = document.getElementById("keyOptionDialog");
 const renameInput = document.getElementById("keyLabel");
+const selectionhint = document.getElementById("selectionhint");
 
 var activeKey; // current key being interacted with for single select and for right click menu positioning
 var selectedKeys = new Set(); // list of keys selected with shift or box select
@@ -21,6 +22,10 @@ function showOptions() {
     if(activeKey != null) {
         renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
     }
+
+    // show hint for selection
+    selectionhint.style.opacity = 1;
+
 }
 
 // update direction of key object
@@ -53,20 +58,22 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// add listener for CTRL + A
-// document.addEventListener("keydown", function (event) {
-//     if (event.ctrlKey && event.key === 'a') {
-//         event.preventDefault();
-//         // select all keys
-//         keyboard.childNodes.forEach(key => {
-//             select(key);
-//         });
-//     }
-// });
+// add listener for CTRL + A when at least one key is already selected
+document.addEventListener("keydown", function (event) {
+    if(activeKey == null) return;
+    if (event.ctrlKey && event.key === 'a') {
+        event.preventDefault();
+        // select all keys
+        keyboard.childNodes.forEach(key => {
+            select(key);
+        });
+    }
+});
 
 
 function hideDialog() {
     menuDialog.style.display = "none";
+    selectionhint.style.opacity = 0;
 }
 
 async function removeKey() {

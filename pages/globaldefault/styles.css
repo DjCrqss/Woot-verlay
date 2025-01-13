@@ -450,6 +450,15 @@ hr {
     height: 100% !important;
 }
 
+#selectionhint{
+    opacity: 0;
+    transition: opacity 0.5s;
+    position: fixed;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
 
 
 /* Right click menu */

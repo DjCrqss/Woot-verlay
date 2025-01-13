@@ -1,0 +1,9 @@
+body {
+    /* make background iamge slightly transparent */
+    background-image: url(./camotexture.png);
+    background-blend-mode: hard-light;
+}
+
+.label{
+    text-transform: uppercase;
+}
