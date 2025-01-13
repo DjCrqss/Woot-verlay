@@ -26,14 +26,14 @@
 
   <!-- popup to add more keys to screen -->
   <section id="keyPool" class="tabmenu">
-    <h2>Add keys</h2>
-    <input type="search" id="keyPoolInput" placeholder="Search" oninput="buildOptions()">
+    <h2 data-i18n="menus.addkeys.title">Add keys</h2>
+    <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()">
     <div id="keyPoolOptions"></div>
   </section>
 
   <!-- optional logging information -->
   <div id="optionalInfo">
-    <h1 id="values">Start pressing!</h1>
+    <h1 id="values" data-i18n="menus.extrainfo.initialhint">Start pressing!</h1>
     <hr>
     <h2 id="output"></h2>
   </div>
@@ -42,24 +42,24 @@
   <div id="toolbar" class="mouseOver">
     <!-- settings popup menu -->
     <div id="settings" class="tabmenu">
-      <h2>Customisation</h2>
+      <h2 data-i18n="menus.customise.title">Customise</h2>
       <section class="flexRows">
-        <div>Active:
+        <div><span data-i18n="menus.customise.active">Active:</span>
           <input type="color" id="activeColorPicker" >
         </div>
-        <div>Inactive:
+        <div><span data-i18n="menus.customise.inactive">Inactive:</span>
           <input type="color" id="inactiveColorPicker">
         </div>
-        <div>Accent:
+        <div><span data-i18n="menus.customise.accent">Accent:</span>
           <input type="color" id="accentColorPicker">
         </div>
-        <div>Key Background:
+        <div><span data-i18n="menus.customise.keybackground">Key Background:</span>
           <input type="color" id="keyBgColorPicker">
         </div>
-        <div>Key Opacity:
+        <div><span data-i18n="menus.customise.keyopacity">Key Opacity:</span>
           <input type="range" step=0.1 min=0 max=1 id="keyBgOpacityPicker">
         </div>
-        <div>Background:
+        <div><span data-i18n="menus.customise.background">Background:</span>
           <input type="color" id="backgroundColorPicker">
         </div>
       </section>
@@ -67,19 +67,19 @@
       <hr>
 
       <section class="flexRows">
-        <div>Accessiblity mode:
+        <div><span data-i18n="menus.customise.accessiblitymode">Accessiblity mode:</span>
           <label class="switch">
             <input type="checkbox" id="inputCheckbox">
             <span class="slider round"></span>
           </label>
         </div>
-        <div>Round progress:
+        <div><span data-i18n="menus.customise.roundprogress">Round progress:</span>
           <label class="switch">
             <input type="checkbox" id="roundingCheckbox">
             <span class="slider round"></span>
           </label>
         </div>
-        <div>Instant transitions:
+        <div><span data-i18n="menus.customise.instanttransitions">Instant transitions:</span>
           <label class="switch">
             <input type="checkbox" id="transitionCheckbox">
             <span class="slider round"></span>
@@ -90,53 +90,61 @@
     </div>
 
     <div id="presets" class="tabmenu">
-      <h2>Presets</h2>
+      <h2 data-i18n="menus.presets.title">Presets</h2>
       <textarea id="presetInput" placeholder="Paste preset here"></textarea>
-      <button onclick="loadState()">Save</button>
-      <button onclick="copyToClipboard()">Copy to clipboard</button>
-      <button onclick="pasteFromClipboard()">Load from clipboard</button>
+      <button onclick="loadState()" data-i18n="menus.presets.save">Save</button>
+      <button onclick="copyToClipboard()" data-i18n="menus.presets.copytoclipboard">Copy to clipboard</button>
+      <button onclick="pasteFromClipboard()" data-i18n="menus.presets.loadclipboard">Load from clipboard</button>
       <hr>
-      <h3>Saved</h3>
+      <h3 data-i18n="menus.presets.saved">Saved</h3>
       <div id="savedPresets">
         <button onclick="loadPreset(0)" id="preset0Name">Empty</button> <button onclick="savePreset(0)">💾</button>
         <button onclick="loadPreset(1)" id="preset1Name">Empty</button> <button onclick="savePreset(1)">💾</button>
         <button onclick="loadPreset(2)" id="preset2Name">Empty</button> <button onclick="savePreset(2)">💾</button>
       </div>
       <hr>
-      <h3>Wooting layouts</h3>
+      <h3 data-i18n="menus.presets.wootinglayouts">Wooting layouts</h3>
       <div id="defaultPresets">
 
       </div>
-      <a href="https://github.com/DjCrqss/Woot-verlay/wiki/Presets" target="_blank">Community presets</a>
+      <a href="https://github.com/DjCrqss/Woot-verlay/wiki/Presets" target="_blank" data-i18n="menus.presets.communitypresets">Community presets</a>
     </div>
 
     <div id="lanSettings" class="tabmenu">
-      <h2>Lan Connection</h2>
-      <p>Connect to external client.<br>Press connect and wait ~3 seconds.</p>
+      <h2 data-i18n="menus.lanconnection.title">Lan Connection</h2>
+      <p data-i18n="menus.lanconnection.desc">Connect to external client.<br>Press connect and wait ~3 seconds.</p>
       <input type="text" id="lanInput" placeholder="192.168.x.x">
-      <button onclick="connectToExternalLan()">Connect</button>
+      <button onclick="connectToExternalLan()" data-i18n="menus.lanconnection.connect">Connect</button>
+    </div>
+
+    <div id="languages" class="tabmenu">
+      <h2 data-i18n="menus.language.title">Language</h2>
+        <button data-lang="en">English</button>
+        <button data-lang="zh">Chinese (简体字)</button>
     </div>
 
     <!-- icons -->
-    <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle<span class="infoField">Add
-        keys</span></i>
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('keyPool')">add_circle
+      <span class="infoField" data-i18n="menus.addkeys.title">Add keys</span></i>
     <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span
-        class="infoField">Customise</span></i>
+        class="infoField" data-i18n="menus.customise.title">Customise</span></i>
     <i class="material-symbols-outlined" onclick="toggleVisiblity('presets')">bookmarks<span
-        class="infoField">Presets</span></i>
+        class="infoField" data-i18n="menus.presets.title">Presets</span></i>
     <i class="material-symbols-outlined" onclick="toggleVisiblity('lanSettings')">magic_tether<span
-        class="infoField">LAN connection</span></i>
+        class="infoField" data-i18n="menus.lanconnection.title">LAN connection</span></i>
     <i class="material-symbols-outlined" onclick="toggleVisiblity('optionalInfo')">visibility<span
-        class="infoField">Toggle info</span></i>
+        class="infoField" data-i18n="menus.extrainfo.title">Toggle info</span></i>
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('languages')">translate<span
+      class="infoField" data-i18n="menus.language.title">Language</span></i>
   </div>
 
   <!-- Key option dialog -->
   <div id="keyOptionDialog">
-    <span>Rename:
+    <span data-i18n="edit.rename">Rename:
       <input type="text" id="keyLabel" placeholder="New name" style="width: 100%"
         onkeydown="if(event.keyCode === 13) updateKeyLabel(this)">
     </span>
-    <span>Fill dir.
+    <span data-i18n="edit.filldir">Fill dir.
       <table class="directions">
         <tr>
           <td id="topLeft" onclick=updateKeySettings(this.id)>🡦</td>
@@ -162,7 +170,7 @@
       </table>
     </span>
 
-    <span class="deleteButton" onclick=removeKey()>Remove</span>
+    <span class="deleteButton" onclick=removeKey() data-i18n="edit.remove">Remove</span>
   </div>
 </body>
 
@@ -185,5 +193,9 @@
 
 <!-- toolbar settings related scripts -->
 <script type="text/javascript" src="pages/globaldefault/js/toolbarfunctions.js"></script>
+
+<!-- translations -->
+<script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
+<script type="text/javascript" src="pages/globaldefault/data/languages.js" defer></script>
 
 </html>
