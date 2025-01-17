@@ -6,6 +6,10 @@ using WootingAnalogSDKNET;
 using NeatInput.Windows;
 using NeatInput.Windows.Events;
 using System.Globalization;
+using SharpDX.XInput;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 
 
 namespace Woot_verlay
@@ -146,7 +150,7 @@ namespace Woot_verlay
         {
             while (runSystem)
             {
-                // listen for a new connection
+                // wait and listen for a new connection
                 TcpClient client = server.AcceptTcpClient();
                 NetworkStream stream = client.GetStream();
                 bool hasHandshaked = false;
@@ -187,17 +191,27 @@ namespace Woot_verlay
         /// Main program loop that reads Wooting SDK input and sends info to clients
         /// </summary>
         private static void runLoop(KeyListener keyboardReceiver) {
+            // wooting setup
+            List<TcpClient> disconnected = new List<TcpClient>();
+
+            // non wooting setup
+            var controller = new Controller(UserIndex.One);
+            HashSet<int> controllerKeys = new HashSet<int>();
+            StringBuilder contentBuilder = new StringBuilder();
+
             // run SDK loop for continuous update stream
             bool shownEmpty = false;
             while (runSystem)
             {
                 // remove inactive clients
-                List<TcpClient> disconnected = activeConnections.FindAll(curClient => !curClient.Connected);
+                disconnected = activeConnections.FindAll(curClient => !curClient.Connected);
                 if (disconnected.Count > 0)
                 {
                     Console.WriteLine(disconnected.Count + " client/s disconnected. " + activeConnections.Count + " connections remaining.\n");
                     disconnected.ForEach(client => activeConnections.Remove(client));
                 }
+                
+                contentBuilder.Clear();
 
                 if (!runNonwooting)
                 {
@@ -210,14 +224,13 @@ namespace Woot_verlay
                         {
                             if (keys.Count > 0)
                             {
-                                String content = "";
                                 foreach (var analog in keys)
                                 {
                                     var pressed = keyboardReceiver.activeKeys.Contains(analog.Item1) ? 1 : 0;
-                                    content += "(" + analog.Item1 + ":" + analog.Item2 + ":" + pressed + ")";
+                                    contentBuilder.Append($"({analog.Item1}:{analog.Item2}:{pressed})");
                                 }
                                 // message info to client for display
-                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), content));
+                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), contentBuilder.ToString()));
                                 shownEmpty = false;
                             }
                             else if (!shownEmpty)
@@ -237,27 +250,75 @@ namespace Woot_verlay
                    
                 }
                 else {
+                    // default and generic HE keyboards
                     try
                     {
-                        String content = "";
+                        if (controller.IsConnected) {
+                            var state = controller.GetState();
+                            // Get the joystick positions
+                            var leftThumbX = state.Gamepad.LeftThumbX / 32767.0f; // Normalise to -1.0 to 1.0
+                            var leftThumbY = state.Gamepad.LeftThumbY / 32767.0f;
+                            var rightThumbX = state.Gamepad.RightThumbX / 32767.0f;
+                            var rightThumbY = state.Gamepad.RightThumbY / 32767.0f;
+
+                            UpdateJoystickAxis(leftThumbX, KeyListener.keyMaps.A, KeyListener.keyMaps.D, controllerKeys, contentBuilder);
+                            UpdateJoystickAxis(leftThumbY, KeyListener.keyMaps.S, KeyListener.keyMaps.W, controllerKeys, contentBuilder);
+                            UpdateJoystickAxis(rightThumbX, KeyListener.keyMaps.Left, KeyListener.keyMaps.Right, controllerKeys, contentBuilder);
+                            UpdateJoystickAxis(rightThumbY, KeyListener.keyMaps.Down, KeyListener.keyMaps.Up, controllerKeys, contentBuilder);
+                        }
                         foreach (var key in keyboardReceiver.activeKeys) {
-                            content += "(" + key + ":1:1)";
+                            if(controllerKeys.Contains(key)) continue;
+                            contentBuilder.Append($"({key}:1:1)");
                         }
                         foreach (var key in keyboardReceiver.inActiveKeys)
                         {
-                            content += "(" + key + ":0:0)";
+                            contentBuilder.Append($"({key}:0:0)");
                         }
                         keyboardReceiver.inActiveKeys.Clear();
                         // message info to client for display
-                        activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), content));
+                        activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), contentBuilder.ToString()));
                         shownEmpty = false;
                     }
-                    catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
+                    catch (Exception) { Console.WriteLine("Error reading keyboard"); }
                 }
                 // control refresh speed
                 Thread.Sleep(10);
             }
         }
+
+        /// <summary>
+        /// Converts joystick axis values to key presses for a pair of keys
+        /// </summary>
+        static void UpdateJoystickAxis(float axisValue, KeyListener.keyMaps negativeKey, KeyListener.keyMaps positiveKey, HashSet<int> controllerKeys, StringBuilder contentBuilder)
+        {
+            if (axisValue < 0)
+            {
+                controllerKeys.Add((int)negativeKey);
+                contentBuilder.Append($"({(int)negativeKey}:{-axisValue}:1)");
+                contentBuilder.Append($"({(int)positiveKey}:0:0)");
+                controllerKeys.Remove((int)positiveKey);
+            }
+            else if (axisValue > 0)
+            {
+                controllerKeys.Add((int)positiveKey);
+                contentBuilder.Append($"({(int)positiveKey}:{axisValue}:1)");
+                contentBuilder.Append($"({(int)negativeKey}:0:0)");
+                controllerKeys.Remove((int)negativeKey);
+            }
+            else {
+                if (controllerKeys.Contains((int)positiveKey)){
+                    contentBuilder.Append($"({(int)positiveKey}:0:0)");
+                    controllerKeys.Remove((int)positiveKey);
+                }
+                if (controllerKeys.Contains((int)negativeKey))
+                {
+                    contentBuilder.Append($"({(int)negativeKey}:0:0)");
+                    controllerKeys.Remove((int)negativeKey);
+                };
+            }
+        }
+
+
 
         /// <summary>
         /// Allows language swapping through resource files
@@ -273,7 +334,7 @@ namespace Woot_verlay
         internal class KeyListener : IKeyboardEventReceiver
         {
             // convert key events to Wooting key numbers
-            enum keyMaps
+            public enum keyMaps
             {
                 A = 4, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, // Z = 29
                 D1, D2, D3, D4, D5, D6, D7, D8, D9, D0, // 0 key is 39
