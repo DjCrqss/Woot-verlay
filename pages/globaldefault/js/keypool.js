@@ -37,5 +37,17 @@ function buildOptions() {
         }
     }
 
-    presetInput.value = localStorage.getItem("keys");
+    // update copy to clipboard preset input 
+    let savedLayout = JSON.parse(localStorage.getItem("keys"));
+    let savedColours = JSON.parse(localStorage.getItem("colours"));
+    let savedSettings = {
+        "instantTransition": JSON.parse(localStorage.getItem("instantTransition")),
+        "isRounded":  JSON.parse(localStorage.getItem("isRounded")),
+    }
+
+    presetInput.value = JSON.stringify({
+        "layout": savedLayout,
+        "colours": savedColours,
+        "settings": savedSettings
+    });
 }

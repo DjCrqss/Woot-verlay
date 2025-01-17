@@ -78,13 +78,28 @@ function getState() {
 }
 
 // loads  an imported set of key JSON from the presetInput
-function loadState(optionalData) {
+function loadState(optionalData, optionalColours, optionalSettings) {
     try{
+        // loads json data from preset(optionaldata) otherwise from the clipboard field. 
         var data = optionalData ? JSON.parse(optionalData) : JSON.parse(presetInput.value);
+        var colours = optionalColours ? optionalColours : null;
+        var settings = optionalSettings ? optionalSettings : null;
     } catch (e) {
         alert("Invalid keyboard layout!");
         return;
     }
+
+    // check if data is json object containing settings
+    if (data.constructor === Object) {
+        if(!data.layout) {
+            alert("Invalid keyboard layout!");
+            return;
+        }
+        colours = data.colours || colours;
+        settings = data.settings || settings;
+        data = data.layout;
+    }
+
     keys = [];
     data.forEach(element => {
         keys.push(new Key(element[0], element[1], element[2], element[3], element[4], element[5], element[6]));
@@ -92,6 +107,16 @@ function loadState(optionalData) {
     // clear existing keys off screen by deleting all children of keyboard
     while (keyboard.firstChild) {
         keyboard.removeChild(keyboard.firstChild);
+    }
+
+    // update colours
+    if(colours){
+        updateColours(colours);
+    }
+
+    // update settings
+    if(settings){
+        loadSettings(settings);
     }
 
     buildOptions();

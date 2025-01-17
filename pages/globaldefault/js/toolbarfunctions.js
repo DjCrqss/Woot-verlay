@@ -1,5 +1,4 @@
 // related to all the differnt menus, settings, and their functions in the toolbar
-
 const customProfileCount = 3;
 
 const activeColPicker = document.getElementById('activeColorPicker');
@@ -8,11 +7,11 @@ const accentPicker = document.getElementById('accentColorPicker');
 const keyBgColPicker = document.getElementById('keyBgColorPicker');
 const keyBgOpacityPicker = document.getElementById('keyBgOpacityPicker');
 const backgroundColPicker = document.getElementById('backgroundColorPicker');
-const inputCheckbox = document.getElementById('inputCheckbox');
+const inputCheckbox = document.getElementById('inputCheckbox'); /* accessiblity mode */
 const transitionCheckbox = document.getElementById('transitionCheckbox');
 
 var urlParams = new URLSearchParams(window.location.search);
-var profile = urlParams.get('profile');
+var profile = urlParams.get('profile') || urlParams.get('p') || urlParams.get('preset');
 
 // COLOURS
 var colours;
@@ -23,8 +22,7 @@ if (profile) {
     // check all the presetXName to see if the profile exists
     for (let i = 0; i < customProfileCount; i++) {
         let presetName = localStorage.getItem("preset" + i + "Name");
-        if (presetName == profile) {
-            console.log("Loading profile " + profile);
+        if (presetName.toLowerCase().replace(/\s+/g, '') == profile.toLowerCase().replace(/\s+/g, '')) {
             loadPreset(i);
             break;
         }
@@ -72,8 +70,8 @@ function updateColourPickers() {
     backgroundColPicker.value = getComputedStyle(document.body).getPropertyValue('--app-bg');
     
 }
-// colour listeners
 
+// colour listeners
 activeColPicker.addEventListener('input', function () {
     colours[0] = activeColPicker.value;
     updateColours();
@@ -113,22 +111,23 @@ backgroundColPicker.addEventListener('input', function () {
     updateColours();
 });
 
-
-
 // save colours to storage and update values
-function updateColours() {
+function updateColours(optionalColours) {
+    if(optionalColours){
+        colours = optionalColours;
+    }
     document.documentElement.style.setProperty('--active', colours[0]);
     document.documentElement.style.setProperty('--inactive', colours[1]);
     document.documentElement.style.setProperty('--prim-color', colours[2]);
     document.documentElement.style.setProperty('--key-color', colours[3]);
     document.documentElement.style.setProperty('--app-bg', colours[4]);
     localStorage.setItem("colours", JSON.stringify(colours));
+    if(optionalColours){
+        updateColourPickers();
+    }
 }
 
-
-
 // CHECKBOXES
-
 // if transition checkbox is checked set transitions to 0.02 seconds
 var instantTransition = JSON.parse(localStorage.getItem("instantTransition")) || false;
 if (instantTransition) {
@@ -171,7 +170,6 @@ inputCheckbox.addEventListener('change', function () {
     }
 });
 
-
 // rounding
 var isRounded = JSON.parse(localStorage.getItem("isRounded")) || false;
 document.getElementById("roundingCheckbox").onclick = function () {
@@ -187,6 +185,7 @@ function copyToClipboard() {
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
+    copyText.blur();
 }
 
 async function pasteFromClipboard() {
@@ -195,6 +194,7 @@ async function pasteFromClipboard() {
     const text = await navigator.clipboard.readText();
     pasteText.value = text;
     loadState();
+    pasteText.blur();
 }
 
 // custom presets 
@@ -209,29 +209,31 @@ function loadPreset(presetNum) {
     // load from localstorage
     let preset = localStorage.getItem("preset" + presetNum);
     if (preset != null) {
-        loadState(preset);
         // load colours
         if(localStorage.getItem("preset" + presetNum + "Colours") != null) {
-            colours = JSON.parse(localStorage.getItem("preset" + presetNum + "Colours"));
-            updateColours();
-            updateColourPickers();
+            var storedColours = JSON.parse(localStorage.getItem("preset" + presetNum + "Colours"));
         }
         // load settings
         if(localStorage.getItem("preset" + presetNum + "Settings") != null) {
-            let settings = JSON.parse(localStorage.getItem("preset" + presetNum + "Settings"));
-            instantTransition = settings.instantTransition;
-            document.getElementById("transitionCheckbox").checked = instantTransition;
-            transitionCheckbox.dispatchEvent(new Event('change'));
-            isRounded = settings.isRounded;
-            document.getElementById("roundingCheckbox").checked = isRounded;
-            roundingCheckbox.dispatchEvent(new Event('change'));
-            // set current data to localstorage
-            localStorage.setItem("instantTransition", instantTransition);
-            localStorage.setItem("isRounded", isRounded);
+            var storedSettings = JSON.parse(localStorage.getItem("preset" + presetNum + "Settings"));
         }
+        loadState(preset, storedColours, storedSettings);
     } else {
         alert("No preset saved in this slot!");
     }
+}
+
+function loadSettings(settings) {
+    // Check if properties exist and fallback to defaults only if undefined
+    instantTransition = "instantTransition" in settings ? settings.instantTransition : false;
+    document.getElementById("transitionCheckbox").checked = instantTransition;
+
+    isRounded = "isRounded" in settings ? settings.isRounded : false;
+    document.getElementById("roundingCheckbox").checked = isRounded;
+
+    // Synchronise with localStorage
+    localStorage.setItem("instantTransition", instantTransition);
+    localStorage.setItem("isRounded", isRounded);
 }
 
 function savePreset(presetNum) {
@@ -241,10 +243,28 @@ function savePreset(presetNum) {
             return;
         }
     }
+    
     let presetName = prompt("Please enter a preset name:");
+
+    let presetExists = false;
+    for (let i = 0; i < customProfileCount; i++) {
+        // Skip the current preset (for overwriting)
+        if (i === presetNum) continue;
+        if (presetName.toLowerCase().replace(/\s+/g, '') === localStorage.getItem("preset" + i + "Name").toLowerCase().replace(/\s+/g, '')) {
+            console.log("Preset name already exists!" + presetName);
+            presetExists = true;
+            break;
+        }
+    }
+
     if (presetName == null) {
         return;
-    } else if (presetName.length > 10) {
+    } else if (presetExists) {
+        alert("Preset name already exists!");
+        return;
+    }
+    
+    else if (presetName.length > 10) {
         presetName = presetName.substring(0, 16);
     }
     // set name on screen
@@ -262,7 +282,6 @@ function savePreset(presetNum) {
 // data taken from ../data/wootingLayouts.js
 var defaultPresetsContainer = document.getElementById("defaultPresets");
 defaultPresetsData.forEach(element => {
-    // create template  <button onclick="loadPreset(0)" id="preset0Name">Empty</button>
     let preset = document.createElement("button");
     preset.innerHTML = element.id;
     preset.onclick = function () {
