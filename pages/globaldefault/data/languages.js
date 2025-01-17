@@ -39,17 +39,18 @@ var english = {
             initialhint: "Start typing!",
             acitvekeys: "Active Keys",
         },
-        // edit right click
-        edit: {
-            rename: "Rename",
-            filldir: "Fill dir.",
-            remove: "Remove",
-        },
         // language
         language: {
             title: "Language",
         }
-    }
+    },
+    // edit right click
+    edit: {
+        rename: "Rename",
+        filldir: "Fill dir.",
+        remove: "Remove",
+        selectionhint: "[Shift click] to select multiple keys.&emsp;&emsp;|&emsp;&emsp;[CTRL + A] to select all keys."
+    },
 
 }
 
@@ -93,17 +94,18 @@ var chinese = {
             initialhint: "开始打字!",
             acitvekeys: "活动键",
         },
-        // edit right click
-        edit: {
-            rename: "重命名",
-            filldir: "填充方向",
-            remove: "消除",
-        },
         // language
         language: {
             title: "改变语言",
         }
-    }
+    },
+    // edit right click
+    edit: {
+        rename: "重命名",
+        filldir: "填充方向",
+        remove: "消除",
+        selectionhint: "[Shift 单击] 选择多个键。&emsp;&emsp;|&emsp;&emsp;[CTRL + A] 选择所有键。"
+    },
 }
 
 var translator = new Translator({

@@ -138,15 +138,15 @@
       class="infoField" data-i18n="menus.language.title">Language</span></i>
   </div>
 
-  <span id="selectionhint" data-i18n="edit.selectionhint">[Shift click] to select multiple leys.&emsp;&emsp;|&emsp;&emsp;[CTRL + A] to select all keys.</span>
+  <span id="selectionhint" data-i18n="edit.selectionhint">[Shift click] to select multiple keys.&emsp;&emsp;|&emsp;&emsp;[CTRL + A] to select all keys.</span>
 
   <!-- Key option dialog -->
   <div id="keyOptionDialog">
-    <span data-i18n="edit.rename">Rename:
+    <div><span data-i18n="edit.rename">Rename:</span>
       <input type="text" id="keyLabel" placeholder="New name" style="width: 100%"
         onkeydown="if(event.keyCode === 13) updateKeyLabel(this)">
-    </span>
-    <span data-i18n="edit.filldir">Fill dir.
+    </div>
+    <div><span data-i18n="edit.filldir">Fill dir.</span>
       <table class="directions">
         <tr>
           <td id="topLeft" onclick=updateKeySettings(this.id)>🡦</td>
@@ -170,7 +170,7 @@
           <td id="horizontal" onclick=updateKeySettings(this.id)>⥍</td>
         </tr>
       </table>
-    </span>
+    </div>
 
     <span class="deleteButton" onclick=removeKey() data-i18n="edit.remove">Remove</span>
   </div>
