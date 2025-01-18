@@ -8,8 +8,6 @@ using NeatInput.Windows.Events;
 using System.Globalization;
 using SharpDX.XInput;
 using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-using System.Collections.Generic;
 
 
 namespace Woot_verlay
@@ -86,8 +84,10 @@ namespace Woot_verlay
         /// <summary>
         /// Sends a correctly structured message to a JavaSript websocket
         /// </summary>
-        private static void sendMessage(NetworkStream stream, string inputText)
+        private static bool sendMessage(TcpClient client, string inputText)
         {
+            if(!client.Connected) return false;
+            NetworkStream stream = client.GetStream();
 
             byte[] sendBytes = Encoding.UTF8.GetBytes(inputText);
             byte lengthHeader = 0;
@@ -126,7 +126,11 @@ namespace Woot_verlay
             responseArray.AddRange(lengthCount);
             responseArray.AddRange(sendBytes);
 
-            stream.Write(responseArray.ToArray(), 0, responseArray.Count);
+            try {
+                stream.Write(responseArray.ToArray(), 0, responseArray.Count);
+            } catch (Exception) { return false; };
+            
+            return true;
         }
 
 
@@ -181,6 +185,7 @@ namespace Woot_verlay
                         stream.Write(response, 0, response.Length);
                         hasHandshaked = true;
                         activeConnections.Add(client);
+                        Debug.WriteLine("Client connected, there are now " + activeConnections.Count() + " connection/s.");
                     }
                 }
             }
@@ -198,24 +203,26 @@ namespace Woot_verlay
             var controller = new Controller(UserIndex.One);
             HashSet<int> controllerKeys = new HashSet<int>();
             StringBuilder contentBuilder = new StringBuilder();
+            if (runNonwooting) Debug.WriteLine("Running non-wooting. Gamepad detected: " + controller.IsConnected);
 
             // run SDK loop for continuous update stream
             bool shownEmpty = false;
             while (runSystem)
             {
                 // remove inactive clients
-                disconnected = activeConnections.FindAll(curClient => !curClient.Connected);
+                //disconnected = activeConnections.FindAll(curClient => !curClient.Connected);
                 if (disconnected.Count > 0)
                 {
-                    Console.WriteLine(disconnected.Count + " client/s disconnected. " + activeConnections.Count + " connections remaining.\n");
                     disconnected.ForEach(client => activeConnections.Remove(client));
+                    Debug.WriteLine(disconnected.Count + " client/s disconnected. " + activeConnections.Count + " connections remaining.\n");
                 }
+                disconnected.Clear();
                 
                 contentBuilder.Clear();
 
                 if (!runNonwooting)
                 {
-                    // read analogue buffer and start sending keys
+                    // read analog buffer and start sending keys
                     var (keys, readErr) = WootingAnalogSDK.ReadFullBuffer(20);
                     if (readErr == WootingAnalogResult.Ok)
                     {
@@ -230,17 +237,10 @@ namespace Woot_verlay
                                     contentBuilder.Append($"({analog.Item1}:{analog.Item2}:{pressed})");
                                 }
                                 // message info to client for display
-                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), contentBuilder.ToString()));
                                 shownEmpty = false;
                             }
-                            else if (!shownEmpty)
-                            {
-                                // allow a single empty line after all keys are released
-                                activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), ""));
-                                shownEmpty = true;
-                            }
                         }
-                        catch (Exception) { Console.WriteLine("Client unavailable - removing next loop."); }
+                        catch (Exception) { Debug.WriteLine("Client unavailable - removing next loop."); }
                     }
                     else
                     {
@@ -276,11 +276,24 @@ namespace Woot_verlay
                         }
                         keyboardReceiver.inActiveKeys.Clear();
                         // message info to client for display
-                        activeConnections.ForEach(curClient => sendMessage(curClient.GetStream(), contentBuilder.ToString()));
-                        shownEmpty = false;
+                        if(contentBuilder.Length > 0) shownEmpty = false;
                     }
-                    catch (Exception) { Console.WriteLine("Error reading keyboard"); }
+                    catch (Exception) { Debug.WriteLine("Client unavailable - removing next loop."); }
                 }
+
+                // send data to clients
+                if (contentBuilder.Length > 0 || !shownEmpty)
+                {
+                    activeConnections.ForEach(curClient =>
+                    {
+                        if (!sendMessage(curClient, contentBuilder.ToString()))
+                        {
+                            disconnected.Add(curClient);
+                        }
+                    });
+                    if (contentBuilder.Length == 0) shownEmpty = true;
+                }
+  
                 // control refresh speed
                 Thread.Sleep(10);
             }
@@ -361,7 +374,7 @@ namespace Woot_verlay
                 //System.Diagnostics.Debug.WriteLine("Input: " + @event.Key.ToString());
                 if ((int)keyCode > 0)
                 {
-                    Console.WriteLine("Output: " + @event.Key.ToString() + " " + (int)keyCode);
+                    //Debug.WriteLine("Output: " + @event.Key.ToString() + " " + (int)keyCode);
                     if (@event.State == NeatInput.Windows.Processing.Keyboard.Enums.KeyStates.Up && activeKeys.Contains((int)keyCode))
                     { // remove key on upstroke
                         activeKeys.Remove((int)keyCode);
@@ -403,7 +416,7 @@ namespace Woot_verlay
                 }
                     };
 
-                strip.BackColor = Color.FromArgb(255, 20, 21, 24); ;
+                strip.BackColor = Color.FromArgb(255, 20, 21, 24);
                 strip.ForeColor = Color.White;
                 strip.RenderMode = ToolStripRenderMode.System;
 
