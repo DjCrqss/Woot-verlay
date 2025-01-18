@@ -29,6 +29,7 @@ namespace Woot_verlay
             // initialise application
             ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.DpiUnaware);
             Application.SetCompatibleTextRenderingDefault(false);
             SetCulture(CultureInfo.CurrentCulture.Name);
 
