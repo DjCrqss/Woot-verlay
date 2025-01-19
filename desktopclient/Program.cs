@@ -352,7 +352,7 @@ namespace Woot_verlay
             {
                 A = 4, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, // Z = 29
                 D1, D2, D3, D4, D5, D6, D7, D8, D9, D0, // 0 key is 39
-                Return, Escape, Back, Tab, Space, OemMinus, OemPlus, OemOpenBrackets, OemCloseBrackets, Oem5, // 50 = non-US-1
+                Return, Escape, Back, Tab, Space, OemMinus, OemPlus, Oemplus = 46, OemOpenBrackets, OemCloseBrackets, Oem6 = 48, Oem5, // 50 = non-US-1. 48 (OemCloseBrackets) swapped for oem6
                 Oem1 = 51, Oem7, Oemtilde, Oemcomma, OemPeriod, OemQuestion, Capital,
                 F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
                 PrintScreen, Scroll, MediaPlayPause = 72, Pause = 72, Insert, Home, PageUp, Delete, End, PageDown,
@@ -372,7 +372,7 @@ namespace Woot_verlay
             {
                 keyMaps keyCode;
                 keyMaps.TryParse(@event.Key.ToString(), out keyCode);
-                //System.Diagnostics.Debug.WriteLine("Input: " + @event.Key.ToString());
+                //Debug.WriteLine("Input: " + @event.Key.ToString());
                 if ((int)keyCode > 0)
                 {
                     //Debug.WriteLine("Output: " + @event.Key.ToString() + " " + (int)keyCode);
