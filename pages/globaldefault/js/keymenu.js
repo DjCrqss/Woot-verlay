@@ -48,7 +48,7 @@ function updateKeyLabel(event){
     saveState();
 }
 
-// hide menu
+// hide menu when clicking outside of it
 document.addEventListener("click", function (event) {
     if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target) 
     && ![...selectedKeys].some(x => x.element.contains(event.target)) && !event.shiftKey){
@@ -196,6 +196,7 @@ function keyInteract(elmnt) {
     function elementResizeBoth(e) {{
             e = e || window.event;
             e.preventDefault();
+            hideDialog();
 
             // calculate the new cursor position to add to width and height
             width += (e.clientX - oldPosX);
@@ -215,6 +216,7 @@ function keyInteract(elmnt) {
     function elementResizeWidth(e) {
         e = e || window.event;
         e.preventDefault();
+        hideDialog();
 
         // calculate the new cursor position to add to width
         width += (e.clientX - oldPosX);
@@ -229,6 +231,7 @@ function keyInteract(elmnt) {
     function elementResizeHeight(e) {
         e = e || window.event;
         e.preventDefault();
+        hideDialog();
 
         // calculate the new cursor position to add to height
         height += (e.clientY - oldPosY);
@@ -243,6 +246,9 @@ function keyInteract(elmnt) {
     function elementDrag(e) {
         e = e || window.event;
         e.preventDefault();
+
+        hideDialog();
+        
         // calculate the new cursor position:
         
         xDiff = e.clientX - oldPosX;
