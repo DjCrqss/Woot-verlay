@@ -9,10 +9,10 @@ function connectedAnim(){
     cover.style.pointerEvents = "none";
     cover.style.opacity = 0.5;
     cover.style.zIndex = "99";
-    cover.style.transition = "opacity 2s, width 2s, height 2s";
     cover.style.background = 'radial-gradient(circle, rgba(122,255,100,0) 0%, rgba(60,219,107,1) 30%, rgba(122,255,100,0) 67%)';
     
     setTimeout(() => {
+        cover.style.transition = "opacity 2s, width 2s, height 2s";
         cover.style.width = "500vmax";
         cover.style.height = "500vmax";;
     }, 1);
@@ -32,34 +32,34 @@ function connectedAnim(){
 
 function disconnectedAnim(){
     // create div coverintg the whole screen
-    var cover = document.createElement('div');
-    cover.style.position = "fixed";
-    cover.style.bottom = "-250vmax";
-    cover.style.right = "calc(-250vmax + 10vw)";
-    cover.style.width = "500vmax";
-    cover.style.height = "500vmax";;
-    cover.style.pointerEvents = "none";
-    cover.style.opacity = 0.5;
-    cover.style.zIndex = "99";
-    cover.style.transition = "opacity 2s, width 1.5s cubic-bezier(.26,.35,.84,.05), height 1.5s cubic-bezier(.26,.35,.84,.05)";
-    cover.style.background = 'radial-gradient(circle, rgba(122,255,100,0) 0%, rgb(219, 60, 60) 30%, rgba(122,255,100,0) 67%)';
+    var cover1 = document.createElement('div');
+    cover1.style.position = "fixed";
+    cover1.style.bottom = "-250vmax";
+    cover1.style.right = "calc(-250vmax + 10vw)";
+    cover1.style.width = "500vmax";
+    cover1.style.height = "500vmax";;
+    cover1.style.pointerEvents = "none";
+    cover1.style.opacity = 0.5;
+    cover1.style.zIndex = "99";
+    cover1.style.background = 'radial-gradient(circle, rgba(122,255,100,0) 0%, rgb(219, 60, 60) 30%, rgba(122,255,100,0) 67%)';
     
     setTimeout(() => {
-        cover.style.width = "0";
-        cover.style.height = "0";
+        cover1.style.transition = "opacity 2s, width 1.5s cubic-bezier(.26,.35,.84,.05), height 1.5s cubic-bezier(.26,.35,.84,.05)";
+        cover1.style.width = "0";
+        cover1.style.height = "0";
     }, 1);
 
     setTimeout(() => {
-        cover.style.opacity = 0;
+        cover1.style.opacity = 0;
         setTimeout(() => {
-            document.body.removeChild(cover);
+            document.body.removeChild(cover1);
         }, 3000);
     }, 2500);
 
     displayToast("Disconnected from client.", "rgb(101, 50, 50)");
 
     // display onscreen
-    document.body.appendChild(cover);
+    document.body.appendChild(cover1);
 }
 
 function displayToast(content, colour){

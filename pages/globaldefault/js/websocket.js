@@ -28,7 +28,12 @@ function connect() {
     // action when websocket connects
     websocket.onopen = (e) => { 
         console.log("Connected to server."); 
-        connectedAnim();
+        if (Date.now() - performance.timing.navigationStart > 3000) {
+            // stops the animation playing every refresh
+            connectedAnim();
+        } else {
+            displayToast("Connected to client.", "rgb(50, 101, 66)");
+        }
         firstDisconnect = true;
     };
 
