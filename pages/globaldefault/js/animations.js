@@ -15,7 +15,7 @@ function connectedAnim(){
         cover.style.transition = "opacity 2s, width 2s, height 2s";
         cover.style.width = "500vmax";
         cover.style.height = "500vmax";;
-    }, 1);
+    }, 50);
 
     setTimeout(() => {
         cover.style.opacity = 0;
@@ -47,7 +47,7 @@ function disconnectedAnim(){
         cover1.style.transition = "opacity 2s, width 1.5s cubic-bezier(.26,.35,.84,.05), height 1.5s cubic-bezier(.26,.35,.84,.05)";
         cover1.style.width = "0";
         cover1.style.height = "0";
-    }, 1);
+    }, 50);
 
     setTimeout(() => {
         cover1.style.opacity = 0;
