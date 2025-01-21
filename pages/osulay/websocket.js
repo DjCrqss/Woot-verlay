@@ -8,6 +8,8 @@ var defaultWSI = "ws://127.0.0.1:32312/";
 var knownWSI = "ws://127.0.0.1/"
 var useDefault = true;
 var firstDisconnect = false;
+var active = false;
+var timer = 0;
 
 
 function changeDefaultWSI(optionalCustomWSI) {
@@ -67,11 +69,12 @@ function connect() {
 function update(message) {
     // check for key reset
     if (message == "") {
+        active = false;
         resetKeys();
         return;
     }
 
-    var content = "";
+    active = false;
     // split message into key tuples
     const keys = message.split(/[()]/);
     // TODO: filter to make sure keys are Z or X!!!!! z = 29, x = 27
@@ -82,12 +85,28 @@ function update(message) {
         if(keydata[0] == "29"){
             targetZLevel = parseFloat(keydata[1]);
             zActive = parseFloat(keydata[2]) == 1;
+            active = true;
         } else if(keydata[0] == "27"){
             targetXLevel = parseFloat(keydata[1]);
             xActive = parseFloat(keydata[2]) == 1;
+            active = true;
         }
     })
 }
+
+function updateOpacity(){
+    if(active){
+        timer = 0;
+        opacity = 1;
+    } else {
+        timer += 1;
+        if(timer > inactiveTime && opacity > 0){
+            // make the next 100 steps fade out
+            opacity -= 0.01;
+        }
+    }
+}
+
 
 // reset keys to unpressed state if screen should be cleared upon all keys released
 function resetKeys() {
