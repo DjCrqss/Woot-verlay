@@ -12,7 +12,7 @@ function connectedAnim(){
     cover.style.background = 'radial-gradient(circle, rgba(122,255,100,0) 0%, rgba(60,219,107,1) 30%, rgba(122,255,100,0) 67%)';
     
     setTimeout(() => {
-        cover.style.transition = "opacity 2s, width 2s, height 2s";
+        cover.style.transition = "opacity 1.5s, width 1.5s, height 1.5s";
         cover.style.width = "500vmax";
         cover.style.height = "500vmax";;
     }, 50);
@@ -21,8 +21,8 @@ function connectedAnim(){
         cover.style.opacity = 0;
         setTimeout(() => {
             document.body.removeChild(cover);
-        }, 3000);
-    }, 1500);
+        }, 2000);
+    }, 750);
 
     displayToast("Connected to client.", "rgb(50, 101, 66)");
 
@@ -44,7 +44,7 @@ function disconnectedAnim(){
     cover1.style.background = 'radial-gradient(circle, rgba(122,255,100,0) 0%, rgb(219, 60, 60) 30%, rgba(122,255,100,0) 67%)';
     
     setTimeout(() => {
-        cover1.style.transition = "opacity 2s, width 1.5s cubic-bezier(.26,.35,.84,.05), height 1.5s cubic-bezier(.26,.35,.84,.05)";
+        cover1.style.transition = "opacity 1s, width 1s cubic-bezier(.26,.35,.84,.05), height 1s cubic-bezier(.26,.35,.84,.05)";
         cover1.style.width = "0";
         cover1.style.height = "0";
     }, 50);
@@ -53,8 +53,8 @@ function disconnectedAnim(){
         cover1.style.opacity = 0;
         setTimeout(() => {
             document.body.removeChild(cover1);
-        }, 3000);
-    }, 2500);
+        }, 2500);
+    }, 750);
 
     displayToast("Disconnected from client.", "rgb(101, 50, 50)");
 
