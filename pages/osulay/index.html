@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- HEAD -->
+
+<head>
+  <!-- page information -->
+  <meta charset="UTF-8">
+  <title>OSU! | KB Overlay</title>
+  <meta name="description" content="A customisable pressure sensitive display for your Wooting keyboard!">
+  <link rel="shortcut icon" type="image/png" href="../pages/globaldefault/pageicon.ico" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#131313">
+
+  <!-- css stylesheets -->
+  <link rel='stylesheet' type='text/css' href="../globaldefault/styles.css">
+  <link rel='stylesheet' type='text/css' href="osu.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<!-- BODY -->
+
+<body>
+  <!-- keyboard and keys display -->
+  <canvas id="osuCanvas"></canvas>
+
+</body>
+
+
+<!-- animation scripts -->
+<script type="text/javascript" src="osucanvas.js"></script>
+<script type="text/javascript" src="../globaldefault/js/animations.js"></script>
+
+<!-- translations -->
+<script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
+<script type="text/javascript" src="../globaldefault/data/languages.js" defer></script>
+
+<!-- websocket -->
+<script type="text/javascript" src="websocket.js"></script>
+
+</html>
