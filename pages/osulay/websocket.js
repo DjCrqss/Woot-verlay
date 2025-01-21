@@ -80,10 +80,10 @@ function update(message) {
         var keydata = element.split(':');
         
         if(keydata[0] == "29"){
-            zLevel = parseFloat(keydata[1]);
+            targetZLevel = parseFloat(keydata[1]);
             zActive = parseFloat(keydata[2]) == 1;
         } else if(keydata[0] == "27"){
-            xLevel = parseFloat(keydata[1]);
+            targetXLevel = parseFloat(keydata[1]);
             xActive = parseFloat(keydata[2]) == 1;
         }
     })

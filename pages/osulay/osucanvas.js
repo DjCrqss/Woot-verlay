@@ -11,6 +11,11 @@ var xLevel = 0;
 var prevXLevel = 0;
 var xActive = false;
 
+// interpolation variables
+var targetZLevel = 0;
+var targetXLevel = 0;
+const lerpFactor = 0.8; // Adjust this to control the speed of interpolation (closer to 1 = faster)
+
 var interval = null;
 const speed = 2;
 
@@ -44,29 +49,33 @@ function shiftCanvas(widthOfMove){
 }
 
 function drawCanvas(){
-    // draw line at right hand side of canvas at zSettings.y + zLevel * zSettings.maxHeight
+    // Smoothly interpolate zLevel and xLevel towards their targets
+    zLevel += (targetZLevel - zLevel) * lerpFactor;
+    xLevel += (targetXLevel - xLevel) * lerpFactor;
+
+    // Draw line for zLevel
     if(zActive){
         ctx.strokeStyle = "green";
     } else {
         ctx.strokeStyle = "red";
     }
-
     ctx.beginPath();
     ctx.moveTo(canvasWidth - speed, (canvasHeight * zSettings.y) - (prevZLevel * zSettings.maxHeight * canvasHeight));
     ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * zSettings.maxHeight * canvasHeight));
     ctx.stroke();
 
-    // draw line at right hand side of canvas at xSettings.y + xLevel * xSettings.maxHeight
+    // Draw line for xLevel
     if(xActive){
         ctx.strokeStyle = "green";
     } else {
         ctx.strokeStyle = "red";
     }
     ctx.beginPath();
-    ctx.moveTo(canvasWidth - 1, (canvasHeight * xSettings.y) - (prevXLevel * xSettings.maxHeight * canvasHeight));
+    ctx.moveTo(canvasWidth - speed, (canvasHeight * xSettings.y) - (prevXLevel * xSettings.maxHeight * canvasHeight));
     ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * xSettings.maxHeight * canvasHeight));
     ctx.stroke();
 
+    // Update previous levels
     prevZLevel = zLevel;
     prevXLevel = xLevel;
 }
