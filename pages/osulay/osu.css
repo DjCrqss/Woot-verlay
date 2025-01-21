@@ -1,3 +1,24 @@
 canvas {
     position: fixed;
 }
+
+.keyIcon{
+    position: fixed;
+    width: 4em;
+    height: 4em;
+    left: 850px;
+    background-color: #39393976;
+    /* gradient transition */
+    transition: background-color 0.5s;
+}
+
+#zKey {
+    top: 4em;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 21%, 36% 76%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 61% 23%, 0 23%);
+}
+
+#xKey{
+    top: 12em;
+    clip-path: polygon(0% 0%, 24% 0, 50% 29%, 76% 0, 100% 0%, 100% 23%, 69% 51%, 100% 76%, 100% 100%, 76% 100%, 50% 73%, 26% 100%, 0% 100%, 0 74%, 28% 50%, 0 23%);
+}
+
