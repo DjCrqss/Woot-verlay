@@ -7,6 +7,7 @@ var latestInputs = new Array(); // logs inputs of keys
 var defaultWSI = "ws://127.0.0.1:32312/";
 var knownWSI = "ws://127.0.0.1/"
 var useDefault = true;
+var firstDisconnect = false;
 
 
 function changeDefaultWSI(optionalCustomWSI) {
@@ -20,14 +21,29 @@ function changeDefaultWSI(optionalCustomWSI) {
 function connect() {
     // websocket
     const wsUri = useDefault ? defaultWSI : knownWSI;
+    
     const websocket = new WebSocket(wsUri);
+    
 
     // action when websocket connects
-    websocket.onopen = (e) => { console.log("Connected to server."); };
+    websocket.onopen = (e) => { 
+        console.log("Connected to server."); 
+        if (Date.now() - performance.timing.navigationStart > 3000) {
+            // stops the animation playing every refresh
+            connectedAnim();
+        } else {
+            displayToast("Connected to client.", "rgb(50, 101, 66)");
+        }
+        firstDisconnect = true;
+    };
 
     // action if websocket closes
     websocket.onclose = (e) => {
         console.log("Socket is closed. Reconnect will be attempted in 3 seconds.");
+        if (firstDisconnect) {
+            disconnectedAnim();
+            firstDisconnect = false;
+        }
         // swap websocket address to handle older versions of the server
         useDefault = !useDefault;
         // reset key input values
@@ -40,7 +56,7 @@ function connect() {
     websocket.onmessage = (e) => { update(`${e.data}`); };
 
     // when websocket recieves an error
-    websocket.onerror = (e) => { console.log("Error.  " + e.data); };
+    websocket.onerror = (e) => { if(firstDisconnect) console.log("Error.  " + e.data); };
 }
 
 // function to update the display on the screen
