@@ -16,11 +16,12 @@ Drag the keys to shift them around. Grab the green or orange dotted edges of a k
 Presets are available to save and import. They can be found [here in the project wiki!](https://github.com/DjCrqss/Woot-verlay/wiki/Presets)
 
 <br clear="both"/><br><br>
-<img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/2c203a0d-1ed8-428d-b648-8ec1ff22eb24" width="60%" align="left"/>
+<img src="https://github.com/user-attachments/assets/53f7b1ef-bba5-43d6-8f1e-b44bc58bc63f" width="60%" align="left"/>
 
-### Settings
-When your mouse is on the page, a popup appears at the top middle of the screen.
-Click + to add extra keys. Use the cog to change global settings, the bookmark icon to copy and paste new profiles, the WiFi/LAN icon to connect to your keyboard from an external device, and the eye to see extra stats below the keyboard.
+### OSU-lay
+A special mode for OSU! players that displays the Z and X keys with a histogram of the pressure values! View here and add to your streams using this link:
+[OSU-lay page.](https://djcrqss.github.io/Woot-verlay/pages/osulay/)
+
 
 <br clear="both"/><br><br>
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/dde0c084-6368-48a5-a633-597200856cd0" width="60%" align="right"/>
@@ -29,6 +30,12 @@ Click + to add extra keys. Use the cog to change global settings, the bookmark i
 The OBS plugin allows streaming to Twitch and other platforms with this as an overlay on top! View the running instructions in the section below.
 Using LAN,  you can host the overlay on another PC that could be recording, or even on a mobile device as a mini external display!
 
+<br clear="both"/><br><br>
+<img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/2c203a0d-1ed8-428d-b648-8ec1ff22eb24" width="60%" align="left"/>
+
+### Settings
+When your mouse is on the page, a popup appears at the top middle of the screen.
+Click + to add extra keys. Use the cog to change global settings, the bookmark icon to copy and paste new profiles, the WiFi/LAN icon to connect to your keyboard from an external device, and the eye to see extra stats below the keyboard.
 
 <br clear="both"/><br>
 
