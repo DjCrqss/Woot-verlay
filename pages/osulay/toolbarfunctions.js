@@ -9,7 +9,7 @@ var inactiveColourString = `rgb(${inactiveColour[0]}, ${inactiveColour[1]}, ${in
 var transparentColourString = `rgb(${transparentColour[0]}, ${transparentColour[1]}, ${transparentColour[2]})`;
 
 var speed = 2;
-var refreshrate = 120;
+var refreshrate = 120; // 
 
 var smoothness = 0.8;
 

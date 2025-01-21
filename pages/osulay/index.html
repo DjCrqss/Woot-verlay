@@ -9,7 +9,7 @@
   <meta name="description" content="A customisable pressure sensitive display for your Wooting keyboard!">
   <link rel="shortcut icon" type="image/png" href="../globaldefault/pageicon.ico" />
   <meta name="viewport" content="width=device-width">
-  <meta name="theme-color" content="#131313">
+  <meta name="theme-color" content="#18171C">
 
   <!-- css stylesheets -->
   <link rel='stylesheet' type='text/css' href="../globaldefault/styles.css">
@@ -25,6 +25,70 @@
   <canvas id="osuCanvas"></canvas>
   <div id="zKey" class="keyIcon"></div>
   <div id="xKey" class="keyIcon"></div>
+
+  <!-- floating toolbar -->
+  <div id="toolbar" class="mouseOver">
+    <!-- customisation -->
+    <div id="settings" class="tabmenu">
+      <h2 data-i18n="menus.customise.title">Customise</h2>
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.active">Active:</span>
+          <input type="color" id="activeColorPicker" >
+        </div>
+        <div><span data-i18n="menus.customise.inactive">Inactive:</span>
+          <input type="color" id="inactiveColorPicker">
+        </div>
+        <div><span data-i18n="menus.customise.accent">Accent:</span>
+          <input type="color" id="accentColorPicker">
+        </div>
+        <div><span data-i18n="menus.customise.background">Background:</span>
+          <input type="color" id="backgroundColorPicker">
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="flexRows"></section>
+
+      <hr>
+
+      <section class="flexRows"></section>
+
+      <hr>
+
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.accessiblitymode">Accessiblity mode:</span>
+          <label class="switch">
+            <input type="checkbox" id="inputCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <!-- LAN -->
+    <div id="lanSettings" class="tabmenu">
+      <h2 data-i18n="menus.lanconnection.title">Lan Connection</h2>
+      <p data-i18n="menus.lanconnection.desc">Connect to external client.<br>Press connect and wait ~3 seconds.</p>
+      <input type="text" id="lanInput" placeholder="192.168.x.x">
+      <button onclick="connectToExternalLan()" data-i18n="menus.lanconnection.connect">Connect</button>
+    </div>
+
+    <!-- languages -->
+    <div id="languages" class="tabmenu">
+      <h2 data-i18n="menus.language.title">Language</h2>
+        <button data-lang="en">English</button>
+        <button data-lang="zh">Chinese (简体字)</button>
+    </div>
+
+    <!-- icons -->
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span
+        class="infoField" data-i18n="menus.customise.title">Customise</span></i>
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('lanSettings')">magic_tether<span
+        class="infoField" data-i18n="menus.lanconnection.title">LAN connection</span></i>
+    <i class="material-symbols-outlined" onclick="toggleVisiblity('languages')">translate<span
+      class="infoField" data-i18n="menus.language.title">Language</span></i>
+  </div>
 </body>
 
 
@@ -33,7 +97,8 @@
 <script type="text/javascript" src="osucanvas.js"></script>
 <script type="text/javascript" src="../globaldefault/js/animations.js"></script>
 
-<!-- translations -->
+<!-- global scripts -->
+<script type="text/javascript" src="../globaldefault/js/mousehandlers.js"></script>
 <script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
 <script type="text/javascript" src="../globaldefault/data/languages.js" defer></script>
 
