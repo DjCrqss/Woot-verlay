@@ -16,7 +16,13 @@ function mouseOverVisibility() {
 }
 
 // function to toggle visiblity of an element
-function toggleVisiblity(elmnt) {
+function toggleVisiblity(elmnt, sender) {
+    // remove toolbaritemactive class from all elements with class 'toolbaritem'
+    var toolbarItemElements = document.getElementsByClassName("toolbaritem");
+    for (var i = 0; i < toolbarItemElements.length; i++) {
+        toolbarItemElements[i].classList.remove("toolbaritemactive");
+    }
+
     var x = document.getElementById(elmnt);
 
     // find all elements with class 'tabmenu' and hide them
@@ -30,6 +36,7 @@ function toggleVisiblity(elmnt) {
         x.style.visibility = "hidden";
     } else {
         x.style.visibility = "visible";
+        sender.classList.add("toolbaritemactive");
     }
 }
 

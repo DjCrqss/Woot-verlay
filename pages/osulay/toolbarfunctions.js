@@ -3,7 +3,7 @@ var inactiveColour = [226, 65, 65]; //#e24141 or #ff0000 or #e2ab41
 var transparentColour = [224, 222, 222]; //#e0dede #39393976
 var thickness = 2;
 
-// for speed
+// for faster access
 var activeColourString = `rgb(${activeColour[0]}, ${activeColour[1]}, ${activeColour[2]})`;
 var inactiveColourString = `rgb(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]})`;
 var transparentColourString = `rgb(${transparentColour[0]}, ${transparentColour[1]}, ${transparentColour[2]})`;

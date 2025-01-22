@@ -32,32 +32,61 @@
     <div id="settings" class="tabmenu">
       <h2 data-i18n="menus.customise.title">Customise</h2>
       <section class="flexRows">
-        <div><span data-i18n="menus.customise.active">Active:</span>
+        <div><span data-i18n="menus.customise.active">Active</span>
           <input type="color" id="activeColorPicker" >
         </div>
         <div><span data-i18n="menus.customise.inactive">Inactive:</span>
           <input type="color" id="inactiveColorPicker">
         </div>
-        <div><span data-i18n="menus.customise.accent">Accent:</span>
+        <div><span data-i18n="menus.customise.accent">Accent</span>
           <input type="color" id="accentColorPicker">
         </div>
-        <div><span data-i18n="menus.customise.background">Background:</span>
+        <div><span data-i18n="menus.customise.background">Background</span>
           <input type="color" id="backgroundColorPicker">
         </div>
       </section>
 
       <hr>
 
-      <section class="flexRows"></section>
-
-      <hr>
-
-      <section class="flexRows"></section>
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.scrollspeed">Scroll speed</span>
+          <input type="range" step=1 min=1 max=4 id="scrollSpeedPicker">
+        </div>
+        <div><span data-i18n="menus.customise.endfade">End fade</span>
+          <label class="switch">
+            <input type="checkbox" id="endfadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
 
       <hr>
 
       <section class="flexRows">
-        <div><span data-i18n="menus.customise.accessiblitymode">Accessiblity mode:</span>
+        <div><span data-i18n="menus.customise.smoothing">Smoothing</span>
+          <input type="range" step=0.1 min=0 max=1 id="smoothingPicker">
+        </div>
+        <div><span data-i18n="menus.customise.thickness">thickness</span>
+          <input type="range" step=1 min=1 max=5 id="thicknessPicker">
+        </div>
+        <div><span data-i18n="menus.customise.instanttransitions">Instant transitions</span>
+          <label class="switch">
+            <input type="checkbox" id="endfadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div><span data-i18n="menus.customise.inactivefadeout">Fade on inactivity</span>
+          <label class="switch">
+            <input type="checkbox" id="inactivefadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.accessiblitymode">Accessiblity mode</span>
           <label class="switch">
             <input type="checkbox" id="inputCheckbox">
             <span class="slider round"></span>
@@ -82,12 +111,9 @@
     </div>
 
     <!-- icons -->
-    <i class="material-symbols-outlined" onclick="toggleVisiblity('settings')">settings<span
-        class="infoField" data-i18n="menus.customise.title">Customise</span></i>
-    <i class="material-symbols-outlined" onclick="toggleVisiblity('lanSettings')">magic_tether<span
-        class="infoField" data-i18n="menus.lanconnection.title">LAN connection</span></i>
-    <i class="material-symbols-outlined" onclick="toggleVisiblity('languages')">translate<span
-      class="infoField" data-i18n="menus.language.title">Language</span></i>
+    <span class="toolbaritem" onclick="toggleVisiblity('settings', this)"><div class="toolbarlabel"><i class="material-symbols-outlined" style="margin-top: 0.2em;">settings</i>customise</div></span>
+    <span class="toolbaritem" onclick="toggleVisiblity('lanSettings', this)"><div class="toolbarlabel"><i class="material-symbols-outlined">magic_tether</i>LAN</div></span>
+    <span class="toolbaritem" onclick="toggleVisiblity('languages', this)"><div class="toolbarlabel"><i class="material-symbols-outlined">translate</i>language</div></span>
   </div>
 </body>
 
