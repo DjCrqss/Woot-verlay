@@ -12,11 +12,12 @@
 
 
 html, body {
-    background-color: #18171C;
+    background-color: var(--app-bg);
     font-family: 'Torus', sans-serif;
 }
 
 :root{
+    --app-bg: #18171C;
     --osu-purple: #8C66FF;
     --dark-accent: #24222A;
 }
@@ -150,7 +151,6 @@ button {
 input[type="range"] {
 	color: var(--osu-purple);
 	--thumb-height: 1.125em;
-    --thumb-width: 2em;
 	--track-height: 0.125em;
 	--track-color: var(--dark-accent);
 	--brightness-hover: 180%;

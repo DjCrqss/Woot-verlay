@@ -100,9 +100,9 @@ function drawCanvas(){
 }
 
 function updateKeyIcons(){
-    // style as a gradient background: linear-gradient(0deg, #00ff95 50%, #39393976 50%);
-    zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${transparentColourString} ${zLevel * 100}%)`;
-    xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${transparentColourString} ${xLevel * 100}%)`;
+    // console.log(activeColourString);
+    zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+    xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
     if(!active && timer > inactiveTime) {
         zKeyIcon.style.opacity = opacity + 0.35;
         xKeyIcon.style.opacity = opacity + 0.35;
