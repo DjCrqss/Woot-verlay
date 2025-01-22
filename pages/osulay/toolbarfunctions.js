@@ -24,7 +24,8 @@ var settings = {
     endFade: true, // will determine if lines will fade out at the end of the canvas
     
     inactiveFading: true,
-    inactiveTime: 300
+    inactiveTime: 300,
+    intantTransitions: false
 }
 
 // on-screen elements
@@ -41,6 +42,7 @@ const thicknessPicker = document.getElementById('thicknessPicker');
 
 const inactiveFadeCheckbox = document.getElementById('inactiveFadeCheckbox');
 const inputCheckbox = document.getElementById('inputCheckbox'); // accessibility
+const instantTransitionsCheckbox = document.getElementById('instantTransitionsCheckbox');
 
 
 // load from localstorage
@@ -80,7 +82,8 @@ if (localStorage.getItem("osu-settings")) {
         endFade: data.endFade,
         
         inactiveFading: data.inactiveFading,
-        inactiveTime: data.inactiveTime
+        inactiveTime: data.inactiveTime,
+        instantTransitions: data.instantTransitions
     }
     saveSettings();
 } else {
@@ -100,6 +103,7 @@ function updatePickers() {
     smoothingPicker.value = settings.smoothness;
     thicknessPicker.value = settings.thickness;
     inactiveFadeCheckbox.checked = settings.inactiveFading;
+    instantTransitionsCheckbox.checked = settings.instantTransitions;
 }
 
 function rgbToHex(rgb) {
@@ -191,6 +195,11 @@ inputCheckbox.addEventListener('change', function () {
     }
 });
 
+instantTransitionsCheckbox.addEventListener('input', function () {
+    settings.instantTransitions = instantTransitionsCheckbox.checked;
+    saveSettings();
+});
+
 function resetSettings(){
     colours = [
         [126, 212, 83],
@@ -211,7 +220,8 @@ function resetSettings(){
         endFade: true,
         
         inactiveFading: true,
-        inactiveTime: 300
+        inactiveTime: 300,
+        intantTransitions: false
     }
     activeColour = colours[0];
     inactiveColour = colours[1];

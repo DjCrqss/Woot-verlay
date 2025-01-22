@@ -19,11 +19,17 @@ var opacity = 1;
 var targetZLevel = 0;
 var targetXLevel = 0;
 
+var zTransitionProgress = 0;
+var xTransitionProgress = 0;
+var zColInterpol = 0;
+var xColInterpol = 0;
+
 // canvas resolution settings
 var canvasWidth = 800;
 var canvasHeight = 400;
 var scale = 8;
 resizeCanvas();
+
 
 // key display settings
 const zSettings = {
@@ -63,10 +69,8 @@ function drawCanvas(){
 
     // Draw line for zLevel
     if(zActive){
-        // colour stored as [r, g, b] in activecolour, turn into rgba
         ctx.strokeStyle = activeColourString;
     } else {
-        // include opacity level in inactive colour
         ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
     }
     ctx.beginPath();
@@ -97,10 +101,37 @@ function drawCanvas(){
     }
 }
 
+function interpolateColour(colour1, colour2, t) {
+    return [
+        Math.round(colour1[0] + (colour2[0] - colour1[0]) * t),
+        Math.round(colour1[1] + (colour2[1] - colour1[1]) * t),
+        Math.round(colour1[2] + (colour2[2] - colour1[2]) * t)
+    ];
+}
+
+const transitionSpeed = 0.075;
 function updateKeyIcons(){
-    // console.log(activeColourString);
-    zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
-    xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+    if(settings.instantTransitions){
+        zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+    } else {
+        if(zActive){
+            zTransitionProgress = Math.min(zTransitionProgress + transitionSpeed, 1);
+        } else {
+            zTransitionProgress = Math.max(zTransitionProgress - transitionSpeed, 0);
+        }
+        var currentColour = interpolateColour(inactiveColour, activeColour, zTransitionProgress);
+        zKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        
+        if(xActive){
+            xTransitionProgress = Math.min(xTransitionProgress + transitionSpeed, 1);
+        }
+        else {
+            xTransitionProgress = Math.max(xTransitionProgress - transitionSpeed, 0);
+        }
+        currentColour = interpolateColour(inactiveColour, activeColour, xTransitionProgress);
+        xKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+    }
     if(!active && timer > settings.inactiveTime) {
         zKeyIcon.style.opacity = opacity + 0.35;
         xKeyIcon.style.opacity = opacity + 0.35;
