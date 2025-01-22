@@ -1,4 +1,9 @@
-![logo](https://github.com/DjCrqss/Woot-verlay/assets/25734612/d654f249-a332-493f-99d2-3837875cf767)
+![logo](https://github.com/DjCrqss/Woot-verlay/assets/25734612/d654f249-a332-493f-99d2-3837875cf767) 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/DjCrqss/Woot-verlay/total?style=flat) 
+![Static Badge](https://img.shields.io/badge/OBS%20-%20Compatible-black?link=https%3A%2F%2Fdjcrqss.github.io%2FWoot-verlay%2Fpages%2Fosulay%2F) 
+![Static Badge](https://img.shields.io/badge/platform%20-%20Windows-blue?style=flat) 
+![Static Badge](https://img.shields.io/badge/fork%20-%20ready-yellow) 
+![Static Badge](https://img.shields.io/badge/OSU!%20-%20ready-hotpink?link=https%3A%2F%2Fdjcrqss.github.io%2FWoot-verlay%2Fpages%2Fosulay%2F) 
 
 Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM) 
