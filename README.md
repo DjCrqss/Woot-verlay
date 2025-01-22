@@ -3,6 +3,8 @@
 Pressure-sensitive display for the analogue values of your Wooting keyboard! Visit the page to mess around, or add it as a fully functional overlay to your streams.
 [Check out a demonstration here](https://www.youtube.com/watch?v=62ZL6NmN-KM) 
 <br><br>
+This application only runs on Windows, but thanks to Sainan, here is a Linux altenative: [Woot-verlay Linux](https://github.com/AnalogSense/wootverlay-alt-server)
+
 
 # Features
 

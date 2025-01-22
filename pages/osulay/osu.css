@@ -11,7 +11,7 @@
 }
 
 
-html, body {
+body {
     background-color: var(--app-bg);
     font-family: 'Torus', sans-serif;
 }
