@@ -3,7 +3,6 @@ var activeColour = [126, 212, 83] //#7ed453 #00ff95;
 var inactiveColour = [226, 65, 65]; //#e24141 or #ff0000 or #e2ab41
 var accentColour = '#e0dede';
 var backgroundColour = '#18171C';
-var thickness = 2;
 
 var colours = [activeColour, inactiveColour, accentColour, backgroundColour];
 
@@ -11,19 +10,22 @@ var colours = [activeColour, inactiveColour, accentColour, backgroundColour];
 var activeColourString = `rgb(${activeColour[0]}, ${activeColour[1]}, ${activeColour[2]})`;
 var inactiveColourString = `rgb(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]})`;
 
-var speed = 2;
-var refreshrate = 120; // 
 
-var smoothness = 0.8;
-
-var density; // not used yet but will determine spacing of items
-var maxHeight; // not used yet but will determine height of items
-var transitionTime; // not used yet but will determine interpolation of colour change for line and icons
-var endFade = true; // will determine if lines will fade out at the end of the canvas
-
-var inactiveFading = true; // will determine if lines will fade out after inactivity
-var inactiveTime = 300; // will determine time before lines fade out
-
+var settings = {
+    speed: 2,
+    refreshrate: 120,
+    
+    smoothness: 0.8,
+    thickness: 2,
+    
+    density: 0.8, // not used yet but will determine spacing of items
+    maxHeight: 0.2, // not used yet but will determine height of items
+    transitionTime: 0.8, // not used yet but will determine interpolation of colour change for line and icons
+    endFade: true, // will determine if lines will fade out at the end of the canvas
+    
+    inactiveFading: true,
+    inactiveTime: 300
+}
 
 // on-screen elements
 const activeColPicker = document.getElementById('activeColorPicker');
@@ -51,8 +53,6 @@ if (localStorage.getItem("osu-colours")) {
         data[3], // background
     );
 
-    // console.log(colours);
-
     activeColour = colours[0];
     inactiveColour = colours[1];
     accentColour = colours[2];
@@ -64,13 +64,42 @@ if (localStorage.getItem("osu-colours")) {
     // save default colours
     saveColours();
 }
-updateColourPickers();
 
-function updateColourPickers() {
+if (localStorage.getItem("osu-settings")) {
+    var data = JSON.parse(localStorage.getItem("osu-settings"));
+    settings = {
+        speed: data.speed,
+        refreshrate: data.refreshrate,
+        
+        smoothness: data.smoothness,
+        thickness: data.thickness,
+        
+        density: data.density,
+        maxHeight: data.maxHeight,
+        transitionTime: data.transitionTime,
+        endFade: data.endFade,
+        
+        inactiveFading: data.inactiveFading,
+        inactiveTime: data.inactiveTime
+    }
+    saveSettings();
+} else {
+    // save default settings
+    saveSettings();
+}
+
+updatePickers();
+
+function updatePickers() {
     activeColPicker.value = rgbToHex(activeColour);
     inactiveColPicker.value = rgbToHex(inactiveColour);
     accentPicker.value = accentColour;
     backgroundColPicker.value = backgroundColour;
+    scrollSpeedPicker.value = settings.speed;
+    endfadeCheckbox.checked = settings.endFade;
+    smoothingPicker.value = settings.smoothness;
+    thicknessPicker.value = settings.thickness;
+    inactiveFadeCheckbox.checked = settings.inactiveFading;
 }
 
 function rgbToHex(rgb) {
@@ -112,12 +141,86 @@ backgroundColPicker.addEventListener('input', function () {
     saveColours();
 });
 
+function saveSettings() {
+    localStorage.setItem("osu-settings", JSON.stringify(settings));
+}
 
 // canvas settings
 scrollSpeedPicker.addEventListener('input', function () {
-    speed = parseInt(scrollSpeedPicker.value);
+    settings.speed = parseInt(scrollSpeedPicker.value);
+    saveSettings();
 });
 
 endfadeCheckbox.addEventListener('input', function () {
-    endFade = endfadeCheckbox.checked;
+    settings.endFade = endfadeCheckbox.checked;
+    saveSettings();
 });
+
+smoothingPicker.addEventListener('input', function () {
+    settings.smoothness = parseFloat(smoothingPicker.value);
+    saveSettings();
+});
+
+thicknessPicker.addEventListener('input', function () {
+    settings.thickness = parseInt(thicknessPicker.value);
+    saveSettings();
+});
+
+inactiveFadeCheckbox.addEventListener('input', function () {
+    settings.inactiveFading = inactiveFadeCheckbox.checked;
+    if(!settings.inactiveFading) opacity = 1;
+    saveSettings();
+});
+
+
+// if input checkbox is checked then replace the color pickers with text inputs
+// document.onkeydown = function(e) {return false;}
+inputCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+        document.onkeydown = function (e) { return true; }
+        activeColPicker.type = "text";
+        inactiveColPicker.type = "text";
+        accentPicker.type = "text";
+        backgroundColPicker.type = "text";
+    } else {
+        document.onkeydown = function (e) { return false; }
+        activeColPicker.type = "color";
+        inactiveColPicker.type = "color";
+        accentPicker.type = "color";
+        backgroundColPicker.type = "color";
+    }
+});
+
+function resetSettings(){
+    colours = [
+        [126, 212, 83],
+        [226, 65, 65],
+        '#e0dede',
+        '#18171C'
+    ];
+    settings = {
+        speed: 2,
+        refreshrate: 120,
+        
+        smoothness: 0.8,
+        thickness: 2,
+        
+        density: 0.8,
+        maxHeight: 0.2,
+        transitionTime: 0.8,
+        endFade: true,
+        
+        inactiveFading: true,
+        inactiveTime: 300
+    }
+    activeColour = colours[0];
+    inactiveColour = colours[1];
+    accentColour = colours[2];
+    backgroundColour = colours[3];
+    activeColourString = `rgb(${activeColour[0]}, ${activeColour[1]}, ${activeColour[2]})`;
+    inactiveColourString = `rgb(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]})`;
+    saveColours();
+    saveSettings();
+    updatePickers();
+}
+

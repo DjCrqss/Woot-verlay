@@ -37,6 +37,7 @@ canvas {
     /* gradient transition */
     transition: background-color 0.5s;
     border-radius: 0.15em;
+    transition: opacity 0.5s;
 }
 
 #zKey {
@@ -140,6 +141,10 @@ button,
 textarea{
     accent-color: var(--osu-purple) !important;
     background-color: var(--dark-accent);
+}
+
+input[type="text"]{
+    max-width: 8em;
 }
 
 button {
@@ -286,6 +291,10 @@ input[type="range"]:disabled::-moz-range-thumb {
 	cursor: not-allowed;
 }
 
+#reset{
+    opacity: 0.5;
+    cursor: pointer;
+}
 
 
 @media screen and (max-width: 1300px) {

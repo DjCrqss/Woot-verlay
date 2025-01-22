@@ -29,13 +29,11 @@ resizeCanvas();
 const zSettings = {
     key: "Z",
     y: 0.33,
-    maxHeight: 0.2
 }
 
 const xSettings = {
     key: "X",
     y: 0.66,
-    maxHeight: 0.2
 }
 
 // key icon settings
@@ -57,11 +55,11 @@ function resizeCanvas(){
 
 function drawCanvas(){
     // Smoothly interpolate zLevel and xLevel towards their targets
-    zLevel += (targetZLevel - zLevel) * smoothness;
-    xLevel += (targetXLevel - xLevel) * smoothness;
+    zLevel += (targetZLevel - zLevel) * settings.smoothness;
+    xLevel += (targetXLevel - xLevel) * settings.smoothness;
 
     // change stroke width
-    ctx.lineWidth = thickness;
+    ctx.lineWidth = settings.thickness;
 
     // Draw line for zLevel
     if(zActive){
@@ -72,19 +70,19 @@ function drawCanvas(){
         ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
     }
     ctx.beginPath();
-    ctx.moveTo(canvasWidth - speed, (canvasHeight * zSettings.y) - (prevZLevel * zSettings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * zSettings.maxHeight * canvasHeight));
+    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * zSettings.y) - (prevZLevel * settings.maxHeight * canvasHeight));
+    ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * settings.maxHeight * canvasHeight));
     ctx.stroke();
 
     // Draw line for xLevel
     if(xActive){
-        ctx.strokeStyle = activeColour;
+        ctx.strokeStyle = activeColourString;
     } else {
-        ctx.strokeStyle = inactiveColour;
+        ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
     }
     ctx.beginPath();
-    ctx.moveTo(canvasWidth - speed, (canvasHeight * xSettings.y) - (prevXLevel * xSettings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * xSettings.maxHeight * canvasHeight));
+    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * xSettings.y) - (prevXLevel * settings.maxHeight * canvasHeight));
+    ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * settings.maxHeight * canvasHeight));
     ctx.stroke();
 
     // Update previous levels
@@ -92,7 +90,7 @@ function drawCanvas(){
     prevXLevel = xLevel;
 
     // add fading effect to end
-    if(endFade){
+    if(settings.endFade){
         ctx.globalCompositeOperation = "destination-out";
         ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, (canvas.width/scale)/10, canvas.height);
@@ -103,7 +101,7 @@ function updateKeyIcons(){
     // console.log(activeColourString);
     zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
     xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
-    if(!active && timer > inactiveTime) {
+    if(!active && timer > settings.inactiveTime) {
         zKeyIcon.style.opacity = opacity + 0.35;
         xKeyIcon.style.opacity = opacity + 0.35;
 
@@ -118,12 +116,12 @@ function startCanvas(){
     runCanvas = true;
     interval = setInterval(() => {
         if(runCanvas){
-            shiftCanvas(speed);
+            shiftCanvas(settings.speed);
             drawCanvas();
             updateKeyIcons();
-            if(inactiveFading) updateOpacity();
+            if(settings.inactiveFading) updateOpacity();
         }
-    }, 1000/refreshrate);
+    }, 1000/settings.refreshrate);
 }
 
 function stopCanvas(){

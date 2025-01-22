@@ -64,7 +64,7 @@
 
       <section class="flexRows">
         <div><span data-i18n="menus.customise.smoothing">Smoothing</span>
-          <input type="range" step=0.1 min=0 max=1 id="smoothingPicker">
+          <input type="range" step=0.1 min=0.1 max=1 id="smoothingPicker">
         </div>
         <div><span data-i18n="menus.customise.thickness">thickness</span>
           <input type="range" step=1 min=1 max=5 id="thicknessPicker">
@@ -77,7 +77,7 @@
         </div> TODO: not yet working -->
         <div><span data-i18n="menus.customise.inactivefadeout">Fade on inactivity</span>
           <label class="switch">
-            <input type="checkbox" id="inactivefadeCheckbox">
+            <input type="checkbox" id="inactiveFadeCheckbox">
             <span class="slider round"></span>
           </label>
         </div>
@@ -93,6 +93,8 @@
           </label>
         </div>
       </section>
+
+      <span id="reset" onclick="resetSettings()" data-i18n="menus.customise.reset">Reset</span>
     </div>
 
     <!-- LAN -->

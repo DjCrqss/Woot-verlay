@@ -100,7 +100,7 @@ function updateOpacity(){
         opacity = 1;
     } else {
         timer += 1;
-        if(timer > inactiveTime && opacity > 0){
+        if(timer > settings.inactiveTime && opacity > 0){
             // make the next 100 steps fade out
             opacity -= 0.01;
         }
