@@ -9,7 +9,7 @@
   <meta name="description" content="A customisable pressure sensitive display for your Wooting keyboard!">
   <link rel="shortcut icon" type="image/png" href="../globaldefault/pageicon.ico" />
   <meta name="viewport" content="width=device-width">
-  <meta name="theme-color" content="#131313">
+  <meta name="theme-color" content="#18171C">
 
   <!-- css stylesheets -->
   <link rel='stylesheet' type='text/css' href="../globaldefault/styles.css">
@@ -25,14 +25,114 @@
   <canvas id="osuCanvas"></canvas>
   <div id="zKey" class="keyIcon"></div>
   <div id="xKey" class="keyIcon"></div>
+
+  <!-- floating toolbar -->
+  <div id="toolbar" class="mouseOver">
+    <!-- customisation -->
+    <div id="settings" class="tabmenu">
+      <h2 data-i18n="menus.customise.title">Customise</h2>
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.active">Active</span>
+          <input type="color" id="activeColorPicker" >
+        </div>
+        <div><span data-i18n="menus.customise.inactive">Inactive:</span>
+          <input type="color" id="inactiveColorPicker">
+        </div>
+        <div><span data-i18n="menus.customise.accent">Accent</span>
+          <input type="color" id="accentColorPicker">
+        </div>
+        <div><span data-i18n="menus.customise.background">Background</span>
+          <input type="color" id="backgroundColorPicker">
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.scrollspeed">Scroll speed</span>
+          <input type="range" step=1 min=1 max=8 id="scrollSpeedPicker">
+        </div>
+        <div><span data-i18n="menus.customise.endfade">End fade</span>
+          <label class="switch">
+            <input type="checkbox" id="endFadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.smoothing">Smoothing</span>
+          <input type="range" step=0.1 min=0.1 max=1 id="smoothingPicker">
+        </div>
+        <div><span data-i18n="menus.customise.thickness">thickness</span>
+          <input type="range" step=1 min=1 max=5 id="thicknessPicker">
+        </div>
+        <!-- <div><span data-i18n="menus.customise.instanttransitions">Instant transitions</span>
+          <label class="switch">
+            <input type="checkbox" id="endfadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div> TODO: not yet working -->
+        <div><span data-i18n="menus.customise.inactivefadeout">Fade on inactivity</span>
+          <label class="switch">
+            <input type="checkbox" id="inactiveFadeCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="flexRows">
+        <div><span data-i18n="menus.customise.accessiblitymode">Accessiblity mode</span>
+          <label class="switch">
+            <input type="checkbox" id="inputCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div><span data-i18n="menus.customise.instanttransitions">Instant Transitions</span>
+          <label class="switch">
+            <input type="checkbox" id="instantTransitionsCheckbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+
+      <span id="reset" onclick="resetSettings()" data-i18n="menus.customise.reset">Reset</span>
+    </div>
+
+    <!-- LAN -->
+    <div id="lanSettings" class="tabmenu">
+      <h2 data-i18n="menus.lanconnection.title">Lan Connection</h2>
+      <p data-i18n="menus.lanconnection.desc">Connect to external client.<br>Press connect and wait ~3 seconds.</p>
+      <input type="text" id="lanInput" placeholder="192.168.x.x">
+      <button onclick="connectToExternalLan()" data-i18n="menus.lanconnection.connect">Connect</button>
+    </div>
+
+    <!-- languages -->
+    <div id="languages" class="tabmenu">
+      <h2 data-i18n="menus.language.title">Language</h2>
+        <button data-lang="en">English</button>
+        <button data-lang="zh">Chinese (简体字)</button>
+    </div>
+
+    <!-- icons -->
+    <span class="toolbaritem" onclick="toggleVisiblity('settings', this)"><div class="toolbarlabel"><i class="material-symbols-outlined" style="margin-top: 0.2em;">settings</i>customise</div></span>
+    <span class="toolbaritem" onclick="toggleVisiblity('lanSettings', this)"><div class="toolbarlabel"><i class="material-symbols-outlined">magic_tether</i>LAN</div></span>
+    <span class="toolbaritem" onclick="toggleVisiblity('languages', this)"><div class="toolbarlabel"><i class="material-symbols-outlined">translate</i>language</div></span>
+  </div>
 </body>
 
 
 <!-- animation scripts -->
+<script type="text/javascript" src="toolbarfunctions.js"></script>
 <script type="text/javascript" src="osucanvas.js"></script>
 <script type="text/javascript" src="../globaldefault/js/animations.js"></script>
 
-<!-- translations -->
+<!-- global scripts -->
+<script type="text/javascript" src="../globaldefault/js/mousehandlers.js"></script>
 <script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
 <script type="text/javascript" src="../globaldefault/data/languages.js" defer></script>
 

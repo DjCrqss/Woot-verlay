@@ -30,7 +30,7 @@ function connectedAnim(){
     document.body.appendChild(cover);
 }
 
-function disconnectedAnim(){
+function disconnectedAnim(optionalText){
     // create div coverintg the whole screen
     var cover1 = document.createElement('div');
     cover1.style.position = "fixed";
@@ -56,7 +56,7 @@ function disconnectedAnim(){
         }, 2500);
     }, 750);
 
-    displayToast("Disconnected from client.", "rgb(101, 50, 50)");
+    displayToast(optionalText || "Disconnected from client.", "rgb(101, 50, 50)");
 
     // display onscreen
     document.body.appendChild(cover1);

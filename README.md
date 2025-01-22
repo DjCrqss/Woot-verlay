@@ -22,6 +22,8 @@ Presets are available to save and import. They can be found [here in the project
 A special mode for OSU! players that displays the Z and X keys with a histogram of the pressure values! View here and add to your streams using this link:
 [OSU-lay page.](https://djcrqss.github.io/Woot-verlay/pages/osulay/)
 
+Make sure to make the display size in OBS at least 1300x700.
+
 
 <br clear="both"/><br><br>
 <img src="https://github.com/DjCrqss/Woot-verlay/assets/25734612/dde0c084-6368-48a5-a633-597200856cd0" width="60%" align="right"/>

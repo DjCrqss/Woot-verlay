@@ -2,53 +2,49 @@
 
 const canvas = document.getElementById('osuCanvas');
 const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
 var runCanvas = false;
+var interval = null;
 
+// canvas variables
 var zLevel = 0;
 var prevZLevel = 0;
 var zActive = false;
 var xLevel = 0;
 var prevXLevel = 0;
 var xActive = false;
-
-const activeColour = "#00ff95";
-const inactiveColour = "#ff0000";
-const transparentColour = "#39393976";
+var opacity = 1;
 
 // interpolation variables
 var targetZLevel = 0;
 var targetXLevel = 0;
-const lerpFactor = 0.8; // Adjust this to control the speed of interpolation (closer to 1 = faster)
 
-var interval = null;
-const speed = 2;
+var zTransitionProgress = 0;
+var xTransitionProgress = 0;
+var zColInterpol = 0;
+var xColInterpol = 0;
 
 // canvas resolution settings
-const canvasWidth = 800;
-const canvasHeight = 400;
+var canvasWidth = 800;
+var canvasHeight = 400;
 var scale = 8;
-canvas.width = canvasWidth * scale;
-canvas.height = canvasHeight * scale;
+resizeCanvas();
+
 
 // key display settings
 const zSettings = {
     key: "Z",
     y: 0.33,
-    maxHeight: 0.2
 }
 
 const xSettings = {
     key: "X",
     y: 0.66,
-    maxHeight: 0.2
 }
 
 // key icon settings
 const zKeyIcon = document.getElementById('zKey');
 const xKeyIcon = document.getElementById('xKey');
-
-ctx.imageSmoothingEnabled = false;
-
 
 function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "copy";
@@ -57,42 +53,93 @@ function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "source-over"
 }
 
+function resizeCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = canvasWidth * scale;
+    canvas.height = canvasHeight * scale;
+}
+
 function drawCanvas(){
     // Smoothly interpolate zLevel and xLevel towards their targets
-    zLevel += (targetZLevel - zLevel) * lerpFactor;
-    xLevel += (targetXLevel - xLevel) * lerpFactor;
+    zLevel += (targetZLevel - zLevel) * settings.smoothness;
+    xLevel += (targetXLevel - xLevel) * settings.smoothness;
+
+    // change stroke width
+    ctx.lineWidth = settings.thickness;
 
     // Draw line for zLevel
     if(zActive){
-        ctx.strokeStyle = activeColour;
+        ctx.strokeStyle = activeColourString;
     } else {
-        ctx.strokeStyle = inactiveColour;
+        ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
     }
     ctx.beginPath();
-    ctx.moveTo(canvasWidth - speed, (canvasHeight * zSettings.y) - (prevZLevel * zSettings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * zSettings.maxHeight * canvasHeight));
+    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * zSettings.y) - (prevZLevel * settings.maxHeight * canvasHeight));
+    ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * settings.maxHeight * canvasHeight));
     ctx.stroke();
 
     // Draw line for xLevel
     if(xActive){
-        ctx.strokeStyle = activeColour;
+        ctx.strokeStyle = activeColourString;
     } else {
-        ctx.strokeStyle = inactiveColour;
+        ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
     }
     ctx.beginPath();
-    ctx.moveTo(canvasWidth - speed, (canvasHeight * xSettings.y) - (prevXLevel * xSettings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * xSettings.maxHeight * canvasHeight));
+    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * xSettings.y) - (prevXLevel * settings.maxHeight * canvasHeight));
+    ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * settings.maxHeight * canvasHeight));
     ctx.stroke();
 
     // Update previous levels
     prevZLevel = zLevel;
     prevXLevel = xLevel;
+
+    // add fading effect to end
+    if(settings.endFade){
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, (canvas.width/scale)/10, canvas.height);
+    }
 }
 
+function interpolateColour(colour1, colour2, t) {
+    return [
+        Math.round(colour1[0] + (colour2[0] - colour1[0]) * t),
+        Math.round(colour1[1] + (colour2[1] - colour1[1]) * t),
+        Math.round(colour1[2] + (colour2[2] - colour1[2]) * t)
+    ];
+}
+
+const transitionSpeed = 0.075;
 function updateKeyIcons(){
-    // style as a gradient background: linear-gradient(0deg, #00ff95 50%, #39393976 50%);
-    zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColour : inactiveColour} ${zLevel * 100}%, ${transparentColour} ${zLevel * 100}%)`;
-    xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColour : inactiveColour} ${xLevel * 100}%, ${transparentColour} ${xLevel * 100}%)`;
+    if(settings.instantTransitions){
+        zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+    } else {
+        if(zActive){
+            zTransitionProgress = Math.min(zTransitionProgress + transitionSpeed, 1);
+        } else {
+            zTransitionProgress = Math.max(zTransitionProgress - transitionSpeed, 0);
+        }
+        var currentColour = interpolateColour(inactiveColour, activeColour, zTransitionProgress);
+        zKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        
+        if(xActive){
+            xTransitionProgress = Math.min(xTransitionProgress + transitionSpeed, 1);
+        }
+        else {
+            xTransitionProgress = Math.max(xTransitionProgress - transitionSpeed, 0);
+        }
+        currentColour = interpolateColour(inactiveColour, activeColour, xTransitionProgress);
+        xKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+    }
+    if(!active && timer > settings.inactiveTime) {
+        zKeyIcon.style.opacity = opacity + 0.35;
+        xKeyIcon.style.opacity = opacity + 0.35;
+
+    } else {
+        zKeyIcon.style.opacity = 1;
+        xKeyIcon.style.opacity = 1;
+    }
 }
 
 function startCanvas(){
@@ -100,11 +147,12 @@ function startCanvas(){
     runCanvas = true;
     interval = setInterval(() => {
         if(runCanvas){
-            shiftCanvas(speed);
+            shiftCanvas(settings.speed);
             drawCanvas();
             updateKeyIcons();
+            if(settings.inactiveFading) updateOpacity();
         }
-    }, 1000/120);
+    }, 1000/settings.refreshrate);
 }
 
 function stopCanvas(){

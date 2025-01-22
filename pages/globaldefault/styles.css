@@ -87,16 +87,16 @@ h2, h3 {
     position: fixed;
     top: 0;
     right: min(40vw, 500px);
-    padding: 0 1em;
+    padding: 0 1.25em;
     background: var(--elem-prim-bg);
     backdrop-filter: blur(5px);
-    min-width: 200px;
+    min-width: 150px;
     min-height: 60px;
     border: 1px solid var(--elem-sec-border);
     border-top: 0;
     border-radius: 0 0 var(--elem-border-radius) var(--elem-border-radius);
     display: flex;
-    gap: 1em;
+    gap: 1.1em;
     justify-content: space-evenly;
     transition: opacity 0.5s;
     opacity: 0;
@@ -132,13 +132,12 @@ h2, h3 {
 }
 
 /* Setting panels */
-#settings {
-    visibility: hidden;
+.tabmenu{
     background-color: var(--elem-sec-bg);
     border: 1px solid var(--elem-sec-border);
     border-radius: 12px;
 
-    width: 100%;
+    min-width: max(100%, 250px);
     min-height: 60px;
     max-height: calc(100vh - 80px);
     overflow-y: scroll;
@@ -153,31 +152,13 @@ h2, h3 {
     gap: 1em;
 
     overflow: auto;
-}
 
-#presets,
-#lanSettings, #languages {
-    visibility: hidden;
-    background-color: var(--elem-sec-bg);
-    border: 1px solid var(--elem-sec-border);
-    border-radius: 12px;
-
-    width: 100%;
-    min-height: 60px;
-    max-height: calc(100vh - 80px);
-    overflow-y: scroll;
-    padding: 12px;
+    padding: 2em;
     box-sizing: border-box;
 
-    position: absolute;
-    top: 70px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-
-    overflow: auto
+    visibility: hidden;
 }
+
 
 #savedPresets{
     display: grid;
@@ -247,7 +228,7 @@ button:active {
 
 hr {
     opacity: 0.05;
-    margin: 1em 1em;
+    margin: 0.1em 0.1em;
 }
 
 
@@ -283,6 +264,7 @@ hr {
 #keyPool {
     /* width: 28vw; */
     width: min(420px, 32vw);
+    min-width: 0;
     height: 94vh;
     position: fixed;
     top: 3vh;
