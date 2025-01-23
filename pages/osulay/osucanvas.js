@@ -111,6 +111,7 @@ function interpolateColour(colour1, colour2, t) {
 
 const transitionSpeed = 0.075;
 function updateKeyIcons(){
+    // colouring
     if(settings.instantTransitions){
         zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
         xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
@@ -132,6 +133,17 @@ function updateKeyIcons(){
         currentColour = interpolateColour(inactiveColour, activeColour, xTransitionProgress);
         xKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
     }
+
+    // transformations
+    // shrink icon by pressure
+    zKeyIcon.style.transform = `scale(${1 - zLevel * settings.shrink})`;
+    xKeyIcon.style.transform = `scale(${1 - xLevel * settings.shrink})`;
+    
+    // rotate icon by pressure
+    zKeyIcon.style.transform += ` rotate(${zLevel * -settings.rotate}deg)`;
+    xKeyIcon.style.transform += ` rotate(${xLevel * settings.rotate}deg)`;
+
+    // fading
     if(!active && timer > settings.inactiveTime) {
         zKeyIcon.style.opacity = opacity + 0.35;
         xKeyIcon.style.opacity = opacity + 0.35;

@@ -22,6 +22,9 @@ var settings = {
     maxHeight: 0.2, // not used yet but will determine height of items
     transitionTime: 0.8, // not used yet but will determine interpolation of colour change for line and icons
     endFade: true, // will determine if lines will fade out at the end of the canvas
+
+    shrink: 0.1,
+    rotate: 1,
     
     inactiveFading: true,
     inactiveTime: 300,
@@ -69,22 +72,7 @@ if (localStorage.getItem("osu-colours")) {
 
 if (localStorage.getItem("osu-settings")) {
     var data = JSON.parse(localStorage.getItem("osu-settings"));
-    settings = {
-        speed: data.speed,
-        refreshrate: data.refreshrate,
-        
-        smoothness: data.smoothness,
-        thickness: data.thickness,
-        
-        density: data.density,
-        maxHeight: data.maxHeight,
-        transitionTime: data.transitionTime,
-        endFade: data.endFade,
-        
-        inactiveFading: data.inactiveFading,
-        inactiveTime: data.inactiveTime,
-        instantTransitions: data.instantTransitions
-    }
+    settings = { ...settings, ...data };
     saveSettings();
 } else {
     // save default settings
@@ -218,6 +206,9 @@ function resetSettings(){
         maxHeight: 0.2,
         transitionTime: 0.8,
         endFade: true,
+
+        shrink: 0.1,
+        rotate: 1,
         
         inactiveFading: true,
         inactiveTime: 300,
