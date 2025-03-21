@@ -22,7 +22,7 @@ if (profile) {
     // check all the presetXName to see if the profile exists
     for (let i = 0; i < customProfileCount; i++) {
         let presetName = localStorage.getItem("preset" + i + "Name");
-        if (presetName.toLowerCase().replace(/\s+/g, '') == profile.toLowerCase().replace(/\s+/g, '')) {
+        if (presetName && presetName.toLowerCase().replace(/\s+/g, '') == profile.toLowerCase().replace(/\s+/g, '')) {
             loadPreset(i);
             break;
         }
@@ -243,14 +243,16 @@ function savePreset(presetNum) {
             return;
         }
     }
-    
     let presetName = prompt("Please enter a preset name:");
+    if(presetName == null || presetName == "") return;
+
 
     let presetExists = false;
     for (let i = 0; i < customProfileCount; i++) {
         // Skip the current preset (for overwriting)
         if (i === presetNum) continue;
-        if (presetName.toLowerCase().replace(/\s+/g, '') === localStorage.getItem("preset" + i + "Name").toLowerCase().replace(/\s+/g, '')) {
+        const localPresetName = localStorage.getItem("preset" + i + "Name");
+        if (localPresetName && presetName.toLowerCase().replace(/\s+/g, '') === localStorage.getItem("preset" + i + "Name").toLowerCase().replace(/\s+/g, '')) {
             console.log("Preset name already exists!" + presetName);
             presetExists = true;
             break;
