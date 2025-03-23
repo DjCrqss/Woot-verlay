@@ -29,25 +29,35 @@ canvas {
 }
 
 .keyIcon{
+    font-family: "Fredoka", sans-serif;
     position: fixed;
-    width: 4em;
-    height: 4em;
-    left: 850px;
-    background-color: #39393976;
-    /* gradient transition */
-    transition: background-color 0.5s;
-    border-radius: 0.15em;
-    transition: opacity 0.5s;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+    font-size: 8em;
+    aspect-ratio: 1;
+    left: 820px;
+
+    /* background-color: #39393976; */
+    background-image: color(#393939);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    /* transition: background-color 0.5s;
+    transition: opacity 0.5s; */
+
+    font-family: "Orbitron", sans-serif;
+    font-weight: 800;
 }
 
+  
 #zKey {
-    top: 4em;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 21%, 36% 76%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 61% 23%, 0 23%);
+    top: 2rem;
 }
 
 #xKey{
-    top: 12em;
-    clip-path: polygon(0% 0%, 24% 0, 50% 29%, 76% 0, 100% 0%, 100% 23%, 69% 51%, 100% 76%, 100% 100%, 76% 100%, 50% 73%, 26% 100%, 0% 100%, 0 74%, 28% 50%, 0 23%);
+    top: 10rem;
 }
 
 /* make h2 capital */

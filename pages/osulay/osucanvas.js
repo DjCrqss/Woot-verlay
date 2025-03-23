@@ -10,9 +10,11 @@ var interval = null;
 var zLevel = 0;
 var prevZLevel = 0;
 var zActive = false;
+
 var xLevel = 0;
 var prevXLevel = 0;
 var xActive = false;
+
 var opacity = 1;
 
 // interpolation variables
@@ -21,8 +23,6 @@ var targetXLevel = 0;
 
 var zTransitionProgress = 0;
 var xTransitionProgress = 0;
-var zColInterpol = 0;
-var xColInterpol = 0;
 
 // canvas resolution settings
 var canvasWidth = 800;
@@ -33,12 +33,10 @@ resizeCanvas();
 
 // key display settings
 const zSettings = {
-    key: "Z",
     y: 0.33,
 }
 
 const xSettings = {
-    key: "X",
     y: 0.66,
 }
 
@@ -113,8 +111,8 @@ const transitionSpeed = 0.075;
 function updateKeyIcons(){
     // colouring
     if(settings.instantTransitions){
-        zKeyIcon.style.background = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
-        xKeyIcon.style.background = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+        zKeyIcon.style.backgroundImage = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        xKeyIcon.style.backgroundImage = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
     } else {
         if(zActive){
             zTransitionProgress = Math.min(zTransitionProgress + transitionSpeed, 1);
@@ -122,7 +120,7 @@ function updateKeyIcons(){
             zTransitionProgress = Math.max(zTransitionProgress - transitionSpeed, 0);
         }
         var currentColour = interpolateColour(inactiveColour, activeColour, zTransitionProgress);
-        zKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+        zKeyIcon.style.backgroundImage = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
         
         if(xActive){
             xTransitionProgress = Math.min(xTransitionProgress + transitionSpeed, 1);
@@ -131,7 +129,7 @@ function updateKeyIcons(){
             xTransitionProgress = Math.max(xTransitionProgress - transitionSpeed, 0);
         }
         currentColour = interpolateColour(inactiveColour, activeColour, xTransitionProgress);
-        xKeyIcon.style.background = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
+        xKeyIcon.style.backgroundImage = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
     }
 
     // transformations

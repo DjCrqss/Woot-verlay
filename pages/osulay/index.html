@@ -14,6 +14,9 @@
   <!-- css stylesheets -->
   <link rel='stylesheet' type='text/css' href="../globaldefault/styles.css">
   <link rel='stylesheet' type='text/css' href="osu.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -23,8 +26,8 @@
 <body>
   <!-- keyboard and keys display -->
   <canvas id="osuCanvas"></canvas>
-  <div id="zKey" class="keyIcon"></div>
-  <div id="xKey" class="keyIcon"></div>
+  <div id="zKey" class="keyIcon">z</div>
+  <div id="xKey" class="keyIcon">x</div>
 
   <!-- floating toolbar -->
   <div id="toolbar" class="mouseOver">
@@ -134,6 +137,7 @@
 <!-- global scripts -->
 <script type="text/javascript" src="../globaldefault/js/mousehandlers.js"></script>
 <script src="https://unpkg.com/@andreasremdt/simple-translator@latest/dist/umd/translator.min.js"></script>
+<script type="text/javascript" src="../globaldefault/js/keypool.js"></script>
 <script type="text/javascript" src="../globaldefault/data/languages.js" defer></script>
 
 <!-- websocket -->

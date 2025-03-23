@@ -1,5 +1,5 @@
 // convert key ID's to readable names
-const keyPairs = {
+export const keyPairs = {
     A: 4, B: 5, C: 6, D: 7, E: 8, F: 9, G: 10, H: 11, I: 12, J: 13, K: 14, L: 15, M: 16, N: 17, O: 18, P: 19, Q: 20, R: 21, S: 22, T: 23, U: 24, V: 25, W: 26, X: 27, Y: 28, Z: 29,
     1: 30, 2: 31, 3: 32, 4: 33, 5: 34, 6: 35, 7: 36, 8: 37, 9: 38, 0: 39,
     Enter: 40, Esc: 41, Back: 42, Tab: 43, __: 44, '-': 45, '+': 46, '[': 47, ']': 48, '\\': 49,
