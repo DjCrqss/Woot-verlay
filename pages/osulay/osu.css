@@ -22,17 +22,27 @@ body {
     --dark-accent: #24222A;
 }
 
-
-
 canvas {
     position: fixed;
 }
 
-.keyIcon{
+/* Key icons */
+.keyContainer{
     position: fixed;
+    left: 850px;
+}
+
+#zContainer{
+    top: 4em;
+}
+
+#xContainer{
+    top: 12em;
+}
+
+.keyIcon{
     width: 4em;
     height: 4em;
-    left: 850px;
     background-color: #39393976;
     /* gradient transition */
     transition: background-color 0.5s;
@@ -41,16 +51,34 @@ canvas {
 }
 
 #zKey {
-    top: 4em;
     clip-path: polygon(0% 0%, 100% 0%, 100% 21%, 36% 76%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 61% 23%, 0 23%);
 }
 
 #xKey{
-    top: 12em;
     clip-path: polygon(0% 0%, 24% 0, 50% 29%, 76% 0, 100% 0%, 100% 23%, 69% 51%, 100% 76%, 100% 100%, 76% 100%, 50% 73%, 26% 100%, 0% 100%, 0 74%, 28% 50%, 0 23%);
 }
 
-/* make h2 capital */
+/* key counters */
+.keyCounter{
+    font-size: 0.7em;
+    position: absolute;
+    bottom: -0.85em;
+    right: -0.5em;
+    padding: 0.2em 0.5em;
+    min-width: 2em;
+    text-align: center;
+    border-radius: 1em;
+
+    background-color: rgba(255, 255, 255, 0.356);
+    backdrop-filter: blur(5px);
+    color: rgb(37, 37, 37);
+    border: 1px solid white;
+    font-weight: bold;
+}
+
+
+
+/* osu text styles */
 h2 {
     text-transform: uppercase;
 }
@@ -58,7 +86,6 @@ h2 {
 span {
     text-transform: lowercase;
 }
-
 
 /* Overridden styles */
 #toolbar{

@@ -45,6 +45,10 @@ const xSettings = {
 // key icon settings
 const zKeyIcon = document.getElementById('zKey');
 const xKeyIcon = document.getElementById('xKey');
+const zCounter = document.getElementById('zCounter');
+const xCounter = document.getElementById('xCounter');
+var zCounterValue = 0;
+var xCounterValue = 0;
 
 function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "copy";
@@ -174,7 +178,20 @@ function stopCanvas(){
 }
 
 
+function actuate(key){
+    if(key == "z"){
+        zCounterValue++;
+        zCounter.innerHTML = zCounterValue;
+        // set counter opacity to like 5 and count down by 0.1, this will mean for 4 seconds the counter will be visible
+        // then it will fade out! if fully faded out, set counter to 0
+    } else if(key == "x"){
+        xCounterValue++;
+        xCounter.innerHTML = xCounterValue;
+    }
+}
 
+
+// use javascript fade in and fade out
 
 
 

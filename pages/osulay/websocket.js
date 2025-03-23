@@ -11,7 +11,6 @@ var firstDisconnect = false;
 var active = false;
 var timer = 0;
 
-
 function changeDefaultWSI(optionalCustomWSI) {
     newWSI = "ws://" + optionalCustomWSI + ":32312/";
     knownWSI = newWSI;
@@ -74,7 +73,7 @@ function update(message) {
         return;
     }
 
-    active = false;
+    let tempActive = false;
     // split message into key tuples
     const keys = message.split(/[()]/);
     // TODO: filter to make sure keys are Z or X!!!!! z = 29, x = 27
@@ -83,16 +82,26 @@ function update(message) {
         var keydata = element.split(':');
         if(keydata[0] == "29"){
             targetZLevel = parseFloat(keydata[1]);
-            zActive = parseFloat(keydata[2]) == 1;
-            zColInterpol = 0;
-            active = true;
+            let active = parseFloat(keydata[2]) == 1;
+            if(!zActive && active){
+                // single actuation
+                actuate("z");
+            }
+            zActive = active;
+            // zColInterpol = 0;
+            tempActive = true;
         } else if(keydata[0] == "27"){
             targetXLevel = parseFloat(keydata[1]);
-            xActive = parseFloat(keydata[2]) == 1;
-            xColInterpol = 0;
-            active = true;
+            let active = parseFloat(keydata[2]) == 1;
+            if(!xActive && active){
+                // single actuation
+                actuate("x");
+            }
+            xActive = active;
+            tempActive = true;
         }
     })
+    active = tempActive;
 }
 
 function updateOpacity(){
