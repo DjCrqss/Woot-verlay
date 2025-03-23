@@ -40,7 +40,8 @@ activeKeys.push(templateKey("C"));
 
 // canvas resolution settings
 var canvasWidth = 800;
-var canvasHeight = 400;
+var canvasHeight = 200;
+const heightPerKey = 150;
 var scale = 8;
 resizeCanvas();
 
@@ -55,7 +56,8 @@ function shiftCanvas(widthOfMove){
 function resizeCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = canvasWidth * scale;
-    canvas.height = canvasHeight * scale;
+    canvas.height = canvasHeight * scale * activeKeys.length;
+    canvasHeight = heightPerKey * activeKeys.length;
 }
 
 function drawCanvas() {
