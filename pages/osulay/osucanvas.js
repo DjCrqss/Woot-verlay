@@ -5,24 +5,38 @@ const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 var runCanvas = false;
 var interval = null;
-
-// canvas variables
-var zLevel = 0;
-var prevZLevel = 0;
-var zActive = false;
-
-var xLevel = 0;
-var prevXLevel = 0;
-var xActive = false;
-
 var opacity = 1;
 
-// interpolation variables
-var targetZLevel = 0;
-var targetXLevel = 0;
+templateKey = function (letter) {
+    const value = keyPairs[letter.toUpperCase()];
 
-var zTransitionProgress = 0;
-var xTransitionProgress = 0;
+    if (value === undefined) {
+        console.warn(`Key "${letter}" not found in keyPairs.`);
+        return null; // Handle missing keys gracefully
+    }
+
+    let icon = document.createElement('div');
+    icon.classList.add('keyIcon');
+    icon.textContent = letter.toLowerCase();
+    // append to the body
+    document.body.appendChild(icon);
+
+    return {
+        key: value,
+        curLevel: 0,
+        prevLevel: 0,
+        active: false,
+        targetLevel: 0,
+        transitionProgress: 0,
+        keyIcon: icon,
+    }
+}
+
+const activeKeys = [];
+activeKeys.push(templateKey("Z"));
+activeKeys.push(templateKey("X"));
+activeKeys.push(templateKey("C"));
+
 
 // canvas resolution settings
 var canvasWidth = 800;
@@ -30,19 +44,6 @@ var canvasHeight = 400;
 var scale = 8;
 resizeCanvas();
 
-
-// key display settings
-const zSettings = {
-    y: 0.33,
-}
-
-const xSettings = {
-    y: 0.66,
-}
-
-// key icon settings
-const zKeyIcon = document.getElementById('zKey');
-const xKeyIcon = document.getElementById('xKey');
 
 function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "copy";
@@ -57,45 +58,35 @@ function resizeCanvas(){
     canvas.height = canvasHeight * scale;
 }
 
-function drawCanvas(){
-    // Smoothly interpolate zLevel and xLevel towards their targets
-    zLevel += (targetZLevel - zLevel) * settings.smoothness;
-    xLevel += (targetXLevel - xLevel) * settings.smoothness;
-
-    // change stroke width
+function drawCanvas() {
     ctx.lineWidth = settings.thickness;
+    
+    let count = 0;
+    activeKeys.forEach(key => {
+        count++;
+        // Smooth interpolation
+        key.curLevel += (key.targetLevel - key.curLevel) * settings.smoothness;
 
-    // Draw line for zLevel
-    if(zActive){
-        ctx.strokeStyle = activeColourString;
-    } else {
-        ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
-    }
-    ctx.beginPath();
-    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * zSettings.y) - (prevZLevel * settings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * zSettings.y) - (zLevel * settings.maxHeight * canvasHeight));
-    ctx.stroke();
-
-    // Draw line for xLevel
-    if(xActive){
-        ctx.strokeStyle = activeColourString;
-    } else {
-        ctx.strokeStyle = `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
-    }
-    ctx.beginPath();
-    ctx.moveTo(canvasWidth - settings.speed, (canvasHeight * xSettings.y) - (prevXLevel * settings.maxHeight * canvasHeight));
-    ctx.lineTo(canvasWidth, (canvasHeight * xSettings.y) - (xLevel * settings.maxHeight * canvasHeight));
-    ctx.stroke();
-
-    // Update previous levels
-    prevZLevel = zLevel;
-    prevXLevel = xLevel;
-
-    // add fading effect to end
-    if(settings.endFade){
+        // Set stroke style based on active state
+        ctx.strokeStyle = key.active ? activeColourString : 
+            `rgba(${inactiveColour[0]}, ${inactiveColour[1]}, ${inactiveColour[2]}, ${opacity})`;
+        
+        // Draw line
+        ctx.beginPath();
+        ctx.moveTo(canvasWidth - settings.speed, (canvasHeight  * (count / activeKeys.length)) - (key.prevLevel * settings.maxHeight * canvasHeight));
+        ctx.lineTo(canvasWidth, (canvasHeight * (count / activeKeys.length)) - (key.curLevel * settings.maxHeight * canvasHeight));
+        ctx.stroke();
+        
+        // Update previous level
+        key.prevLevel = key.curLevel;
+    });
+    
+    // Add fading effect to end
+    if (settings.endFade) {
         ctx.globalCompositeOperation = "destination-out";
         ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-        ctx.fillRect(0, 0, (canvas.width/scale)/10, canvas.height);
+        ctx.fillRect(0, 0, canvasWidth / 10, canvasHeight);
+        ctx.globalCompositeOperation = "source-over";
     }
 }
 
@@ -108,48 +99,43 @@ function interpolateColour(colour1, colour2, t) {
 }
 
 const transitionSpeed = 0.075;
-function updateKeyIcons(){
-    // colouring
-    if(settings.instantTransitions){
-        zKeyIcon.style.backgroundImage = `linear-gradient(0deg, ${zActive ? activeColourString : inactiveColourString} ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
-        xKeyIcon.style.backgroundImage = `linear-gradient(0deg, ${xActive ? activeColourString : inactiveColourString} ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
-    } else {
-        if(zActive){
-            zTransitionProgress = Math.min(zTransitionProgress + transitionSpeed, 1);
-        } else {
-            zTransitionProgress = Math.max(zTransitionProgress - transitionSpeed, 0);
-        }
-        var currentColour = interpolateColour(inactiveColour, activeColour, zTransitionProgress);
-        zKeyIcon.style.backgroundImage = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${zLevel * 100}%, ${accentColour} ${zLevel * 100}%)`;
+
+function updateKeyIcons() {
+    let count = 0;
+    activeKeys.forEach(key => {
+        count++;
+        const { keyIcon, active, curLevel, transitionProgress } = key;
+
+        // location (canvasHeight  * (count / activeKeys.length))
+        keyIcon.style.top = `calc(${canvasHeight * (count / activeKeys.length)}px - 0.9em)`;
+        console.log(canvasHeight * (count / activeKeys.length));
         
-        if(xActive){
-            xTransitionProgress = Math.min(xTransitionProgress + transitionSpeed, 1);
+
+        // Colouring
+        if (settings.instantTransitions) {
+            keyIcon.style.backgroundImage = `linear-gradient(0deg, ${active ? activeColourString : inactiveColourString} ${curLevel * 100}%, ${accentColour} ${curLevel * 100}%)`;
+        } else {
+            if (active) {
+                key.transitionProgress = Math.min(transitionProgress + transitionSpeed, 1);
+            } else {
+                key.transitionProgress = Math.max(transitionProgress - transitionSpeed, 0);
+            }
+
+            const currentColour = interpolateColour(inactiveColour, activeColour, transitionProgress);
+            keyIcon.style.backgroundImage = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${curLevel * 100}%, ${accentColour} ${curLevel * 100}%)`;
         }
-        else {
-            xTransitionProgress = Math.max(xTransitionProgress - transitionSpeed, 0);
+
+        // Transformations
+        keyIcon.style.transform = `scale(${1 - curLevel * settings.shrink})`;
+        keyIcon.style.transform += ` rotate(${curLevel * (count % 2 == 0 ? settings.rotate : -settings.rotate)}deg)`;
+
+        // Fading
+        if (!active && timer > settings.inactiveTime) {
+            keyIcon.style.opacity = opacity + 0.35;
+        } else {
+            keyIcon.style.opacity = 1;
         }
-        currentColour = interpolateColour(inactiveColour, activeColour, xTransitionProgress);
-        xKeyIcon.style.backgroundImage = `linear-gradient(0deg, rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}) ${xLevel * 100}%, ${accentColour} ${xLevel * 100}%)`;
-    }
-
-    // transformations
-    // shrink icon by pressure
-    zKeyIcon.style.transform = `scale(${1 - zLevel * settings.shrink})`;
-    xKeyIcon.style.transform = `scale(${1 - xLevel * settings.shrink})`;
-    
-    // rotate icon by pressure
-    zKeyIcon.style.transform += ` rotate(${zLevel * -settings.rotate}deg)`;
-    xKeyIcon.style.transform += ` rotate(${xLevel * settings.rotate}deg)`;
-
-    // fading
-    if(!active && timer > settings.inactiveTime) {
-        zKeyIcon.style.opacity = opacity + 0.35;
-        xKeyIcon.style.opacity = opacity + 0.35;
-
-    } else {
-        zKeyIcon.style.opacity = 1;
-        xKeyIcon.style.opacity = 1;
-    }
+    });
 }
 
 function startCanvas(){

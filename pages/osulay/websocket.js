@@ -81,15 +81,10 @@ function update(message) {
     keys.filter(element => element.length != 0).forEach(element => {
         // split key into seperate values
         var keydata = element.split(':');
-        if(keydata[0] == "29"){
-            targetZLevel = parseFloat(keydata[1]);
-            zActive = parseFloat(keydata[2]) == 1;
-            zColInterpol = 0;
-            active = true;
-        } else if(keydata[0] == "27"){
-            targetXLevel = parseFloat(keydata[1]);
-            xActive = parseFloat(keydata[2]) == 1;
-            xColInterpol = 0;
+        if(activeKeys.some(keyObj => keyObj.key == keydata[0])){
+            let keyObj = activeKeys.find(keyObj => keyObj.key == keydata[0]);
+            keyObj.targetLevel = parseFloat(keydata[1]);
+            keyObj.active = parseFloat(keydata[2]) == 1;
             active = true;
         }
     })
