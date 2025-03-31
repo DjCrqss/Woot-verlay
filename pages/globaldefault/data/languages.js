@@ -3,6 +3,7 @@ var english = {
         // addkeys
         addkeys: {
             title: "Add Keys",
+            singular: "Add key",
         },
         // customise
         customise: {

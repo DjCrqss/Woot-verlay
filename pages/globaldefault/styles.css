@@ -289,6 +289,7 @@ hr {
     color: var(--text-prim);
     border-radius: 4px;
     box-sizing: border-box;
+    outline: none;
 }
 
 [type="search"]::-webkit-search-cancel-button {

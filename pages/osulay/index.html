@@ -14,6 +14,9 @@
   <!-- css stylesheets -->
   <link rel='stylesheet' type='text/css' href="../globaldefault/styles.css">
   <link rel='stylesheet' type='text/css' href="osu.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -23,8 +26,18 @@
 <body>
   <!-- keyboard and keys display -->
   <canvas id="osuCanvas"></canvas>
-  <div id="zKey" class="keyIcon"></div>
-  <div id="xKey" class="keyIcon"></div>
+
+
+  <!-- TODO: add a skeleton item below which will show the keypool when clicked -->
+    <section id="addKey" class="mouseOver"> <!-- remove when button is added mouseOver-->
+      <!-- <div id="addKeyButton">
+        <span data-i18n="menus.addkeys.singular">Add key</span>
+      </div> -->
+      <section id="keyPool">
+        <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()" autocomplete="off">
+        <div id="keyPoolOptions"></div>
+      </section>
+    </section>
 
   <!-- floating toolbar -->
   <div id="toolbar" class="mouseOver">
@@ -125,6 +138,8 @@
   </div>
 </body>
 
+
+<script type="text/javascript" src="../globaldefault/js/keypool.js"></script>
 
 <!-- animation scripts -->
 <script type="text/javascript" src="toolbarfunctions.js"></script>
