@@ -24,8 +24,6 @@ templateKey = function (id, label) {
     }
     icon.appendChild(closeBtn);
 
-    document.body.appendChild(icon);
-
     return {
         key: id,
         label: label,
@@ -46,6 +44,7 @@ function registerKey(keyID, label){
     activeKeys.push(templateKey(keyID, label));
     activeKeyIDs.push(keyID);
     resizeCanvas();
+    buildOptions();
 }
 
 function removeKey(keyID){
@@ -54,6 +53,8 @@ function removeKey(keyID){
     activeKeys.splice(index, 1);
     activeKeyIDs.splice(index, 1);
     resizeCanvas();
+    buildOptions();
+
 }
 
 function saveState(){
@@ -74,6 +75,7 @@ async function loadState(){
     }
     activeKeyIDs = activeKeys.map(key => key.key);
     
+    buildOptions();
     resizeCanvas();
 }
 
@@ -179,6 +181,18 @@ function updateKeyIcons() {
     });
 }
 
+function showKeyIcons() {
+    activeKeys.forEach(key => {
+        document.body.appendChild(key.keyIcon);
+    });
+}
+
+function hideKeyIcons() {
+    activeKeys.forEach(key => {
+        key.keyIcon.remove();
+    });
+}
+
 function startCanvas(){
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -193,13 +207,14 @@ function startCanvas(){
         }
     }, 1000/settings.refreshrate);
 
-    buildOptions();
+    showKeyIcons();
 }
 
 function stopCanvas(){
     if(interval == null) return;
     runCanvas = false;
     clearInterval(interval);
+    hideKeyIcons();
     drawDisconnected();
 }
 

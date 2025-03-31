@@ -28,6 +28,22 @@ canvas {
     position: fixed;
 }
 
+#addKey{
+    position: fixed;
+    width: 750px;
+    left: 50px;
+    top: 400px;
+    height: 200px;
+    background-color: var(--dark-accent);
+}
+
+#addKeyButton{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
 .keyIcon{
     font-family: "Fredoka", sans-serif;
     position: fixed;
@@ -168,8 +184,20 @@ button {
 
 /* Overrides */
 #keyPool {
+    /* CSS RESET */
     visibility: visible;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    grid-template-rows: min-content 1fr;
 }
+
+/* #addKey:has(#keyPool[style*="display:none"]) {
+    background-color: red;
+} */
 
 .closeBtn{
     position: absolute;

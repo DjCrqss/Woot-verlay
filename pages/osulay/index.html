@@ -27,16 +27,17 @@
   <!-- keyboard and keys display -->
   <canvas id="osuCanvas"></canvas>
 
-  <section id="keyPool"  class="mouseOver">
-    <h2 data-i18n="menus.addkeys.title">Add keys</h2>
-    <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()">
-    <div id="keyPoolOptions"></div>
-  </section>
 
-  <!-- TODO: add a skeleton item below which will show the keypool when clicked
-    <section id="addKey">
-
-    </section> -->
+  <!-- TODO: add a skeleton item below which will show the keypool when clicked -->
+    <section id="addKey" class="mouseOver"> <!-- remove when button is added mouseOver-->
+      <!-- <div id="addKeyButton">
+        <span data-i18n="menus.addkeys.singular">Add key</span>
+      </div> -->
+      <section id="keyPool">
+        <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()" autocomplete="off">
+        <div id="keyPoolOptions"></div>
+      </section>
+    </section>
 
   <!-- floating toolbar -->
   <div id="toolbar" class="mouseOver">
