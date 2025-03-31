@@ -79,6 +79,9 @@ To access the visuals across devices
 Launch the Woot-verlay client and press 'Yes' on the first popup. Go into your system tray (bottom right) and right-click on Wootverlay, it should now show your local IP.
 On another device, open the [site](https://djcrqss.github.io/Woot-verlay/index.html) and in the toolbar at the top, click on the WiFi icon and enter the IP then press connect. 
 
+## Troubleshooting
+Having any issues, such as pressure levels not showing when in certain games? Check out the [troubleshooting wiki](https://github.com/DjCrqss/Woot-verlay/wiki/Troubleshooting) or create an issue!
+
 
 
 
