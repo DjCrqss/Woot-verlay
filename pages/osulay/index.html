@@ -26,8 +26,17 @@
 <body>
   <!-- keyboard and keys display -->
   <canvas id="osuCanvas"></canvas>
-  <div id="zKey" class="keyIcon">z</div>
-  <div id="xKey" class="keyIcon">x</div>
+
+  <section id="keyPool"  class="mouseOver">
+    <h2 data-i18n="menus.addkeys.title">Add keys</h2>
+    <input type="search" id="keyPoolInput" placeholder="🔎︎ Search" oninput="buildOptions()">
+    <div id="keyPoolOptions"></div>
+  </section>
+
+  <!-- TODO: add a skeleton item below which will show the keypool when clicked
+    <section id="addKey">
+
+    </section> -->
 
   <!-- floating toolbar -->
   <div id="toolbar" class="mouseOver">

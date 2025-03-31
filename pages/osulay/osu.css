@@ -43,7 +43,6 @@ canvas {
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
     /* transition: background-color 0.5s;
     transition: opacity 0.5s; */
 
@@ -165,4 +164,25 @@ button {
         right: 1em;
         top: 1em;
     }
+}
+
+/* Overrides */
+#keyPool {
+    visibility: visible;
+}
+
+.closeBtn{
+    position: absolute;
+    top: 0.7em;
+    right: 0.7em;
+    z-index: 100;
+    
+    background-color: rgb(200, 74, 74);
+    padding: 0.1em 0.5em;
+    border-radius: 1em;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+
+    line-height: normal;
 }

@@ -7,22 +7,28 @@ var runCanvas = false;
 var interval = null;
 var opacity = 1;
 
-templateKey = function (letter) {
-    const value = keyPairs[letter.toUpperCase()];
+const maxKeys = 4;
 
-    if (value === undefined) {
-        console.warn(`Key "${letter}" not found in keyPairs.`);
-        return null; // Handle missing keys gracefully
-    }
-
+templateKey = function (id, label) {
     let icon = document.createElement('div');
     icon.classList.add('keyIcon');
-    icon.textContent = letter.toLowerCase();
-    // append to the body
+    icon.textContent = label.toLowerCase();
+
+    let closeBtn = document.createElement('div');
+    closeBtn.classList.add('closeBtn');
+    closeBtn.classList.add('mouseOver');
+    closeBtn.textContent = "x";
+    closeBtn.onclick = function () {
+        removeKey(id);
+        saveState();
+    }
+    icon.appendChild(closeBtn);
+
     document.body.appendChild(icon);
 
     return {
-        key: value,
+        key: id,
+        label: label,
         curLevel: 0,
         prevLevel: 0,
         active: false,
@@ -33,9 +39,43 @@ templateKey = function (letter) {
 }
 
 const activeKeys = [];
-activeKeys.push(templateKey("Z"));
-activeKeys.push(templateKey("X"));
-activeKeys.push(templateKey("C"));
+var activeKeyIDs = [];
+
+function registerKey(keyID, label){
+    if(activeKeys.length >= maxKeys) return;
+    activeKeys.push(templateKey(keyID, label));
+    activeKeyIDs.push(keyID);
+    resizeCanvas();
+}
+
+function removeKey(keyID){
+    const index = activeKeys.findIndex(key => key.key == keyID);
+    activeKeys[index].keyIcon.remove();
+    activeKeys.splice(index, 1);
+    activeKeyIDs.splice(index, 1);
+    resizeCanvas();
+}
+
+function saveState(){
+    // store keyID and label
+    localStorage.setItem("keys", JSON.stringify(activeKeys.map(key => [key.key, key.label])));
+}
+
+async function loadState(){
+    const keys = JSON.parse(localStorage.getItem("keys"));
+    if(keys == null){
+        activeKeys.push(templateKey(29, "z")); //z
+        activeKeys.push(templateKey(27, "x")); //x
+        activeKeys.push(templateKey(6, "c")); //c
+    } else {
+        keys.forEach(key => {
+            activeKeys.push(templateKey(key[0], key[1]));
+        });
+    }
+    activeKeyIDs = activeKeys.map(key => key.key);
+    
+    resizeCanvas();
+}
 
 
 // canvas resolution settings
@@ -43,8 +83,6 @@ var canvasWidth = 800;
 var canvasHeight = 200;
 const heightPerKey = 150;
 var scale = 8;
-resizeCanvas();
-
 
 function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "copy";
@@ -54,10 +92,13 @@ function shiftCanvas(widthOfMove){
 }
 
 function resizeCanvas(){
+    if(activeKeys.length == 0) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = canvasWidth * scale;
     canvas.height = canvasHeight * scale * activeKeys.length;
     canvasHeight = heightPerKey * activeKeys.length;
+
+    // shift height of keypool
 }
 
 function drawCanvas() {
@@ -101,7 +142,6 @@ function interpolateColour(colour1, colour2, t) {
 }
 
 const transitionSpeed = 0.075;
-
 function updateKeyIcons() {
     let count = 0;
     activeKeys.forEach(key => {
@@ -110,7 +150,6 @@ function updateKeyIcons() {
 
         // location (canvasHeight  * (count / activeKeys.length))
         keyIcon.style.top = `calc(${canvasHeight * (count / activeKeys.length)}px - 0.9em)`;
-        console.log(canvasHeight * (count / activeKeys.length));
         
 
         // Colouring
@@ -141,6 +180,8 @@ function updateKeyIcons() {
 }
 
 function startCanvas(){
+    // clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     console.log("Starting canvas");
     runCanvas = true;
     interval = setInterval(() => {
@@ -151,13 +192,26 @@ function startCanvas(){
             if(settings.inactiveFading) updateOpacity();
         }
     }, 1000/settings.refreshrate);
+
+    buildOptions();
 }
 
 function stopCanvas(){
     if(interval == null) return;
     runCanvas = false;
     clearInterval(interval);
+    drawDisconnected();
 }
+
+function drawDisconnected() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "#ffffff20";
+    ctx.fillText("Disconnected. Open Woot-verlay.", canvasWidth / 2 - 100, canvasHeight / 2);
+}
+
+loadState();
+drawDisconnected();
 
 
 
