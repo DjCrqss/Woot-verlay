@@ -24,7 +24,7 @@ namespace Woot_verlay
         ///  The entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {   
             // initialise application
             ApplicationConfiguration.Initialize();
@@ -37,20 +37,39 @@ namespace Woot_verlay
             // Load WootingAnalogSDK
             var (numDevices, error) = WootingAnalogSDK.Initialise();
 
-            // Show configuration window
-            var configForm = new SetupForm(numDevices < 0);
-            if (configForm.ShowDialog() != DialogResult.OK)
+            // Parse command line arguments
+            var config = ParseCommandLineArguments(args, numDevices < 0);
+            
+            if (config.ShowHelp)
             {
-                // User closed the window or cancelled
-                Environment.Exit(1);
+                ShowHelpMessage();
+                Environment.Exit(0);
             }
 
-            // Get user selections
-            runNonwooting = configForm.UseNonWooting;
-            openToLan = configForm.EnableLanMode;
+            // Use configuration from command line or show dialog
+            if (config.HasValidConfiguration)
+            {
+                runNonwooting = config.UseNonWooting;
+                openToLan = config.EnableLanMode;
+            }
+            else
+            {
+                // Show configuration window
+                var configForm = new SetupForm(numDevices < 0);
+                if (configForm.ShowDialog() != DialogResult.OK)
+                {
+                    // User closed the window or cancelled
+                    Environment.Exit(1);
+                }
+
+                // Get user selections
+                runNonwooting = configForm.UseNonWooting;
+                openToLan = configForm.EnableLanMode;
+            }
+
             string ip = openToLan ? "0.0.0.0" : "127.0.0.1";
 
-            if (configForm.EnableLanMode)
+            if (openToLan)
             {
                 MessageBox.Show(Properties.Resources.ConfigForm_LanInfo,
                     "Info",
@@ -79,6 +98,133 @@ namespace Woot_verlay
 
             // start application in the tray
             Application.Run(new WootTrayApp());
+        }
+
+        /// <summary>
+        /// Configuration settings parsed from command line arguments
+        /// </summary>
+        private class CommandLineConfig
+        {
+            public bool HasValidConfiguration { get; set; }
+            public bool UseNonWooting { get; set; }
+            public bool EnableLanMode { get; set; }
+            public bool ShowHelp { get; set; }
+        }
+
+        /// <summary>
+        /// Parses command line arguments and returns configuration settings
+        /// </summary>
+        private static CommandLineConfig ParseCommandLineArguments(string[] args, bool noWootingDetected)
+        {
+            var config = new CommandLineConfig();
+            
+            if (args == null || args.Length == 0)
+            {
+                return config; // No arguments provided, will show dialog
+            }
+
+            bool hasKeyboardFlag = false;
+            bool hasConnectionFlag = false;
+
+            foreach (string arg in args)
+            {
+                string lowerArg = arg.ToLower();
+                
+                switch (lowerArg)
+                {
+                    case "-help":
+                    case "--help":
+                    case "/?":
+                    case "-h":
+                        config.ShowHelp = true;
+                        return config;
+                        
+                    case "-wooting":
+                    case "--wooting":
+                        if (noWootingDetected)
+                        {
+                            // Wooting mode requested but no Wooting keyboard detected
+                            MessageBox.Show("Wooting keyboard mode requested but no Wooting keyboard detected.\nFalling back to configuration dialog.", 
+                                "Woot-verlay - Startup Flag Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return config; // Will show dialog
+                        }
+                        config.UseNonWooting = false;
+                        hasKeyboardFlag = true;
+                        break;
+                        
+                    case "-generic":
+                    case "--generic":
+                        config.UseNonWooting = true;
+                        hasKeyboardFlag = true;
+                        break;
+                        
+                    case "-local":
+                    case "--local":
+                        config.EnableLanMode = false;
+                        hasConnectionFlag = true;
+                        break;
+                        
+                    case "-lan":
+                    case "--lan":
+                        config.EnableLanMode = true;
+                        hasConnectionFlag = true;
+                        break;
+                        
+                    default:
+                        // Unknown argument - show error and fall back to dialog
+                        MessageBox.Show($"Unknown startup flag: {arg}\nUse -help to see available options.\nFalling back to configuration dialog.", 
+                            "Woot-verlay - Invalid Startup Flag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return config; // Will show dialog
+                }
+            }
+
+            // Check if we have a complete configuration
+            if (hasKeyboardFlag && hasConnectionFlag)
+            {
+                config.HasValidConfiguration = true;
+            }
+            else if (hasKeyboardFlag || hasConnectionFlag)
+            {
+                // Partial configuration - show warning and fall back to dialog
+                string missing = !hasKeyboardFlag ? "keyboard mode (-wooting or -generic)" : "connection mode (-local or -lan)";
+                MessageBox.Show($"Incomplete startup flags: missing {missing}.\nBoth keyboard mode and connection mode flags are required.\nFalling back to configuration dialog.", 
+                    "Woot-verlay - Incomplete Startup Flags", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return config;
+        }
+
+        /// <summary>
+        /// Shows help message with available startup flags
+        /// </summary>
+        private static void ShowHelpMessage()
+        {
+            string helpText = @"Woot-verlay Startup Flags
+
+Usage: Woot-verlay.exe [keyboard_mode] [connection_mode]
+
+Keyboard Mode (required):
+  -wooting, --wooting    Use Wooting keyboard mode (requires Wooting keyboard)
+  -generic, --generic    Use generic keyboard mode (works with any keyboard)
+
+Connection Mode (required):
+  -local, --local        Run in local mode (localhost only)
+  -lan, --lan           Enable LAN mode (accessible from other devices)
+
+Other Options:
+  -help, --help, -h     Show this help message
+
+Examples:
+  Woot-verlay.exe -wooting -local     # Wooting keyboard, local mode
+  Woot-verlay.exe -generic -lan       # Generic keyboard, LAN mode  
+  Woot-verlay.exe --wooting --local   # Same as first example with long flags
+
+Notes:
+- Both keyboard mode and connection mode flags are required when using startup flags
+- If no flags are provided or flags are incomplete, the configuration dialog will be shown
+- Invalid flags will show a warning and fall back to the configuration dialog";
+
+            MessageBox.Show(helpText, "Woot-verlay - Startup Flags Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
