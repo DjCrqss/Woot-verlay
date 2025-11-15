@@ -61,11 +61,11 @@ function removeKey(keyID){
 
 function saveState(){
     // store keyID and label
-    localStorage.setItem("keys", JSON.stringify(activeKeys.map(key => [key.key, key.label])));
+    localStorage.setItem("osulay-keys", JSON.stringify(activeKeys.map(key => [key.key, key.label])));
 }
 
 async function loadState(){
-    const keys = JSON.parse(localStorage.getItem("keys"));
+    const keys = JSON.parse(localStorage.getItem("osulay-keys"));
     if(keys == null){
         activeKeys.push(templateKey(29, "z")); //z
         activeKeys.push(templateKey(27, "x")); //x
