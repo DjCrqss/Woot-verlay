@@ -23,6 +23,8 @@ templateKey = function (id, label) {
         saveState();
     }
     icon.appendChild(closeBtn);
+    // add to document body
+    document.body.appendChild(icon);
 
     return {
         key: id,
@@ -100,7 +102,25 @@ function resizeCanvas(){
     canvas.height = canvasHeight * scale * activeKeys.length;
     canvasHeight = heightPerKey * activeKeys.length;
 
-    // shift height of keypool
+    updateKeyPool();
+}
+
+function updateKeyPool(){
+    const addKey = document.getElementById("addKey");
+    let maxTop = window.innerHeight - addKey.offsetHeight - 20;
+    if(canvasHeight + 40 > maxTop){
+        addKey.style.top = `${maxTop}px`;
+    } else {
+        addKey.style.top = `${canvasHeight + 40}px`;
+    }
+
+    // if the max keys have been added, make keypool 0.2 opacity
+    const keyPool = document.getElementById("keyPool");
+    if(activeKeys.length >= maxKeys){
+        keyPool.style.opacity = 0.1;
+    } else {
+        keyPool.style.opacity = 1;
+    }
 }
 
 function drawCanvas() {
@@ -208,6 +228,9 @@ function startCanvas(){
     }, 1000/settings.refreshrate);
 
     showKeyIcons();
+
+    // add event listener for window resize
+    window.addEventListener('resize', updateKeyPool);
 }
 
 function stopCanvas(){

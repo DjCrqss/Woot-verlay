@@ -20,6 +20,7 @@ body {
     --app-bg: #18171C;
     --osu-purple: #8C66FF;
     --dark-accent: #24222A;
+    --light-accent: #474072;
 }
 
 
@@ -33,8 +34,9 @@ canvas {
     width: 750px;
     left: 50px;
     top: 400px;
-    height: 200px;
+    height: 300px;
     background-color: var(--dark-accent);
+    transition: opacity 0.5s, top 0.5s !important;
 }
 
 #addKeyButton{
@@ -83,7 +85,7 @@ span {
     border-radius: 0rem;
     border: none;
     gap: 1.6em;
-    left: 955px;
+    left: 980px;
     right: unset;
     top: 3.5em;
 }
@@ -193,11 +195,20 @@ button {
     right: 0;
     background-color: transparent;
     grid-template-rows: min-content 1fr;
+    border-radius: 0;
+    border: 0;
+
+    transition: opacity 0.5s;
 }
 
-/* #addKey:has(#keyPool[style*="display:none"]) {
-    background-color: red;
-} */
+#keyPoolOptions {
+    font-size: max(min(1.1vmin, 0.65em), 10px);
+}
+
+.keyOption {
+    background-color: var(--light-accent);
+    border-radius: 0.5em;
+}
 
 .closeBtn{
     position: absolute;
