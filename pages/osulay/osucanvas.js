@@ -86,7 +86,7 @@ async function loadState(){
 var canvasWidth = 800;
 var canvasHeight = 200;
 const heightPerKey = 150;
-var scale = 8;
+var scale = 1;
 
 function shiftCanvas(widthOfMove){
     ctx.globalCompositeOperation = "copy";
@@ -99,7 +99,7 @@ function resizeCanvas(){
     if(activeKeys.length == 0) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = canvasWidth * scale;
-    canvas.height = canvasHeight * scale * activeKeys.length;
+    canvas.height = heightPerKey * scale * activeKeys.length + 5;
     canvasHeight = heightPerKey * activeKeys.length;
 
     updateKeyPool();
@@ -149,8 +149,8 @@ function drawCanvas() {
     // Add fading effect to end
     if (settings.endFade) {
         ctx.globalCompositeOperation = "destination-out";
-        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-        ctx.fillRect(0, 0, canvasWidth / 10, canvasHeight);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+        ctx.fillRect(0, 0, canvasWidth / 10, canvasHeight + 5);
         ctx.globalCompositeOperation = "source-over";
     }
 }
