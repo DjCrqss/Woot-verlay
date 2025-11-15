@@ -20,6 +20,7 @@ body {
     --app-bg: #18171C;
     --osu-purple: #8C66FF;
     --dark-accent: #24222A;
+    --light-accent: #474072;
 }
 
 
@@ -28,27 +29,45 @@ canvas {
     position: fixed;
 }
 
-.keyIcon{
+#addKey{
     position: fixed;
-    width: 4em;
-    height: 4em;
-    left: 850px;
-    background-color: #39393976;
-    /* gradient transition */
-    transition: background-color 0.5s;
-    border-radius: 0.15em;
-    transition: opacity 0.5s;
+    width: 750px;
+    left: 50px;
+    top: 400px;
+    height: 300px;
+    background-color: var(--dark-accent);
+    transition: opacity 0.5s, top 0.5s !important;
 }
 
-#zKey {
-    top: 4em;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 21%, 36% 76%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 61% 23%, 0 23%);
+#addKeyButton{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
 }
 
-#xKey{
-    top: 12em;
-    clip-path: polygon(0% 0%, 24% 0, 50% 29%, 76% 0, 100% 0%, 100% 23%, 69% 51%, 100% 76%, 100% 100%, 76% 100%, 50% 73%, 26% 100%, 0% 100%, 0 74%, 28% 50%, 0 23%);
+.keyIcon{
+    font-family: "Fredoka", sans-serif;
+    position: fixed;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+    font-size: 8em;
+    aspect-ratio: 1;
+    left: 820px;
+
+    /* background-color: #39393976; */
+    background-image: color(#393939);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* transition: background-color 0.5s;
+    transition: opacity 0.5s; */
+
+    font-family: "Orbitron", sans-serif;
+    font-weight: 800;
 }
+
 
 /* make h2 capital */
 h2 {
@@ -66,7 +85,7 @@ span {
     border-radius: 0rem;
     border: none;
     gap: 1.6em;
-    left: 955px;
+    left: 980px;
     right: unset;
     top: 3.5em;
 }
@@ -163,4 +182,46 @@ button {
         right: 1em;
         top: 1em;
     }
+}
+
+/* Overrides */
+#keyPool {
+    /* CSS RESET */
+    visibility: visible;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    grid-template-rows: min-content 1fr;
+    border-radius: 0;
+    border: 0;
+
+    transition: opacity 0.5s;
+}
+
+#keyPoolOptions {
+    font-size: max(min(1.1vmin, 0.65em), 10px);
+}
+
+.keyOption {
+    background-color: var(--light-accent);
+    border-radius: 0.5em;
+}
+
+.closeBtn{
+    position: absolute;
+    top: 0.7em;
+    right: 0.7em;
+    z-index: 100;
+    
+    background-color: rgb(200, 74, 74);
+    padding: 0.1em 0.5em;
+    border-radius: 1em;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+
+    line-height: normal;
 }

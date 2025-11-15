@@ -31,23 +31,9 @@ function buildOptions() {
             keyPool.append(curDiv);
             // attach onclick listener
             curDiv.onclick = function () {
-                buildKey(new Key(keyID, label, parseInt((Math.random() * (parseInt(window.innerWidth * 0.7 / 72)))) * 72, snapGrid(window.innerHeight * 0.75) - 72 - parseInt((Math.random() * 2)) * 72, 1, 1, "bottom"));
+                registerKey(keyID, label);
                 saveState();
             }
         }
     }
-
-    // update copy to clipboard preset input 
-    let savedLayout = JSON.parse(localStorage.getItem("keys"));
-    let savedColours = JSON.parse(localStorage.getItem("colours"));
-    let savedSettings = {
-        "instantTransition": JSON.parse(localStorage.getItem("instantTransition")),
-        "isRounded":  JSON.parse(localStorage.getItem("isRounded")),
-    }
-
-    presetInput.value = JSON.stringify({
-        "layout": savedLayout,
-        "colours": savedColours,
-        "settings": savedSettings
-    });
 }

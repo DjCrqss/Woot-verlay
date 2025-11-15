@@ -3,6 +3,15 @@
 function mouseOverVisibility() {
     // find all elements with class of 'mouseOver' and add event listeners
     var mouseOverElements = document.getElementsByClassName("mouseOver");
+    // set initial opacity to 0
+    for (var i = 0; i < mouseOverElements.length; i++) {
+        mouseOverElements[i].style.opacity = 0;
+        // add transition if not already set
+        if (mouseOverElements[i].style.transition == ""){
+            mouseOverElements[i].style.transition = "opacity 0.5s";
+        }
+    }
+
     document.querySelector("body").addEventListener("mouseleave", function (event) {
         for (var i = 0; i < mouseOverElements.length; i++) {
             mouseOverElements[i].style.opacity = 0;

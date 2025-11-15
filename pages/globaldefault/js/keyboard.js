@@ -22,6 +22,11 @@ var keySize = parseInt(getComputedStyle(document.body).getPropertyValue('--key-s
 var keyboard = document.getElementById("keyboard");
 var presetInput = document.getElementById("presetInput");
 
+// regiser a new key from the keyPool
+function registerKey(keyID, label){
+    buildKey(new Key(keyID, label, parseInt((Math.random() * (parseInt(window.innerWidth * 0.7 / 72)))) * 72, snapGrid(window.innerHeight * 0.75) - 72 - parseInt((Math.random() * 2)) * 72, 1, 1, "bottom"));
+}
+
 // builds a key given an object
 function buildKey(curKey) {
     var curDiv = document.createElement('div');
@@ -120,6 +125,7 @@ function loadState(optionalData, optionalColours, optionalSettings) {
     }
 
     buildOptions();
+    updatePresetInput();
     displayKeys();
     saveState();
 }
@@ -147,6 +153,8 @@ function saveState() {
     // store updated keys in local storage
     localStorage.setItem("keys", JSON.stringify(storedKeys));
     buildOptions();
+    updatePresetInput();
+
 }
 
 function displayKeys() {
@@ -155,6 +163,23 @@ function displayKeys() {
     for (var i = 0; i < keys.length; i++) buildKey(keys[i]);
 }
 
+function updatePresetInput(){
+     // update copy to clipboard preset input 
+     let savedLayout = JSON.parse(localStorage.getItem("keys"));
+     let savedColours = JSON.parse(localStorage.getItem("colours"));
+     let savedSettings = {
+         "instantTransition": JSON.parse(localStorage.getItem("instantTransition")),
+         "isRounded":  JSON.parse(localStorage.getItem("isRounded")),
+     }
+ 
+     presetInput.value = JSON.stringify({
+         "layout": savedLayout,
+         "colours": savedColours,
+         "settings": savedSettings
+     });
+}
+
 
 displayKeys();
 buildOptions();
+updatePresetInput();
