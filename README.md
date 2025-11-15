@@ -48,14 +48,40 @@ Click + to add extra keys. Use the cog to change global settings, the bookmark i
 
 <br clear="both"/><br>
 
-
-
 # Running Woot-verlay
 This application uses a local TCP server that must be kept running while using the website to display your values.
 Download and run the exe file in the releases section. It should pop up in your system tray!
 You may have to accept the warnings to run the program, as I can not afford a digital signature, but if you are worried, feel free to download the source code and build the program yourself! To accept the SmartScreen warning, click 'more info' at the top left, then 'run anyway'.
 
 You may have to update to the .NET 6.0 framework if you aren't on Windows 11. However, this is a short one-time process with instructions upon launching the app. You will also need to have Wootility (from Wooting) installed.
+
+## Startup Flags
+Woot-verlay supports startup flags to automatically configure the application without showing the configuration dialog. The easiest way to do this is to create shortcut to the Woot-verlay.exe file (you can do this by holding ALT and click-dragging the exe to a new location), then right-click the shortcut, select properties, and add the desired flags to the end of the 'Target' field.
+
+### Usage
+```
+[FILELOCATION]\Woot-verlay.exe [keyboard_mode] [connection_mode]
+```
+
+### Available Flags
+
+**Keyboard Mode (required):**
+- `-wooting` or `--wooting`: Use Wooting keyboard mode (requires Wooting keyboard)
+- `-generic` or `--generic`: Use generic keyboard mode (works with any keyboard)
+
+**Connection Mode (required):**
+- `-local` or `--local`: Run in local mode (localhost only)
+- `-lan` or `--lan`: Enable LAN mode (accessible from other devices)
+
+
+### Example
+```cmd
+# Wooting keyboard in local mode
+Woot-verlay.exe -wooting -local
+```
+
+
+
 <br>After running the system tray app, choose one of the following viewing methods:
 ### Option A: Website view
 - [Open this link!](https://djcrqss.github.io/Woot-verlay/index.html)
