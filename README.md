@@ -48,8 +48,6 @@ Click + to add extra keys. Use the cog to change global settings, the bookmark i
 
 <br clear="both"/><br>
 
-
-
 # Running Woot-verlay
 This application uses a local TCP server that must be kept running while using the website to display your values.
 Download and run the exe file in the releases section. It should pop up in your system tray!
@@ -58,11 +56,11 @@ You may have to accept the warnings to run the program, as I can not afford a di
 You may have to update to the .NET 6.0 framework if you aren't on Windows 11. However, this is a short one-time process with instructions upon launching the app. You will also need to have Wootility (from Wooting) installed.
 
 ## Startup Flags
-Woot-verlay supports startup flags to automatically configure the application without showing the configuration dialog. This is perfect for creating shortcuts that launch the app with specific settings.
+Woot-verlay supports startup flags to automatically configure the application without showing the configuration dialog. The easiest way to do this is to create shortcut to the Woot-verlay.exe file (you can do this by holding ALT and click-dragging the exe to a new location), then right-click the shortcut, select properties, and add the desired flags to the end of the 'Target' field.
 
 ### Usage
 ```
-Woot-verlay.exe [keyboard_mode] [connection_mode]
+[FILELOCATION]\Woot-verlay.exe [keyboard_mode] [connection_mode]
 ```
 
 ### Available Flags
@@ -75,26 +73,14 @@ Woot-verlay.exe [keyboard_mode] [connection_mode]
 - `-local` or `--local`: Run in local mode (localhost only)
 - `-lan` or `--lan`: Enable LAN mode (accessible from other devices)
 
-**Other Options:**
-- `-help` or `--help` or `-h`: Show help message with all available options
 
-### Examples
+### Example
 ```cmd
 # Wooting keyboard in local mode
 Woot-verlay.exe -wooting -local
-
-# Generic keyboard with LAN access
-Woot-verlay.exe -generic -lan
-
-# Show help
-Woot-verlay.exe -help
 ```
 
-### Notes
-- Both keyboard mode and connection mode flags are required when using startup flags
-- If no flags are provided or flags are incomplete, the configuration dialog will be shown
-- Invalid flags will show a warning and fall back to the configuration dialog
-- You can use either short (`-flag`) or long (`--flag`) format
+
 
 <br>After running the system tray app, choose one of the following viewing methods:
 ### Option A: Website view
