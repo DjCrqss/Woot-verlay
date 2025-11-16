@@ -38,8 +38,8 @@ function buildKey(curKey) {
     curDiv.className = "key";
     curDiv.style.top = curKey.y + "px";
     curDiv.style.left = curKey.x + "px";
-    curDiv.style.width = curKey.width == 1 ? "var(--key-size)" : "calc(var(--key-size)*" + curKey.width + ")";
-    curDiv.style.height = curKey.height == 1 ? "var(--key-size)" : "calc(var(--key-size)*" + curKey.height + ")";
+    curDiv.style.width = curKey.width == 1 ? "calc(var(--key-size) - (var(--border-size) * 2) - var(--margin-size))" : "calc((var(--key-size) * " + curKey.width + ") - (var(--border-size) * 2) - var(--margin-size))";
+    curDiv.style.height = curKey.height == 1 ? "calc(var(--key-size) - (var(--border-size) * 2) - var(--margin-size))" : "calc((var(--key-size) * " + curKey.height + ") - (var(--border-size) * 2) - var(--margin-size))";
 
     // progress styling
     var curProgress = document.createElement('div');
@@ -136,6 +136,7 @@ function saveState() {
     var storedKeys = [];
     activeKeyIDs = [];
     var childKeys = document.getElementById('keyboard').getElementsByClassName('key');
+    var marginSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--margin-size'));
 
     // turn key elements into arrays for storage
     for (i = 0; i < childKeys.length; i++) {
@@ -144,7 +145,7 @@ function saveState() {
         var label = childKeys[i].getElementsByClassName('label')[0].textContent;
         let keyData = [
             parseInt(progress.id), label, parseInt(childKeys[i].style.left), parseInt(childKeys[i].style.top),
-            childKeys[i].clientWidth / keySize, childKeys[i].clientHeight / keySize, fillDir
+            (childKeys[i].offsetWidth + marginSize) / keySize, (childKeys[i].offsetHeight + marginSize) / keySize, fillDir
         ]
         storedKeys.push(keyData);
         activeKeyIDs.push(parseInt(progress.id));

@@ -1,5 +1,7 @@
 :root {
-    --key-size: 60px;
+    --key-size: 66px;
+    --border-size: 3.2px;
+    --margin-size: 4.8px;
     --prim-color: #FFFFFF;
     /* Key border colors */
     --active: #519e80;
@@ -231,6 +233,12 @@ hr {
     margin: 0.1em 0.1em;
 }
 
+h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 /* Logging information */
 #optionalInfo {
@@ -327,9 +335,9 @@ hr {
 
 /* Key graphics related styles */
 .key {
-    width: var(--key-size);
-    height: var(--key-size);
-    border: 3.8px solid var(--prim-color);
+    width: calc(var(--key-size) - var(--border-size) * 2);
+    height: calc(var(--key-size) - var(--border-size) * 2);
+    border: var(--border-size) solid var(--prim-color);
     background-color: var(--key-color);
     display: flex;
     align-items: center;
