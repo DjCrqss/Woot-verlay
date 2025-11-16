@@ -19,7 +19,7 @@ function showOptions() {
         menuDialog.style.left = parseInt(activeKey.style.left) + activeKey.clientWidth + 20 - window.scrollX + "px";
     }
 
-    if(activeKey != null) {
+    if (activeKey != null) {
         renameInput.value = activeKey.getElementsByClassName('label')[0].innerHTML;
     }
 
@@ -40,7 +40,7 @@ function updateKeySettings(direction) {
 }
 
 // update label of key object
-function updateKeyLabel(event){
+function updateKeyLabel(event) {
     if (activeKey != null) {
         var label = activeKey.getElementsByClassName('label')[0];
         label.innerHTML = event.value;
@@ -50,8 +50,8 @@ function updateKeyLabel(event){
 
 // hide menu when clicking outside of it
 document.addEventListener("click", function (event) {
-    if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target) 
-    && ![...selectedKeys].some(x => x.element.contains(event.target)) && !event.shiftKey){
+    if (activeKey != null && !menuDialog.contains(event.target) && !activeKey.contains(event.target)
+        && ![...selectedKeys].some(x => x.element.contains(event.target)) && !event.shiftKey) {
         activeKey.style.backgroundColor = "";
         activeKey = null;
         deselect();
@@ -60,7 +60,7 @@ document.addEventListener("click", function (event) {
 
 // add listener for CTRL + A when at least one key is already selected
 document.addEventListener("keydown", function (event) {
-    if(activeKey == null) return;
+    if (activeKey == null) return;
     if (event.ctrlKey && event.key === 'a') {
         event.preventDefault();
         // select all keys
@@ -79,26 +79,27 @@ function hideDialog() {
 async function removeKey() {
     if (activeKey != null) {
         hideDialog();
-        selectedKeys.forEach(key => {
+        let keysToRemove = [...selectedKeys];
+        deselect();
+        activeKey = null;
+        keysToRemove.forEach(key => {
             key.element.style.opacity = 0;
             key.element.style.backgroundColor = "#925555";
         });
-        
+
         await new Promise(resolve => setTimeout(resolve, 500));
-        try { 
-            selectedKeys.forEach(key => {
+        try {
+            keysToRemove.forEach(key => {
                 keyboard.removeChild(key.element);
             });
         } catch (exception) { }
-        activeKey = null;
-        deselect();
         saveState();
     }
 }
 
-async function select(elmnt){
+async function select(elmnt) {
     // if not already in selected keys, add to list
-    if(![...selectedKeys].some(x => x.element == elmnt)){
+    if (![...selectedKeys].some(x => x.element == elmnt)) {
         selectedKeys.add({
             element: elmnt,
             x: parseInt(elmnt.style.left),
@@ -113,7 +114,7 @@ async function select(elmnt){
     activeKey = elmnt;
     elmnt.style.backgroundColor = "var(--wooting-yellow)";
 }
-async function deselect(){
+async function deselect() {
     selectedKeys.forEach(key => {
         key.element.style.backgroundColor = "";
     });
@@ -136,11 +137,11 @@ function keyInteract(elmnt) {
     elmnt.onmousedown = mouseDown;
     elmnt.onmousemove = showResize;
 
-    async function showResize(e){
-        if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
+    async function showResize(e) {
+        if (e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize both when dragging bottom right corner
             elmnt.style.cursor = "nwse-resize";
-        }else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
-           elmnt.style.cursor = "ew-resize";
+        } else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
+            elmnt.style.cursor = "ew-resize";
         } else if (e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize height when dragging bottom
             elmnt.style.cursor = "ns-resize";
         } else {
@@ -161,10 +162,10 @@ function keyInteract(elmnt) {
 
         document.onmouseup = mouseUp;
 
-        
-        if (e.shiftKey && e.button === 0) { 
+
+        if (e.shiftKey && e.button === 0) {
             // add to selection on shift click
-            if(![...selectedKeys].some(x => x.element == elmnt)){
+            if (![...selectedKeys].some(x => x.element == elmnt)) {
                 select(elmnt);
             } else {
                 // remove from selection on shift click
@@ -173,14 +174,14 @@ function keyInteract(elmnt) {
             }
         }
         // deselect if not shift click
-        else if(activeKey != null && ![...selectedKeys].some(x => x.element == elmnt)) {
+        else if (activeKey != null && ![...selectedKeys].some(x => x.element == elmnt)) {
             deselect();
         }
 
         if (e.button === 2) { // show options on left click
             select(elmnt);
             showOptions();
-        } else if(e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5){ // resize both when dragging bottom right corner
+        } else if (e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5 && e.clientY > parseInt(elmnt.style.top) + elmnt.offsetHeight - 5) { // resize both when dragging bottom right corner
             document.onmousemove = elementResizeBoth;
         } else if ((e.clientX > parseInt(elmnt.style.left) + elmnt.offsetWidth - 5)) { // resize width when dragging right side
             document.onmousemove = elementResizeWidth;
@@ -189,11 +190,12 @@ function keyInteract(elmnt) {
         } else { // move on drag
             document.onmousemove = elementDrag;
         }
-        
+
 
     }
 
-    function elementResizeBoth(e) {{
+    function elementResizeBoth(e) {
+        {
             e = e || window.event;
             e.preventDefault();
             hideDialog();
@@ -205,8 +207,8 @@ function keyInteract(elmnt) {
             if (height < 24) height = 24;
 
             // set the element's new position:
-            elmnt.style.width = snapGrid(width) + "px";
-            elmnt.style.height = snapGrid(height) + "px";
+            elmnt.style.width = snapGrid(width, 'resize') + "px";
+            elmnt.style.height = snapGrid(height, 'resize') + "px";
             // set old values
             oldPosX = e.clientX;
             oldPosY = e.clientY;
@@ -223,7 +225,7 @@ function keyInteract(elmnt) {
         if (width < 24) width = 24;
 
         // set the element's new position:
-        elmnt.style.width = snapGrid(width) + "px";
+        elmnt.style.width = snapGrid(width, 'resize') + "px";
         // set old values
         oldPosX = e.clientX;
     }
@@ -238,7 +240,7 @@ function keyInteract(elmnt) {
         if (height < 24) height = 24;
 
         // set the element's new position:
-        elmnt.style.height = snapGrid(height) + "px";
+        elmnt.style.height = snapGrid(height, 'resize') + "px";
         // set old values
         oldPosY = e.clientY;
     }
@@ -248,9 +250,9 @@ function keyInteract(elmnt) {
         e.preventDefault();
 
         hideDialog();
-        
+
         // calculate the new cursor position:
-        
+
         xDiff = e.clientX - oldPosX;
         yDiff = e.clientY - oldPosY;
 
@@ -284,8 +286,49 @@ function keyInteract(elmnt) {
 
 }
 
-function snapGrid(num) {
-    return Math.ceil(num / 4) * 4;
+function snapGrid(num, mode = 'move') {
+    const borderSize = 2 * parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--border-size'));
+    const unitSize = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--key-size'));
+    const marginSize = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--margin-size'));
+    const gridSlotSize = unitSize / 8; // change how many snapping points there are
+
+
+    if (mode === 'move') {
+        return Math.round(num / gridSlotSize) * gridSlotSize;
+    }
+
+    // snap to standard keyboard unit sizes if close enough
+    if (mode === 'resize') {
+        const keyboardUnits = [1, 1.25, 1.5, 1.75, 2, 2.25, 2.75, 6.25, 7];
+
+        const snapThreshold = 0.2;
+
+        // Add border and margin to get total visual size including spacing
+        const visualSize = num + borderSize;
+        const units = visualSize / unitSize;
+
+        let closestUnit = keyboardUnits[0];
+        let minDiff = Math.abs(units - closestUnit);
+
+        for (let i = 1; i < keyboardUnits.length; i++) {
+            const diff = Math.abs(units - keyboardUnits[i]);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestUnit = keyboardUnits[i];
+            }
+        }
+
+        if (minDiff <= snapThreshold) {
+            // Calculate content size (subtract border and margin to get the actual width/height to set)
+            const snappedPixels = closestUnit * unitSize - borderSize - marginSize;
+            return snappedPixels;
+        }
+    }
+
+    return Math.round(num / gridSlotSize) * gridSlotSize;
 }
 
 
